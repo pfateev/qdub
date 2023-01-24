@@ -9,6 +9,14 @@ A priority queueing web application made by UW students in CSE 403 with the ambi
   - for example: UI for faculty will have functionality to see the queue, manually edit the queue & broadcast messages to everyone on the queue. Student UI will not be able to see the queue but see a time estimation.
 
 ### Notes for Devs
+#### Layout of Repository
+##### server
+- Contains the back-end files and server for the project
+##### client
+- Contains the frond-end files and server for the project
+##### reports
+- Contains the weekly reports
+
 #### To run the backend & frontend in brower:
 ##### backend
 - in root directory
