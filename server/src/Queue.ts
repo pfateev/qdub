@@ -30,15 +30,19 @@ class Queue<Student> implements IQueue<Student> {
     return this.storage.length;
   }
 
-  update(deduct: number): void {
-    for (var i = 0; i < this.size(); i++) {
-        this.storage[i].setTime();
-    }
-    // this.storage.forEach(function(item)  {
-    //   item.setTime(item.getTime() - deduct);
-
-    // });
+  getStorage() : Student[] {
+      return this.storage;
   }
+
+//   update(deduct: number): void {
+//     for (var i = 0; i < this.size(); i++) {
+//         this.storage[i].setTime();
+//     }
+//     // this.storage.forEach(function(item)  {
+//     //   item.setTime(item.getTime() - deduct);
+
+//     // });
+//   }
 }
 
 export default Queue;
