@@ -101,13 +101,6 @@
   display: flex;
 }
 
-.rectangle-132 {
-  width: 27px;
-  height: 16px;
-  object-fit: cover;
-  border: 1px solid #000;
-}
-
 .are-you-a-ta {
   letter-spacing: 1px;
   margin-top: 1px;
