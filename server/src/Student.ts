@@ -5,11 +5,15 @@ export class Student {
       isTA: boolean;
       pos: number;
       time: number;
+      status: boolean;
 
-      constructor(id: number, isTA: false) {
+      constructor(id: number, pos: number, time: number, status: boolean, isTA: boolean) {
             this.id = id; 
             // this.firstName = firstName;
             // this.lastName = lastName;
+            this.pos = pos;
+            this.time = time;
+            this. status = status;
             this.isTA = isTA;
       }
       // getter methods:
@@ -37,10 +41,14 @@ export class Student {
             this.time = time;
       } 
 
+      public getStatus(): boolean {
+            return this.status;
+      }
+
 
       
       // will need relationalMappings to map to the data later
 }
 
 
-// export default Student;
+ export default Student;
