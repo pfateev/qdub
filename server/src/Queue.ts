@@ -47,40 +47,60 @@ class Queue{
     // });
 }
 
-// update the time of each student
-updateTime(time: number): void {
-  this.timelen += time;
-}
+  // update the time of each student
+  updateTime(time: number): void {
+    this.timelen += time;
+  }
 
-//update the position of each student
-updatePos() {
-    
-}
+  //update the position of each student
+  updatePos() {
+      
+  }
 
-// Update the student.status
-stepOut() {
+  // Update the student.status
+  stepOut(pos: number): boolean {
+    if(pos < this.q.getSize()) {
+      let node = this.q.findAt(pos);
+      let s = Object.assign(new Student(0, 0, 0, false, false), node.getData());
+      s.setStatus(false);
+      this.q.removeAt(pos);
+      this.q.insertAt(pos, s);
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-}
+  // Update the student.status
+  stepIn(pos: number): boolean {
+    if(pos < this.q.getSize()) {
+      let node = this.q.findAt(pos);
+      let s = Object.assign(new Student(0, 0, 0, false, false), node.getData());
+      s.setStatus(true);
+      this.q.removeAt(pos);
+      this.q.insertAt(pos, s);
+      return true;
+    } else {
+      return false;
+    }
 
-// Update the student.status
-stepIn() {
+  }
 
-}
+  //add a student
+  enqueue(data: Student) {
+      this.q.insert(data);
+      this.timelen += data.getTime();
+  }
 
-//add a student
-enqueue(data: Student) {
-    this.q.insert(data);
-}
+  //remove student from front
+  dequeue() {
+    this.q.removeFirst(); 
+  }
 
-//remove student from front
-dequeue() {
-
-}
-
-//remove student from any position
-exit() {
-    
-}
+  //remove student from any position
+  exit(pos: number) {
+      this.q.removeAt(pos);
+  }
 
 
 //   update(deduct: number): void {

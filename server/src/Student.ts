@@ -30,6 +30,10 @@ export class Student {
             return this.time;
       }
 
+      public getStatus(): boolean {
+            return this.status;
+      }
+
       // setter methods:
       setTA(): void {
             this.isTA = true;
@@ -41,9 +45,10 @@ export class Student {
             this.time = time;
       } 
 
-      public getStatus(): boolean {
-            return this.status;
+      public setStatus(b: boolean): void {
+            this.status = b;
       }
+
 
 
       
