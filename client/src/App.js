@@ -3,18 +3,11 @@ import "./App.css";
 import shape from "./assets/shape.svg";
 import Button from "./components/Button";
 import Input from "./components/Input";
-
 const App = () => {
-  const [data, setData] = React.useState(null);
-
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.message);
-        setData(data.message);
-      });
-  }, []);
+  const [checked, setChecked] = React.useState(false);
+  const handleChange = () => {
+    setChecked(!checked);
+  };
 
   const propsData = {
     input: {
