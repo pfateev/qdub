@@ -5,6 +5,7 @@ import "./RegistrationForm.css";
 export default function MyForm() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [isTA, setIsTA] = useState(false);
 
   const submitForm = () => {
     fetch("/formtest", {
@@ -12,7 +13,7 @@ export default function MyForm() {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({firstName: firstName, lastName: lastName}),
+      body: JSON.stringify({firstName: firstName, lastName: lastName, isTA: isTA}),
     })
   };
 
@@ -30,7 +31,7 @@ export default function MyForm() {
         Last Name: <input class="input" value={lastName} placeholder="Enter your last name" onChange={e => setLastName(e.target.value)} />
       </label>
       <label>
-        <input class="checkBox" type="checkbox" name="isTA" /> Are you a TA?
+        <input class="checkBox" type="checkbox"  onChange={e => setIsTA(!isTA)}/> Are you a TA?
       </label>
 
       <button class="button" type="submit" onClick={submitForm}>Sign up!</button>
