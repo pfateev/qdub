@@ -3,17 +3,14 @@ import "./App.css";
 import shape from "./assets/shape.svg";
 import Button from "./components/Button";
 import Input from "./components/Input";
-import Form from "./components/Form";
+import RegistrationForm from "./components/RegistrationForm";
+
 const App = () => {
   const [checked, setChecked] = React.useState(false);
   const handleChange = () => {
     setChecked(!checked);
   }
-  const [form, setForm] = React.useState({
-    firstname: "",
-    lastname: "",
-    checked,
-  });
+  
 
   const propsData = {
     input: {
@@ -36,23 +33,9 @@ const App = () => {
     );
   };
 
-  const dataTest = () => {
-    fetch("/formtest", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(form),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-      });
-  };
-
   return (
     <div className="registration">
-      <Form />
+      <RegistrationForm />
       <img className="shape" src={shape} />
       <span className="queue-prototype">Queue prototype</span>
       <span className="manual-student-ta-enq">
