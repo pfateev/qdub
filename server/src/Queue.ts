@@ -42,7 +42,7 @@ class Queue{
     }
   }
 
-	//Tri's version of swap
+	//Tri's version of swap.
 	//swap(): void {
 	//	if (this.q.getSize() < 2) {
 	//		return; 
@@ -59,7 +59,7 @@ class Queue{
 
 	//	// start swapping active node to the top of the queue
 	//	if (nextData.status) {
-	//		nextNode.prev.next = nextNode.next;
+	//		this.q.removeAt(nextData.pos);
 	//		this.q.insertFirst(nextNode);
 	//	}
 	//}
@@ -76,6 +76,7 @@ class Queue{
       s.setPos(index);
       s.setQTime(currTime);
       index++;
+			curr = curr.next;
     }
   } 
 
