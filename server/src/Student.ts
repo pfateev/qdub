@@ -59,10 +59,6 @@ export class Student {
             this.qtime = t;
       }
 
-
-
-      
-      // will need relationalMappings to map to the data later
 }
 
 

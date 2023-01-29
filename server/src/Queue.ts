@@ -1,6 +1,7 @@
+import { assert } from "console";
 import {Student} from "./Student.js";
 import LinkedList from "dbly-linked-list";
-// import { Node } from "dbly-linked-list";
+import { Node } from "dbly-linked-list";
 
 class Queue{
   //private storage: Student[];
@@ -18,9 +19,9 @@ class Queue{
   }
 
    //override
-  // getData(n : Node) : Student {
-  //   return n.getData() as Student ;
-  // }
+   getData(n : Node) : Student {
+     return n.getData() as Student ;
+   }
   
   swap(): void{
     // move an item to the front
@@ -41,6 +42,27 @@ class Queue{
     }
   }
 
+	//Tri's version of swap
+	//swap(): void {
+	//	if (this.q.getSize() < 2) {
+	//		return; 
+	//	}
+
+	//	let head = this.q.getHeadNode(); 
+	//	let nextNode = head.next;
+	//	let nextData = Object.assign(new Student(0, 0, 0, false, false), nextNode.getData() );
+
+	//	while(!nextData.status && nextNode.next) {
+	//		nextNode = nextNode.next;
+	//	}
+	//	nextData = Object.assign(new Student(0, 0, 0, false, false), nextNode.getData());
+
+	//	// start swapping active node to the top of the queue
+	//	if (nextData.status) {
+	//		nextNode.prev.next = nextNode.next;
+	//		this.q.insertFirst(nextNode);
+	//	}
+	//}
 
   //update pos and time for each student
   updateQueue() {
