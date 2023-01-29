@@ -1,0 +1,43 @@
+.studentView {
+    color: #ffffffd9;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f4f3;
+    font-family: Roboto, Arial;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 21px;
+  }
+  
+  .header {
+    text-align: center;
+    background-color: #918fe1;
+    align-items: center;
+    flex-direction: column;
+    /* flex-basis: 37%; */
+    justify-content: space-evenly;
+    /* margin-bottom: 23px; */
+    /* margin-right: 300px; */
+    padding-top: 10%;
+    padding-bottom: 5%;
+    display: flex;
+  }
+
+  .peopleAheadDesc {
+    margin-bottom: 1em;
+    text-align: center;
+    z-index: 1;
+  }
+  
+  .peopleAheadNum {
+    text-align: center;
+    color: #fff;
+    font-size: 3rem;
+    line-height: 47px;
+  }
+  
+  .waitTime {
+    margin-top: 1em;
+  }
+  
+

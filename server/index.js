@@ -6,8 +6,13 @@ app.use(express.json());
 
 app.post("/formtest", (req, res) => {
   console.log(req.body);
-  res.json(req.body);
+  res.json({message: "success"});
 });
+
+// app.post("/checkqueuestatus", (req, res) => {
+//   // console.log(req.body);
+//   res.json(req.body);
+// });
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
