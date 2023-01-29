@@ -41,20 +41,25 @@ class Queue{
     }
   }
 
-  updateQueue(deduct: number) {
-    // this.queue..forEach(element => {
-    //       element.setTime(element.getTime - deduct);
-    // });
-}
 
-  // update the time of each student
+  //update pos and time for each student
+  updateQueue() {
+    let currTime = 0;
+    let curr = this.q.getHeadNode();
+    let index = 0;
+    while(curr != null) {
+      let s = Object.assign(new Student(0, 0, 0, false, false), curr.getData());
+      let sTime = s.getTime();
+      currTime += sTime;
+      s.setPos(index);
+      s.setQTime(currTime);
+      index++;
+    }
+  } 
+
+  // update the time of queue
   updateTime(time: number): void {
     this.timelen += time;
-  }
-
-  //update the position of each student
-  updatePos() {
-      
   }
 
   // Update the student.status
@@ -87,14 +92,19 @@ class Queue{
   }
 
   //add a student
-  enqueue(data: Student) {
-      this.q.insert(data);
-      this.timelen += data.getTime();
+  enqueue(id: number, time: number, isTA: boolean) {
+    let pos = this.q.getSize();
+    let s = new Student(id, pos, time, true, isTA );
+    this.timelen += time;
+    s.setQTime(this.getTime());
+    this.q.insert(s);
   }
 
-  //remove student from front
+  //remove student from front and update the queue 
   dequeue() {
     this.q.removeFirst(); 
+    this.swap();
+    this.updateQueue();
   }
 
   //remove student from any position

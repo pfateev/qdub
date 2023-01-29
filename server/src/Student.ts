@@ -5,6 +5,7 @@ export class Student {
       isTA: boolean;
       pos: number;
       time: number;
+      qtime: number;
       status: boolean;
 
       constructor(id: number, pos: number, time: number, status: boolean, isTA: boolean) {
@@ -14,6 +15,7 @@ export class Student {
             this.pos = pos;
             this.time = time;
             this. status = status;
+            this.qtime = 0;
             this.isTA = isTA;
       }
       // getter methods:
@@ -28,6 +30,10 @@ export class Student {
       }
       getTime(): number {
             return this.time;
+      }
+      
+      getQTime(): number {
+            return this.qtime;
       }
 
       public getStatus(): boolean {
@@ -47,6 +53,10 @@ export class Student {
 
       public setStatus(b: boolean): void {
             this.status = b;
+      }
+
+      public setQTime(t: number): void {
+            this.qtime = t;
       }
 
 
