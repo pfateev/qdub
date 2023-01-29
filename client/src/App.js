@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import "./App.css";
-import RegistrationForm from "./components/RegistrationForm";
+import { RegistrationForm } from "./components/RegistrationForm";
 import StudentView from "./components/StudentView";
 // import TAView from "./components/TAView";
 // import Requee from "./components/Requeue";
