@@ -5,7 +5,7 @@ import "./Button.css";
 import "./Logo.css";
 import * as api from "../api/index.js"
 
-export default function MyForm() {
+export const RegistrationForm = () => {
 
   const [isFetching, setIsFetching] = useState(false);
   const [json, setJson] = useState({});
@@ -13,74 +13,24 @@ export default function MyForm() {
   const [lastName, setLastName] = useState('');
   const [isTA, setIsTA] = useState(false);
 
-  useEffect(() => {
-    if (isFetching) {
-      fetch("/formtest", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName: firstName,
-          lastName: lastName,
-          isTA: isTA
-        }),
-      })
-        .then(response => {
-          console.log(response);
-          response.json();
-        })
-        .then(json => {
-          setJson(json);
-        })
-        .catch(error => {
-          console.error(error);
-        })
-        .finally(() => setIsFetching(false));
-    }
-  });
-
-
-  const handleClick = () => {
-    // await api.submitForm(
-    //   ({
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //     isTA: isTA
-    //   }), "/formtest")
-    //   .then(response => {
-    //     if (response.ok) {
-    //       console.log(response);
-    //       return response;
-    //     }
-    //     throw response;
-    //   })
-    //   .then(data => console.log(data))
-    //   .catch(error => {
-    //     console.error(error);
-    //   })
-    fetch("/formtest", {
-      method: "POST",
+  const getData = async () => {
+    const response = await fetch('/formtest', {
+      method: 'POST',
       headers: {
-        "Content-type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         firstName: firstName,
         lastName: lastName,
         isTA: isTA
       }),
-    })
-      .then(response => {
-        console.log(response);
-        response.json();
-      })
-      .then(json => {
-        console.log(json);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
+    });
+    const responseData = await response.json();
+
+    // add transformers here if needed
+
+    console.log(responseData);
+  };
 
   return (
     <div className="registration">
@@ -99,7 +49,7 @@ export default function MyForm() {
         <input class="checkBox" type="checkbox" onChange={() => setIsTA(!isTA)} /> Are you a TA?
       </label>
       <button class="button" type="submit"
-        onClick={() => setIsFetching(true)}>
+        onClick={() => getData()}>
         Sign up!
       </button>
     </div>
