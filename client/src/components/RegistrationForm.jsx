@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
+import {useNavigate} from 'react-router-dom'
 import "./RegistrationForm.css";
 import "./Button.css";
 import "./Logo.css";
@@ -13,6 +14,12 @@ export const RegistrationForm = () => {
   const [lastName, setLastName] = useState('');
   const [isTA, setIsTA] = useState(false);
 
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `/student-view`; 
+    navigate(path);
+  }
+
   const getData = async () => {
     const response = await fetch('/formtest', {
       method: 'POST',
@@ -24,7 +31,9 @@ export const RegistrationForm = () => {
         lastName: lastName,
         isTA: isTA
       }),
+
     });
+    routeChange();
     const responseData = await response.json();
 
     // add transformers here if needed
