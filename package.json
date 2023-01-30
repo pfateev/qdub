@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "testing git repo",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node server/dist/index.js",
