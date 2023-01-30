@@ -1,0 +1,60 @@
+version: "3"
+services: 
+  backend: 
+    container_name: backend
+    restart: always
+    build: .
+    command: npm start
+    ports: 
+      - "8001:4000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_PORT=5432
+      - HOST=db
+    networks:
+      - public
+      - private
+    depends_on:
+      - db
+    volumes:
+      - ./node_modules:/home/node/app/node_modules
+      - ./backend:/home/node/app/backend
+    ipc: private
+  website: 
+    image: docker-react-i
+    ports:  
+      - "8081:80"
+    restart: always
+  db:
+    container_name: qdup-db
+    image: postgres
+    hostname: localhost
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - private
+      - public
+    environment:
+      - POSTGRES_PASSWORD=trivuong
+      - POSTGRES_DB=triv
+      - POSTGRES_USER=triv
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - db
+    ports:
+      - 8082:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=trivuong14@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=trivuong
+    networks:
+      - private
+networks:
+  public:
+  private:
+volumes:
+  db-data:
