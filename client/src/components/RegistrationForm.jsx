@@ -7,8 +7,6 @@ import * as api from "../api/index.js"
 
 export const RegistrationForm = () => {
 
-  const [isFetching, setIsFetching] = useState(false);
-  const [json, setJson] = useState({});
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isTA, setIsTA] = useState(false);
@@ -27,7 +25,7 @@ export const RegistrationForm = () => {
     });
     const responseData = await response.json();
 
-    // add transformers here if needed
+    // error handling goes here
 
     console.log(responseData);
   };
