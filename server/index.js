@@ -9,10 +9,15 @@ app.post("/formtest", (req, res) => {
   res.json({message: "success"});
 });
 
-// app.post("/checkqueuestatus", (req, res) => {
-//   // console.log(req.body);
-//   res.json(req.body);
-// });
+const fakeQueue = [];
+
+app.post("/enqueue", (req, res) => {
+  console.log(req.body);
+  const {firstName, lastName, isTA} = req.body;
+  const studentID = firstName + lastName;
+  fakeQueue.push({studentID: studentID, isTA: isTA})
+  res.json({message: "success", studentID: studentID, waitTime: fakeQueue.length * 5});
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
