@@ -10,7 +10,7 @@ class Queue{
 
   constructor() {
     this.q = new LinkedList();
-    this.timelen = 0;;
+    this.timelen = 0;
   }
 
 
@@ -30,7 +30,7 @@ class Queue{
     let i = 0;
     while(curr != null) {
       // thats the same as this line below 
-      let s = Object.assign(new Student(0, 0, 0, false, false), curr.getData() );
+      let s = Object.assign(new Student(0, 0, 0, false, 0, ""), curr.getData() );
       if(s.getStatus()) {
         if(i != 0) {
           this.q.removeAt(i);
@@ -38,6 +38,7 @@ class Queue{
         }
         return;
       }
+      curr = curr.next;
       i++;
     }
   }
@@ -65,19 +66,20 @@ class Queue{
 	//}
 
   //update pos and time for each student
-  updateQueue() {
+  updateQueue(): number {
     let currTime = 0;
     let curr = this.q.getHeadNode();
     let index = 0;
     while(curr != null) {
-      let s = Object.assign(new Student(0, 0, 0, false, false), curr.getData());
-      let sTime = s.getTime();
-      currTime += sTime;
-      s.setPos(index);
+      let s = Object.assign(new Student(0, 0, 0, false, 0, ""), curr.getData());
       s.setQTime(currTime);
+      s.setPos(index);
+      //move the markers forward
+      currTime += s.getTime();
       index++;
 			curr = curr.next;
     }
+    return currTime;
   } 
 
   // update the time of queue
@@ -89,7 +91,7 @@ class Queue{
   stepOut(pos: number): boolean {
     if(pos < this.q.getSize()) {
       let node = this.q.findAt(pos);
-      let s = Object.assign(new Student(0, 0, 0, false, false), node.getData());
+      let s = Object.assign(new Student(0, 0, 0, false, 0, ""), node.getData());
       s.setStatus(false);
       this.q.removeAt(pos);
       this.q.insertAt(pos, s);
@@ -103,7 +105,7 @@ class Queue{
   stepIn(pos: number): boolean {
     if(pos < this.q.getSize()) {
       let node = this.q.findAt(pos);
-      let s = Object.assign(new Student(0, 0, 0, false, false), node.getData());
+      let s = Object.assign(new Student(0, 0, 0, false, 0, ""), node.getData());
       s.setStatus(true);
       this.q.removeAt(pos);
       this.q.insertAt(pos, s);
@@ -115,19 +117,18 @@ class Queue{
   }
 
   //add a student
-  enqueue(id: number, time: number, isTA: boolean) {
+  enqueue(id: number, time: number, question: string) {
     let pos = this.q.getSize();
-    let s = new Student(id, pos, time, true, isTA );
-    this.timelen += time;
-    s.setQTime(this.getTime());
+    let s = new Student(id, pos, time, true, this.timelen, question);
     this.q.insert(s);
+    this.timelen += time;
   }
 
   //remove student from front and update the queue 
   dequeue() {
     this.q.removeFirst(); 
     this.swap();
-    this.updateQueue();
+    this.timelen = this.updateQueue();
   }
 
   //remove student from any position

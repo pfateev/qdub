@@ -1,38 +1,33 @@
 export class Student {
       id: number; 
-      // firstName: string; 
-      // lastName: string;
-      isTA: boolean;
       pos: number;
       time: number;
       qtime: number;
       status: boolean;
+      question: string;
 
-      constructor(id: number, pos: number, time: number, status: boolean, isTA: boolean) {
-            this.id = id; 
-            // this.firstName = firstName;
-            // this.lastName = lastName;
-            this.pos = pos;
-            this.time = time;
-            this. status = status;
-            this.qtime = 0;
-            this.isTA = isTA;
+      constructor(id: number, pos: number, time: number, status: boolean, qtime: number, question: string) {
+            this.id = id; // ID of the query associated with student's uwNetID
+            this.pos = pos; // Position of query in queue
+            this.time = time; // Time estimation of how long to resolve query
+            this.status = status; // Status of student 
+            this.qtime = qtime; //Estimated time length until student can get helped
+            this.question = question; // Question of the query
       }
+
       // getter methods:
-      getId(): number {
+      public getId(): number {
             return this.id;
       }
-      getIsTA(): boolean {
-            return this.isTA;
-      }
-      getPos(): number {
+
+      public getPos(): number {
             return this.pos;
       }
-      getTime(): number {
+      public getTime(): number {
             return this.time;
       }
       
-      getQTime(): number {
+      public getQTime(): number {
             return this.qtime;
       }
 
@@ -40,10 +35,11 @@ export class Student {
             return this.status;
       }
 
-      // setter methods:
-      setTA(): void {
-            this.isTA = true;
+      public getQuestion(): string {
+            return this.question;
       }
+
+      // setter methods:
       public setPos(pos: number): void {
             this.pos = pos;
       }
@@ -58,6 +54,7 @@ export class Student {
       public setQTime(t: number): void {
             this.qtime = t;
       }
+
 
 }
 
