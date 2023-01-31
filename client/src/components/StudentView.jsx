@@ -25,7 +25,7 @@ const StudentView = () => {
     //     await api.submitForm({studentID: studentID}, "");
     // }
     return (
-        <div className="studentView">
+        <div className="view">
             <div className="header">
               {/* <img className="logo" src={logo} alt="top left circles" /> */}
               <span className="peopleAheadDesc">
@@ -42,8 +42,8 @@ const StudentView = () => {
             <div className="imageSet">
               <span className="speechMsg">Please Wait!</span>
               <img className="dog" src={dog} alt="cute dog" />
-              <button class="button" type="submit" >Leave Queue</button>
             </div>
+            <button className="button" type="submit" >Leave Queue</button>
         </div>
     );
 };
