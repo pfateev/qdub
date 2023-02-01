@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import "./App.css";
 import { RegistrationForm } from "./components/RegistrationForm";
 import StudentView from "./components/StudentView";
-// import TAView from "./components/TAView";
+import TAView from "./components/TAView";
 // import Requee from "./components/Requeue";
 
 const App = () => {
@@ -12,6 +12,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<RegistrationForm/>}/>
           <Route path="/student-view" element={<StudentView/>}/>
+          <Route path="/ta-view" element={<TAView/>}/>
         </Routes>
     </Router>
   );
