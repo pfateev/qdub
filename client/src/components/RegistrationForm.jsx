@@ -19,7 +19,7 @@ export const RegistrationForm = () => {
   }
 
   const getData = async () => {
-    const response = await fetch('/formtest', {
+    const response = await fetch('/enqueue', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
