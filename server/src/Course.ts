@@ -1,16 +1,17 @@
 import Student from "./Student.js";
-import Queue from "./Queue.js";
+// import Queue from "./Queue.js";
 // import e from "express";
+import { DoublyLinkedList } from "./DoublyLinkedList.js";
 
 class Course {
       id : number;
       name: string; 
-      queue: Queue;
+      queue: DoublyLinkedList;
 
       constructor(id: number, name: string) {
             this.id = id; 
             this.name = name; 
-            this.queue = new Queue();
+            this.queue = new DoublyLinkedList();
       }
 
       // updateQueue(deduct: number) {

@@ -2,7 +2,7 @@ import {DoublyLinkedListNode} from "./DoublyLinkedListNode.js"
 
 import { Student } from "./Student";
 
-class DoublyLinkedList
+export class DoublyLinkedList
 {
    private head: DoublyLinkedListNode | null;
    private tail: DoublyLinkedListNode | null;
