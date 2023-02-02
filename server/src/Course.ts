@@ -40,10 +40,10 @@ class Course {
 
       // }
       
-      // //add a student
-      // enqueue(data: Student) {
-      //       this.queue.insert(data);
-      // }
+      //add a student
+      enqueue(data: Student) {
+            this.queue.enqueue(data);
+      }
 
       // //remove student from front
       // dequeue() {

@@ -18,9 +18,14 @@ export class DoublyLinkedList
        this.timelen = 0;
    }
 
-    public length(): number
+    public getSize(): number
     {
         return this.size;
+    }
+
+    public getWaitTime(): number
+    {
+        return this.timelen;
     }
 
     public isEmpty(): boolean
