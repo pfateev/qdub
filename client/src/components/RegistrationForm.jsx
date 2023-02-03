@@ -26,7 +26,7 @@ export const RegistrationForm = () => {
   const getData = async () => {
 
     if (isTA) {
-      const taResponse = await fetch('/getQueueInfo', {
+      const taResponse = await fetch('/isTA', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

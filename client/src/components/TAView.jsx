@@ -13,16 +13,20 @@ import "./Button.css";
 
 export const TAView = () => {
 
-  const [studentID, setStudentID] = React.useState(0);
-
+  const [studentName, setstudentName] = React.useState('');
+  const [studentID, setstudentID] = React.useState('');
+  const [queueSize, setqueueSize] = React.useState(false);
+  
   const finished = async () => {
-    const response = await fetch('/formtest', {
-      method: 'POST',
+    const response = await fetch('/dequeue', {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        studentID: studentID
+        studentID: studentID,
+        studentName: studentName,
+        queueSize: queueSize
       }),
 
     });
@@ -36,7 +40,7 @@ export const TAView = () => {
 
   const propsData = {
     button1: {
-      logIn: "BRIAN",
+      logIn: "",
     },
     button: {
       logIn: "Finished?",
@@ -58,7 +62,7 @@ export const TAView = () => {
         {/* the question that the current student has  */}
         {/* <Input className="input-instance-1" {...propsData.input} /> */}
         <button class="button" type="finished"
-          onClick={() => finished()} >Finished!</button>
+          onClick={() => finished()} >Next Student!</button>
       </div>
     </div>
   );
