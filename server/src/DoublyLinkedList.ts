@@ -32,52 +32,6 @@ export class DoublyLinkedList
     {
         return this.size <= 0;
     }
-    //Checks if the queue contains that data
-    public contains(value: Student): boolean {
-        if(this.isEmpty())
-        {
-            return false;
-        }
-        let tmp = this.head;
-        while(tmp != null)
-        {
-            if(tmp.value === value)
-            {
-                return true;
-            }
-            tmp = tmp.next;
-        }
-        return false;
-    }
-    // Gets the data at that index
-    public get(index: number): Student {
-        if(index > this.size || this.isEmpty() || this.tail == null || this.head == null) {
-            throw new RangeError("Index out of range.");
-        }
-
-        if(index > this.size / 2) {
-            let i = (this.size - 1) - index;
-            let tmp = this.tail;
-            while(i > 0) {
-                if(tmp.prev == null) {
-                    throw new RangeError("Index out of range.");
-                }
-                tmp = tmp.prev;
-                i--;
-            }
-            return tmp.value;
-        } else {
-            let tmp = this.head;
-            for(let i = 0; i < index; i++) {
-                if(tmp.next == null) {
-                    throw new RangeError("Index out of range.");
-                }
-                tmp = tmp.next;
-            }
-            return tmp.value;
-        }
-   }
-
 
    //Enqueues the student
     public enqueue(value: Student){
@@ -100,40 +54,7 @@ export class DoublyLinkedList
         this.timelen += value.getTime();
     }
 
-   // Removes a query from queue
-   public remove(value: Student) :void {
-       if(this.isEmpty())
-       {
-           return;
-       }
-       let tmp = this.head;
-       while(tmp != null)
-       {
-           if(tmp.value === value)
-           {
-               if(tmp.prev != null)
-               {
-                   tmp.prev.next = tmp.next;
-               }
-               else
-               {
-                   this.head = tmp.next;
-               }
-               if(tmp.next != null)
-               {
-                   tmp.next.prev = tmp.prev;
-               }
-               else
-               {
-                   this.tail = tmp.prev;
-               }
-               this.size--;
-               return;
-           }
-
-           tmp = tmp.next;
-       }
-   }
+   
    //Dequeues the query that was previously helped
     public dequeue() {
         if(this.isEmpty() || this.head == null) {
@@ -150,43 +71,76 @@ export class DoublyLinkedList
             }
         }
    }
+// Removes a query from queue
+//    public remove(value: Student) :void {
+//        if(this.isEmpty())
+//        {
+//            return;
+//        }
+//        let tmp = this.head;
+//        while(tmp != null)
+//        {
+//            if(tmp.value === value)
+//            {
+//                if(tmp.prev != null)
+//                {
+//                    tmp.prev.next = tmp.next;
+//                }
+//                else
+//                {
+//                    this.head = tmp.next;
+//                }
+//                if(tmp.next != null)
+//                {
+//                    tmp.next.prev = tmp.prev;
+//                }
+//                else
+//                {
+//                    this.tail = tmp.prev;
+//                }
+//                this.size--;
+//                return;
+//            }
 
+//            tmp = tmp.next;
+//        }
+//    }
    //finds the position of the given student
-   public indexOf(value: Student)
-   {
-       if(this.isEmpty())
-       {
-           return  -1;
-       }
-       let index = 0;
-       let tmp = this.head;
-       while(tmp != null)
-       {
-           if(tmp.value === value)
-           {
-               return index;
-           }
-           tmp = tmp.next;
-           index++;
+//    public indexOf(value: Student)
+//    {
+//        if(this.isEmpty())
+//        {
+//            return  -1;
+//        }
+//        let index = 0;
+//        let tmp = this.head;
+//        while(tmp != null)
+//        {
+//            if(tmp.value === value)
+//            {
+//                return index;
+//            }
+//            tmp = tmp.next;
+//            index++;
 
-       }
-       return -1;
-   }
+//        }
+//        return -1;
+//    }
 
-    public updateQueue(): number {
-        let currTime = 0;
-        let curr = this.head;
-        let index = 0;
-        while(curr != null) {
-            curr.value.setQTime(currTime);
-            curr.value.setPos(index);
-            //move the markers forward
-            currTime += curr.value.getTime();
-            index++;
-            curr = curr.next;
-        }
-        return currTime;
-    } 
+    // public updateQueue(): number {
+    //     let currTime = 0;
+    //     let curr = this.head;
+    //     let index = 0;
+    //     while(curr != null) {
+    //         curr.value.setQTime(currTime);
+    //         curr.value.setPos(index);
+    //         //move the markers forward
+    //         currTime += curr.value.getTime();
+    //         index++;
+    //         curr = curr.next;
+    //     }
+    //     return currTime;
+    // } 
 
    //    We don't need these 
 //    public getFirst(): any
@@ -253,4 +207,51 @@ export class DoublyLinkedList
 //            this.size++;
 //        }
 //    }
+//Checks if the queue contains that data
+// public contains(value: Student): boolean {
+//     if(this.isEmpty())
+//     {
+//         return false;
+//     }
+//     let tmp = this.head;
+//     while(tmp != null)
+//     {
+//         if(tmp.value === value)
+//         {
+//             return true;
+//         }
+//         tmp = tmp.next;
+//     }
+//     return false;
+// }
+// Gets the data at that index
+// public get(index: number): Student {
+//     if(index > this.size || this.isEmpty() || this.tail == null || this.head == null) {
+//         throw new RangeError("Index out of range.");
+//     }
+
+//     if(index > this.size / 2) {
+//         let i = (this.size - 1) - index;
+//         let tmp = this.tail;
+//         while(i > 0) {
+//             if(tmp.prev == null) {
+//                 throw new RangeError("Index out of range.");
+//             }
+//             tmp = tmp.prev;
+//             i--;
+//         }
+//         return tmp.value;
+//     } else {
+//         let tmp = this.head;
+//         for(let i = 0; i < index; i++) {
+//             if(tmp.next == null) {
+//                 throw new RangeError("Index out of range.");
+//             }
+//             tmp = tmp.next;
+//         }
+//         return tmp.value;
+//     }
+// }
 }
+
+
