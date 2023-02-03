@@ -26,8 +26,7 @@ app.post("/students", (req, res) => {
         firstName + " " + lastName
     );
     registrationDatabase.set(firstName + lastName, student);
-    course.enqueue(student);
-    currQ.updateQueue();
+    currQ.enqueue(student);
     res.status(200).json({ studentID: student.getId() });
 });
 
