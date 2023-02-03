@@ -9,6 +9,14 @@ app.post("/formtest", (req, res) => {
   res.json({message: "success"});
 });
 
+app.post("/getQueueInfo", (req, res) => {
+  console.log(req.body);
+  const taName = req.body;
+  const studentName = fakeQueue.pop();
+  const numInQueue = fakeQueue.length
+  res.json({message: "success", studentName: studentName, numInQueue: numInQueue});
+});
+
 const fakeQueue = [];
 
 app.post("/enqueue", (req, res) => {
