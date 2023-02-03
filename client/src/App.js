@@ -4,7 +4,7 @@ import "./App.css";
 import { RegistrationForm } from "./components/RegistrationForm";
 import StudentView from "./components/StudentView";
 import TAView from "./components/TAView";
-// import Requee from "./components/Requeue";
+import Requeue from "./components/Requeue";
 
 const App = () => {
   return (
@@ -13,19 +13,10 @@ const App = () => {
           <Route path="/" element={<RegistrationForm/>}/>
           <Route path="/student-view" element={<StudentView/>}/>
           <Route path="/ta-view" element={<TAView/>}/>
+          <Route path="/requeue" element={<Requeue/>}/>
         </Routes>
     </Router>
   );
 }
-
-
-// const App = () => {
-//   return (
-//     <div>
-//       {/* <RegistrationForm /> */}
-//       <StudentView />
-//     </div>
-//   );
-// };
 
 export default App;

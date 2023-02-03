@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
+import {useNavigate} from 'react-router-dom'
 import "./RegistrationForm.css";
 import "./Button.css";
 import "./Logo.css";
@@ -11,24 +12,58 @@ export const RegistrationForm = () => {
   const [lastName, setLastName] = useState('');
   const [isTA, setIsTA] = useState(false);
 
+  // navigation routes for TA & Students
+  let navigate = useNavigate(); 
+  const routeChangeStudent = () => { 
+    let path = `/student-view`; 
+    navigate(path);
+  }
+  const routeChangeTA = () => { 
+    let path = `/ta-view`; 
+    navigate(path);
+  }
+
   const getData = async () => {
-    const response = await fetch('/formtest', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        isTA: isTA
-      }),
-    });
-    const responseData = await response.json();
+
+    if (isTA) {
+      const taResponse = await fetch('/isTA', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          isTA: isTA
+        }),
+      });
+      routeChangeTA();
+      const responseData = await taResponse.json();
+      console.log(responseData);
+    } // else they are a student
+    else {
+      const studentResponse = await fetch('/enqueue', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          isTA: isTA
+        }),
+  
+      });
+
+      routeChangeStudent();
+      const responseData = await studentResponse.json();
+      console.log(responseData);
+    }
 
     // error handling goes here
 
-    console.log(responseData);
   };
+
 
   return (
     <div className="registration">

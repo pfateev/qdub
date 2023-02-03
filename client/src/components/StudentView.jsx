@@ -32,10 +32,13 @@ const StudentView = () => {
                     The number of people ahead of you
               </span>
               <div>
-              <span className="peopleAheadNum">16</span>
+              <span className="peopleAheadNum"></span>
               </div>
+              <span className="estimate">
+                We estimate a wait time of
+              </span>
               <span className="waitTime">
-                We estimate a wait time of 32 minutes
+                
               </span>
             </div>
 

@@ -3,11 +3,44 @@ import "./TAView.css";
 import "./Button.css";
 // import shape from "./assets/shape.svg";
 
+/**
+ *  Info need to GET from backend:
+ *    - next student name
+ *    - update # of people in the queue
+ *  Info need to SEND to backend
+ *    - Student has been helped, finished()
+ */
 
-const TAView = () => {
+export const TAView = () => {
+
+  const [studentName, setstudentName] = React.useState('');
+  const [studentID, setstudentID] = React.useState('');
+  const [queueSize, setqueueSize] = React.useState(false);
+  
+  const finished = async () => {
+    const response = await fetch('/dequeue', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        studentID: studentID,
+        studentName: studentName,
+        queueSize: queueSize
+      }),
+
+    });
+
+    const responseData = await response.json();
+
+    // error handling goes here
+
+    console.log(responseData);
+  };
+
   const propsData = {
     button1: {
-      logIn: "BRIAN",
+      logIn: "",
     },
     button: {
       logIn: "Finished?",
@@ -16,27 +49,23 @@ const TAView = () => {
   return (
     <div className="view">
       <div className="header">
+          <span className="heyTA"> Hey TA! You’re doing great! The next person you should help is{" "}</span>
+          <span className="studentName"></span>
           <span className="peopleDesc">
             The number of people in queue are
           </span>
-          <span className="peopleNum">6</span>
-          <span className="remainingTime">
-            We estimate the remaining time to be 32 minutes
-          </span>
+          <span className="peopleNum"></span>
       </div>
 
-      <div className="body">
+      <div className="center">
         {/* <img className="shape" src={shape} /> */}
-        <span className="cheerfulMsg">
-          Hey TA! You’re doing great! The next person you should help is{" "}
-        </span>
-        <button class="button" type="nextStudent" >Brian</button>
-
         {/* the question that the current student has  */}
         {/* <Input className="input-instance-1" {...propsData.input} /> */}
-        <button class="button" type="finished" >Finished!</button>
+        <button class="button" type="finished"
+          onClick={() => finished()} >Next Student!</button>
       </div>
     </div>
   );
 };
+
 export default TAView;
