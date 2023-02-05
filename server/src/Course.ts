@@ -46,9 +46,9 @@ class Course {
       }
 
       // //remove student from front
-      // dequeue() {
-
-      // }
+      dequeue() {
+            this.queue.dequeue();
+      }
       
       // //remove student from any position
       // exit() {
