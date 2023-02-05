@@ -1,5 +1,5 @@
 import {Student} from "./Student.js";
-export class DoublyLinkedListNode
+class DoublyLinkedListNode
 {
    public value: Student;
    public next: DoublyLinkedListNode | null;
@@ -12,3 +12,5 @@ export class DoublyLinkedListNode
    }
    
 }
+
+export default DoublyLinkedListNode;

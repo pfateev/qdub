@@ -1,8 +1,8 @@
-import {DoublyLinkedListNode} from "./DoublyLinkedListNode.js"
+import DoublyLinkedListNode from "./DoublyLinkedListNode.js"
 
 import { Student } from "./Student";
 
-export class DoublyLinkedList
+class DoublyLinkedList
 {
    private head: DoublyLinkedListNode | null;
    private tail: DoublyLinkedListNode | null;
@@ -254,4 +254,5 @@ export class DoublyLinkedList
 // }
 }
 
+export default DoublyLinkedList;
 
