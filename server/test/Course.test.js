@@ -1,92 +1,56 @@
-//const assert = require("assert");
-//const Student = require("../../dist/Student").default;
-//const Course = require("../../dist/Course").default;
-//const Node = require("../dist/DoublyLinkedListNode").default;
-//const LL = require("../dist/DoublyLinkedList").default;
-//const {Node, LinkedList} = require("dbly-linked-list")
+const Student = require("../dist/Student").default;
+const Course = require("../dist/Course").default;
+const DoublyLinkedList = require("../dist/DoublyLinkedList").default;
 
-//const {expect} = require('chai');
-//const { describe } = require("node:test");
+const { expect } = require('chai');
+const { describe } = require("node:test");
 
-//describe("Queue tests - getter", () => {
-//	it("getTime function", () => {
-//		const queue = new Queue();
-//		expect(queue.getTime()).to.be.eq(0);
-//	}); 
+describe("Course tests - getter", () => {
+	const studentId1 = 1; 
+	const studentId2 = 2; 
+	const pos1 = 1; 
+	const pos2 = 2;
+	const time = 10; 
+	const qtime1 = 0; 
+	const qtime2 = 10; 
+	const status = true; 
+	const question = 'testing'; 
+	const name1 = 'Student A'; 
+	const name2 = 'Student B';
+	let student1;
+	let student2;
+	let course;
 
-//	it("getData function", () => {
-//		const queue = new Queue();
-//		const question = "question";
-//		const id = 14;
-//		const time = 10;
-//		queue.enqueue(id, time, question);
-//		node = queue.q.getHeadNode();
-//		stu = queue.getData(node);
-//		expect(stu.id).to.be.eq(id);
-//		expect(stu.pos).to.be.eq(0); // should position be zero index
-//		expect(stu.time).to.be.eq(time);
-//		expect(stu.status).to.be.eq(true);
-//		expect(stu.qtime).to.be.eq(0);
-//		expect(stu.question).to.be.eq(question);
-//	}); 
+	beforeEach(() => {
+				student1 = new Student(studentId1, pos1, time, status, qtime1, question, name1);
+				student2 = new Student(studentId2, pos2, time, status, qtime2, question, name2);
+				course = new Course("403", "Software Engineer");
+	});
 
-//});
-//describe("Queue tests", () => {
-//	const numberStudent = 10;
-//	let course;
-//	let queue; 
+	it("enqueue test", () => {
+		expect(course.queue.isEmpty()).to.be.eq(true);
 
-//	beforeEach(() => {
-//		course = new Course(403, "Software Engineer"); 
-//		queue = new Queue();
-//		const question = 'question';
-//		const time = 10;
+		expect(course.queue.getSize()).to.be.eq(0);
+		course.enqueue(student1);
+		expect(course.queue.getSize()).to.be.eq(1);
+		expect(course.queue.getWaitTime()).to.be.eq(qtime1);
 
-//		for(let i = 0; i < numberStudent; i++) {
-//			const student = new Student(i, time, question + i);
-//			queue.enqueue(student);
-//		}
-//		//for(let i = 0; i < numberStudent; i++) {
-//			console.log(queue.q.getHeadNode());
-//		//}
-//	}); 
+		course.enqueue(student2);
+		expect(course.queue.getSize()).to.be.eq(2);
+		expect(course.queue.getWaitTime()).to.be.eq(qtime2);
+	});
 
-//	afterEach(() => {});
+	it("dequeue test", () => {
+		course.enqueue(student1);
+		course.enqueue(student2);
 
+		course.dequeue();
+		expect(course.queue.getSize()).to.be.eq(1);
 
-//	it("updateQueue function", () => {
+		course.dequeue();
+		expect(course.queue.getSize()).to.be.eq(0);
 
-//	}); 
+		expect(course.queue.isEmpty()).to.be.eq(true);
+	});
+});
 
-//	it("enqueue function", () => {
-
-//	}); 
-
-//	it("dequeue function", () => {
-
-//	}); 
-
-//	it("updateTime function", () => {
-
-//	}); 
-
-//	it("exit function", () => {
-//		let pos = 5;
-//		queue.exit(pos);
-//		expect(queue.q.getSize()).to.be.eq(9);
-//		const node = queue.q.findAt(0);
-//		console.log("in exit test");
-//		//console.log(node);
-//	});
-
-//	it("step out function", () => {
-
-//	}); 
-
-//	it("step in function", () => {
-
-//	}); 
-
-
-
-//});

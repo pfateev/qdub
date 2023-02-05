@@ -3,7 +3,7 @@ const Student = require("../dist/Student").default;
 const { expect } = require('chai');
 const { describe } = require("node:test");
 
-describe("Queue tests - getter", () => {
+describe("Student tests - getter", () => {
 	const studentId1 = 1; 
 	const studentId2 = 2; 
 	const pos1 = 1; 

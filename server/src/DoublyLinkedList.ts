@@ -40,6 +40,7 @@ class DoublyLinkedList
             let tmp = new DoublyLinkedListNode(value);
             this.head = tmp;
             this.tail = tmp;
+						this.size = 1;
             return;
         } else {
             let tmp = new DoublyLinkedListNode(value);
