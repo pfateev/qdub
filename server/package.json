@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node server/dist/App.js",
-    "test": "mocha server/test"
+    "test": "mocha server/test",
+    "dev": "nodemon App.js localhost 4000"
   },
   "repository": {
     "type": "git",
