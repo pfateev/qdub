@@ -7,8 +7,7 @@ services:
     ports: 
       - "3001:3001"
     networks:
-      - public
-      - private
+      - qdub
     volumes:
       - ./server/src:/app/src:ro
   frontend: 
@@ -23,8 +22,10 @@ services:
     environment:
       - REACT_APP_NAME=Qdup
     restart: always
+    networks:
+      - qdub
 networks:
-  public:
-  private:
+  qdub:
+    driver: bridge
 volumes:
   db-data:
