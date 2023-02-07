@@ -9,9 +9,25 @@ app.use(express.json());
 //   res.json({message: "success"});
 // });
 
+const fakeQueue = [];
+const fakeCourseList = [
+  {
+    "courseName": "Software Engineering",
+    "courseCode": "403"
+  },
+  {
+    "courseName": "Software Engineering",
+    "courseCode": "403"
+  },
+  {
+    "courseName": "Software Engineering",
+    "courseCode": "403"
+  }
+];
+
 app.post("/formtest", (req, res) => {
   console.log(req.body);
-  res.json({message: "success", queueSize: 1, waitTime: 5});
+  res.json({message: "success"});
 });
 
 app.post("/isTa", (req, res) => {
@@ -28,8 +44,6 @@ app.patch("/dequeue", (req, res) => {
   const numInQueue = fakeQueue.length;
   res.json({message: "success", firstName: firstName, numInQueue: numInQueue});
 });
-
-const fakeQueue = [];
 
 app.post("/enqueue", (req, res) => {
   console.log(req.body);

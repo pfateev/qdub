@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMap } from 'react';
 import logo from "../assets/logo.svg";
 import {useNavigate} from 'react-router-dom'
 import "./RegistrationForm.css";
@@ -7,26 +7,57 @@ import "./Logo.css";
 import * as api from "../api/index.js"
 
 export const RegistrationForm = ( {setStudentID} ) => {
-
+  const [courses, setCourses] = useMap({key: 'value'});
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isTA, setIsTA] = useState(false);
   const studentID = useState(0);
 
   // navigation route
-  let navigate = useNavigate(); 
-  const routeChangeTA = () => { 
-    let path = `/ta-view`; 
+  let navigate = useNavigate();
+  const routeChangeTA = () => {
+    let path = `/ta-view`;
     navigate(path);
   }
-  const routeChangeStudent = () => { 
-    let path = `/student-view`; 
+  const routeChangeStudent = () => {
+    let path = `/student-view`;
     navigate(path);
   }
+
+  async function getCourses() {
+    const response = await fetch('/formtest', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+
+    });
+
+    const responseData = await response.json();
+
+    setCourses(responseData.courses);
+
+    console.log(responseData);
+  };
+
+  async function getCourses() {
+    const response = await fetch('/formtest', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+
+    });
+
+    const responseData = await response.json();
+
+    setCourses(responseData.courses);
+
+    console.log(responseData);
+  };
 
   // MAIN onclick event
   const getData = async () => {
-
     const response = await fetch('/enqueue', {
       method: 'POST',
       headers: {
@@ -36,7 +67,8 @@ export const RegistrationForm = ( {setStudentID} ) => {
         studentID: studentID,
         firstName: firstName,
         lastName: lastName,
-        isTA: isTA
+        isTA: isTA,
+          courses: courses
       }),
     });
 
@@ -52,6 +84,12 @@ export const RegistrationForm = ( {setStudentID} ) => {
 
   };
 
+  getCourses()
+
+  const options = Object.keys(courses).map(course =>
+    <option value={course}>
+      {course + "-" + courses[course]}
+    </option>)
 
   return (
     <div className="registration">
@@ -65,6 +103,14 @@ export const RegistrationForm = ( {setStudentID} ) => {
       </label>
       <label>
         Last Name: <input className="input" value={lastName} placeholder="Enter your last name" onChange={e => setLastName(e.target.value)} />
+      </label>
+      <label>
+        Choose a Course:
+        <select id="course" value={courses} onChange={e => setCourses(e.target.value)}>
+          <option value="">Select Course</option>
+          {options}
+        </select>
+
       </label>
       <label>
         <input className="checkBox" type="checkbox" onChange={() => setIsTA(!isTA)} /> Are you a TA?
