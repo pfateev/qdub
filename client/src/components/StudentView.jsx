@@ -9,21 +9,48 @@ import speechBubble from "../assets/speechBubble.svg";
 import dog from "../assets/dog.png";
 
 const StudentView = () => {
-    const propsData = {
-        button: {
-            logIn: "Leave Queue",
-        },
+  // const [data, setData] = React.useState(null);
+  // const [loading, setLoading] = React.useState(true);
+  // const [error, setError] = React.useState(null);
+  const [queueSize, setQueueSize] = React.useState('');
+  const [waitTime, setWaitTime] = React.useState('');
+
+    async function update() {
+      // try {
+        const response = await fetch('/formtest', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+
+        });
+        // if (!response.ok) {
+        //   throw new Error (
+        //     `This is an HTTP error: The status is ${response.status}`
+        //   );
+        // }
+        const responseData = await response.json();
+        // setData(responseData);
+        // setError(null);
+        // console.log(responseData);
+        setQueueSize(responseData.numStudents);
+        setWaitTime(responseData.waitTime);
+        console.log(queueSize);
+        console.log(waitTime);
+      // } catch(err) {
+      //   setError(err.message);
+      //   setData(null);
+      // } finally {
+      //   setLoading(false);
+      // }
+
+      // error handling goes here
+
     };
-    /*
-    Data from the backend:
-     number of people ahead of you
-     estimated wait time
-   Data to send to backend:
-     studentID?
-    */
-    // async function handleClick() {
-    //     await api.submitForm({studentID: studentID}, "");
-    // }
+
+    update()
+    setInterval(update, 10000);
+
     return (
         <div className="view">
             <div className="header">
@@ -32,13 +59,15 @@ const StudentView = () => {
                     The number of people ahead of you
               </span>
               <div>
-              <span className="peopleAheadNum"></span>
+              <span className="peopleAheadNum">
+                {queueSize}
+              </span>
               </div>
               <span className="estimate">
                 We estimate a wait time of
               </span>
               <span className="waitTime">
-                
+                {waitTime}
               </span>
             </div>
 

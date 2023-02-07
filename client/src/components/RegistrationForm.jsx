@@ -13,13 +13,13 @@ export const RegistrationForm = () => {
   const [isTA, setIsTA] = useState(false);
 
   // navigation routes for TA & Students
-  let navigate = useNavigate(); 
-  const routeChangeStudent = () => { 
-    let path = `/student-view`; 
+  let navigate = useNavigate();
+  const routeChangeStudent = () => {
+    let path = `/student-view`;
     navigate(path);
   }
-  const routeChangeTA = () => { 
-    let path = `/ta-view`; 
+  const routeChangeTA = () => {
+    let path = `/ta-view`;
     navigate(path);
   }
 
@@ -52,16 +52,13 @@ export const RegistrationForm = () => {
           lastName: lastName,
           isTA: isTA
         }),
-  
+
       });
 
       routeChangeStudent();
       const responseData = await studentResponse.json();
       console.log(responseData);
     }
-
-    // error handling goes here
-
   };
 
 
@@ -73,15 +70,15 @@ export const RegistrationForm = () => {
         Manual student&#x2F;TA enqueue-ing for prototype
       </span>
       <label>
-        First Name: <input class="input" value={firstName} placeholder="Enter your first name" onChange={e => setFirstName(e.target.value)} />
+        First Name: <input className="input" value={firstName} placeholder="Enter your first name" onChange={e => setFirstName(e.target.value)} />
       </label>
       <label>
-        Last Name: <input class="input" value={lastName} placeholder="Enter your last name" onChange={e => setLastName(e.target.value)} />
+        Last Name: <input className="input" value={lastName} placeholder="Enter your last name" onChange={e => setLastName(e.target.value)} />
       </label>
       <label>
-        <input class="checkBox" type="checkbox" onChange={() => setIsTA(!isTA)} /> Are you a TA?
+        <input className="checkBox" type="checkbox" onChange={() => setIsTA(!isTA)} /> Are you a TA?
       </label>
-      <button class="button" type="submit"
+      <button className="button" type="submit"
         onClick={() => getData()}>
         Sign up!
       </button>
