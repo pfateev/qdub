@@ -11,33 +11,30 @@ import "./Button.css";
  *    - Student has been helped, finished()
  */
 
-export const TAView = () => {
+export const TAView = ( {studentID} ) => {
 
-  const [studentName, setstudentName] = React.useState('');
-  const [studentID, setstudentID] = React.useState('');
-  const [queueSize, setqueueSize] = React.useState('');
+  const [firstName, setFirstName] = React.useState('');
+  const [numInQueue, setNumInQueue] = React.useState('');
 
-  const finished = async () => {
+  async function finished() {
     const response = await fetch('/dequeue', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        studentID: studentID,
-        studentName: studentName,
-        queueSize: queueSize
+        firstName: firstName,
+        numInQueue: numInQueue
       }),
 
     });
 
     const responseData = await response.json();
-    // error handling goes here
+    // passing the studentID of the TA
+    // console.log(studentID);
     console.log(responseData);
-
-    console.log(studentID);
-    console.log(studentName);
-    console.log(queueSize);
+    setFirstName(responseData.firstName);
+    setNumInQueue(responseData.numInQueue);
   };
 
   return (
@@ -47,13 +44,13 @@ export const TAView = () => {
             Hey TA! You’re doing great! The next person you should help is
           </span>
           <span className="studentName">
-            {studentName}
+            {firstName}
           </span>
           <span className="peopleDesc">
             The number of people in queue are
           </span>
           <span className="peopleNum">
-            {queueSize}
+            {numInQueue}
           </span>
       </div>
 
