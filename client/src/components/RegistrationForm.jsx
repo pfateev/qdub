@@ -24,22 +24,7 @@ export const RegistrationForm = ( {setStudentID} ) => {
     navigate(path);
   }
 
-  async function getCourses() {
-    const response = await fetch('/formtest', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-
-    });
-
-    const responseData = await response.json();
-
-    setCourses(responseData.courses);
-
-    console.log(responseData);
-  };
-
+  // To get course list
   async function getCourses() {
     const response = await fetch('/formtest', {
       method: 'GET',
