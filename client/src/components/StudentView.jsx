@@ -8,47 +8,32 @@ import logo from "../assets/logo.svg";
 import speechBubble from "../assets/speechBubble.svg";
 import dog from "../assets/dog.png";
 
-const StudentView = () => {
-  // const [data, setData] = React.useState(null);
-  // const [loading, setLoading] = React.useState(true);
-  // const [error, setError] = React.useState(null);
+const StudentView = ( {studentID} ) => {
   const [queueSize, setQueueSize] = React.useState('');
   const [waitTime, setWaitTime] = React.useState('');
 
     async function update() {
-      // try {
         const response = await fetch('/formtest', {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-          }
+          },
+          body: JSON.stringify({
+            queueSize: queueSize,
+            waitTime: waitTime
+          }),
 
         });
-        // if (!response.ok) {
-        //   throw new Error (
-        //     `This is an HTTP error: The status is ${response.status}`
-        //   );
-        // }
+
         const responseData = await response.json();
-        // setData(responseData);
-        // setError(null);
-        // console.log(responseData);
-        setQueueSize(responseData.numStudents);
+        // passing the studentID of the student
+        // console.log(studentID);
+        setQueueSize(responseData.queueSize);
         setWaitTime(responseData.waitTime);
-        console.log(queueSize);
-        console.log(waitTime);
-      // } catch(err) {
-      //   setError(err.message);
-      //   setData(null);
-      // } finally {
-      //   setLoading(false);
-      // }
-
-      // error handling goes here
-
     };
 
-    update()
+    // update queue info on timed intervals
+    update();
     setInterval(update, 10000);
 
     return (
@@ -67,7 +52,7 @@ const StudentView = () => {
                 We estimate a wait time of
               </span>
               <span className="waitTime">
-                {waitTime}
+                {waitTime} minutes
               </span>
             </div>
 

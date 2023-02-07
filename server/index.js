@@ -4,9 +4,14 @@ const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
+// app.post("/formtest", (req, res) => {
+//   console.log(req.body);
+//   res.json({message: "success"});
+// });
+
 app.post("/formtest", (req, res) => {
   console.log(req.body);
-  res.json({message: "success"});
+  res.json({message: "success", queueSize: 1, waitTime: 5});
 });
 
 app.post("/isTa", (req, res) => {
@@ -21,7 +26,7 @@ app.patch("/dequeue", (req, res) => {
   console.log(req.body);
   const {studentID, firstName} = fakeQueue.pop();
   const numInQueue = fakeQueue.length;
-  res.json({message: "success", studentID: studentID, firstName: firstName, numInQueue: numInQueue});
+  res.json({message: "success", firstName: firstName, numInQueue: numInQueue});
 });
 
 const fakeQueue = [];
