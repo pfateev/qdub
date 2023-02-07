@@ -1,5 +1,6 @@
 // const express = require("express");
-import express from 'express'
+import express from 'express';
+var cors = require('cors');
 import Course from './Course';
 import Student from './Student';
 import { StudentInfo, QueueInfo, TAQueueInfo } from './RouteReturnTypes';
@@ -8,6 +9,8 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(express.json());
+app.use(cors());
+// app.options('*', cors());
 
 const course = new Course(403, "Software Engineering");
 const registrationDatabase: Map<string, Student> = new Map();
