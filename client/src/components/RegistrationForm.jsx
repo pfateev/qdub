@@ -71,6 +71,7 @@ export const RegistrationForm = ( {setStudentID} ) => {
 
   getCourses()
 
+  // to put the courses in a list format to display in drop down
   const options = Object.keys(courses).map(course =>
     <option value={course}>
       {course + "-" + courses[course]}
