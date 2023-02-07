@@ -12,7 +12,7 @@ export const RegistrationForm = () => {
   const [isTA, setIsTA] = useState(false);
 
   const getData = async () => {
-    const response = await fetch('/students', {
+    const response = await fetch('http://localhost:3001/students', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
