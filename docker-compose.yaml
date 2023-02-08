@@ -26,6 +26,7 @@ services:
       - qdub
   db:
     build: ./db
+    image: postgres:10.5
     container_name: db
     environment:
       - POSTGRES_USER=user
