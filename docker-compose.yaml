@@ -24,6 +24,15 @@ services:
     restart: always
     networks:
       - qdub
+  db:
+    build: ./db
+    container_name: db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=database
+    ports:
+      - 5432:5432
 networks:
   qdub:
     driver: bridge
