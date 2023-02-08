@@ -1,16 +1,30 @@
 import { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
+import {useNavigate} from 'react-router-dom'
 import "./RegistrationForm.css";
 import "./Button.css";
 import "./Logo.css";
 import * as api from "../api/index.js"
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ( {setStudentID} ) => {
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isTA, setIsTA] = useState(false);
+  const studentID = useState(0);
 
+  // navigation route
+  let navigate = useNavigate(); 
+  const routeChangeTA = () => { 
+    let path = `/ta-view`; 
+    navigate(path);
+  }
+  const routeChangeStudent = () => { 
+    let path = `/student-view`; 
+    navigate(path);
+  }
+
+  // MAIN onclick event
   const getData = async () => {
     const response = await fetch('http://localhost:3001/students', {
       method: 'POST',
@@ -18,17 +32,25 @@ export const RegistrationForm = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        studentID: studentID,
         firstName: firstName,
         lastName: lastName,
         isTA: isTA
       }),
     });
-    const responseData = await response.json();
 
+    if (isTA) {
+      routeChangeTA();
+    } else {
+      routeChangeStudent();
+    }
+
+    const responseData = await response.json();
+    setStudentID(responseData.studentID);
     // error handling goes here
 
-    console.log(responseData);
   };
+
 
   return (
     <div className="registration">
@@ -38,15 +60,15 @@ export const RegistrationForm = () => {
         Manual student&#x2F;TA enqueue-ing for prototype
       </span>
       <label>
-        First Name: <input class="input" value={firstName} placeholder="Enter your first name" onChange={e => setFirstName(e.target.value)} />
+        First Name: <input className="input" value={firstName} placeholder="Enter your first name" onChange={e => setFirstName(e.target.value)} />
       </label>
       <label>
-        Last Name: <input class="input" value={lastName} placeholder="Enter your last name" onChange={e => setLastName(e.target.value)} />
+        Last Name: <input className="input" value={lastName} placeholder="Enter your last name" onChange={e => setLastName(e.target.value)} />
       </label>
       <label>
-        <input class="checkBox" type="checkbox" onChange={() => setIsTA(!isTA)} /> Are you a TA?
+        <input className="checkBox" type="checkbox" onChange={() => setIsTA(!isTA)} /> Are you a TA?
       </label>
-      <button class="button" type="submit"
+      <button className="button" type="submit"
         onClick={() => getData()}>
         Sign up!
       </button>

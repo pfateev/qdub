@@ -8,22 +8,34 @@ import logo from "../assets/logo.svg";
 import speechBubble from "../assets/speechBubble.svg";
 import dog from "../assets/dog.png";
 
-const StudentView = () => {
-    const propsData = {
-        button: {
-            logIn: "Leave Queue",
-        },
+const StudentView = ( {studentID} ) => {
+  const [queueSize, setQueueSize] = React.useState('');
+  const [waitTime, setWaitTime] = React.useState('');
+
+    async function update() {
+        const response = await fetch('/formtest', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            queueSize: queueSize,
+            waitTime: waitTime
+          }),
+
+        });
+
+        const responseData = await response.json();
+        // passing the studentID of the student
+        // console.log(studentID);
+        setQueueSize(responseData.queueSize);
+        setWaitTime(responseData.waitTime);
     };
-    /*
-    Data from the backend:
-     number of people ahead of you
-     estimated wait time
-   Data to send to backend:
-     studentID?
-    */
-    // async function handleClick() {
-    //     await api.submitForm({studentID: studentID}, "");
-    // }
+
+    // update queue info on timed intervals
+    update();
+    setInterval(update, 10000);
+
     return (
         <div className="view">
             <div className="header">
@@ -32,10 +44,15 @@ const StudentView = () => {
                     The number of people ahead of you
               </span>
               <div>
-              <span className="peopleAheadNum">16</span>
+              <span className="peopleAheadNum">
+                {queueSize}
+              </span>
               </div>
+              <span className="estimate">
+                We estimate a wait time of
+              </span>
               <span className="waitTime">
-                We estimate a wait time of 32 minutes
+                {waitTime} minutes
               </span>
             </div>
 

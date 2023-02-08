@@ -1,37 +1,64 @@
 import * as React from "react";
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import "./Requeue.css";
 import "./Button.css";
 import "./Logo.css";
-import dog from "./assets/dog.png";
-import speechBubble from "./assets/speechBubble.svg";
-import logo from "./assets/logo.svg";
+import dog from "../assets/dog.png";
+// import speechBubble from "./assets/speechBubble.svg";
+// import logo from "./assets/logo.svg";
 
-const App = () => {
-  const propsData = {
-    button: {
-      logIn: "Requeue",
-    },
-    button1: {
-      logIn: "Exit",
-    },
+const Requeue = () => {
+  const [firstName] = useState('');
+  const [lastName] = useState('');
+  const [isTA] = useState(false);
+
+  const navigate = useNavigate();
+
+  const routeChangeRequeue = async () => {
+    const path = '/student-view';
+    navigate(path);
   };
+
+  const routeChangeExit = async () => {
+    const path = '/';
+    navigate(path);
+  };
+
+  const getData = async () => {
+    const response = await fetch('/enqueue', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        isTA: isTA
+      }),
+    });
+    const responseData = await response.json();
+
+    // error handling goes here
+    console.log(responseData);
+  };
+
   return (
-    <div className="requeue">
-      <div className="rectangle-128">
-        <img className="logo" src={logo} />
-        <span className="hopefully-you-were-h">Hopefully you were helped!</span>
+    <div className="view">
+      <div className="header">
+        {/* <img className="logo" src={logo} /> */}
+        <span className="headerMsg">Hopefully you were helped!</span>
       </div>
-      <div className="flex-container">
-        <img className="image-3" src={image3} />
-        <div className="flex-container-1">
-          <div className="cat-absolute-container">
-            <span className="woohoo">WOOHOO</span>
-          </div>
-          <img className="speechBubble" src={speechBubble} alt="speech bubble"/>
-        </div>
+
+      <div className="imageSet">
+          {/* <span className="speechMsg">Please Wait!</span> */}
+          <img className="dog" src={dog} alt="cute dog" />
       </div>
-      <Button className="button-instance-1" {...propsData.button} />
-      <Button className="button-1-instance" {...propsData.button1} />
+
+      <div className="buttons" >
+        <button className="button" type="submit" onClick={getData}>Requeue</button>
+        <button className="button" type="submit" onClick={routeChangeExit}>Exit</button>
+      </div>
     </div>
   );
 };
