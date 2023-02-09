@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
-import { RegistrationForm } from './RegistrationForm';
+import { RegistrationForm } from '../components/RegistrationForm';
 
 jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
   json: () => Promise.resolve({ studentID: 123 })
