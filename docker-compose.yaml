@@ -12,7 +12,7 @@ services:
       - qdub
     volumes:
       - ./server/src:/app/src:ro
-    args: ["--dockerfile=./Dockerfile",
+    args: ["--dockerfile=Dockerfile",
             "--context=./server"]
   frontend: 
     build:
@@ -30,7 +30,7 @@ services:
     restart: always
     networks:
       - qdub
-    args: ["--dockerfile=./Dockerfile",
+    args: ["--dockerfile=Dockerfile",
       "--context=./client"]
 networks:
   qdub:
