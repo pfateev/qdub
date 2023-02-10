@@ -3,6 +3,7 @@ services:
   backend: 
     build:
       context: ./server
+      dockerfile: Dockerfile
     container_name: backend
     restart: always
     ports: 
@@ -13,7 +14,8 @@ services:
       - ./server/src:/app/src:ro
   frontend: 
     build:
-      context: ./frontend
+      context: ./client
+      dockerfile: Dockerfile
     container_name: react-app
     stdin_open: true
     tty: true
