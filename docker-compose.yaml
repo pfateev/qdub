@@ -5,7 +5,6 @@ services:
       context: ./server
       dockerfile: Dockerfile
     container_name: backend
-    mem_limit: 128MB
     restart: always
     ports: 
       - "3001:3001"
@@ -20,7 +19,6 @@ services:
       context: ./client
       dockerfile: Dockerfile
     container_name: react-app
-    mem_limit: 128MB
     stdin_open: true
     tty: true
     ports:  
