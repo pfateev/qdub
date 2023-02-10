@@ -1,7 +1,8 @@
 version: "3"
 services: 
   backend: 
-    build: ./server
+    build:
+      context: ./server
     container_name: backend
     restart: always
     ports: 
@@ -11,7 +12,8 @@ services:
     volumes:
       - ./server/src:/app/src:ro
   frontend: 
-    build: ./client
+    build:
+      context: ./frontend
     container_name: react-app
     stdin_open: true
     tty: true
