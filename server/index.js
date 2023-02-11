@@ -12,22 +12,22 @@ app.use(express.json());
 const fakeQueue = [];
 const fakeCourseList = [
   {
-    "courseName": "Software Engineering",
-    "courseCode": "403"
+    "courseName": "a",
+    "courseCode": "401"
   },
   {
-    "courseName": "Software Engineering",
-    "courseCode": "403"
+    "courseName": "b",
+    "courseCode": "402"
   },
   {
-    "courseName": "Software Engineering",
+    "courseName": "c",
     "courseCode": "403"
   }
 ];
 
-app.post("/formtest", (req, res) => {
+app.get("/formtest", (req, res) => {
   console.log(req.body);
-  res.json({message: "success"});
+  res.json({message: "success", courses: fakeCourseList});
 });
 
 app.post("/isTa", (req, res) => {
@@ -49,6 +49,7 @@ app.post("/enqueue", (req, res) => {
   console.log(req.body);
   const {firstName, lastName} = req.body;
   const studentID = firstName + lastName;
+  const question = question;
   // do we need to verify that they are NOT a TA for this class before we enqueue them?
   const numInQueueB4me = fakeQueue.length;
   fakeQueue.push({studentID: studentID, firstName: firstName})
