@@ -12,8 +12,7 @@ services:
       - ./server/src:/app/src:ro
     args: ["--dockerfile=.server/Dockerfile"]
   frontend: 
-    build:
-      context: ./frontend
+    build: ./frontend
     container_name: react-app
     stdin_open: true
     tty: true
