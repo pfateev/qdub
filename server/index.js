@@ -12,16 +12,16 @@ app.use(express.json());
 const fakeQueue = [];
 const fakeCourseList = [
   {
-    "courseName": "a",
-    "courseCode": "401"
+    "code": "401",
+    "name": "classA"
   },
   {
-    "courseName": "b",
-    "courseCode": "402"
+    "code": "402",
+    "name": "classB"
   },
   {
-    "courseName": "c",
-    "courseCode": "403"
+    "code": "403",
+    "name": "classC"
   }
 ];
 
@@ -47,13 +47,12 @@ app.patch("/dequeue", (req, res) => {
 
 app.post("/enqueue", (req, res) => {
   console.log(req.body);
-  const {firstName, lastName} = req.body;
+  const {firstName, lastName, question} = req.body;
   const studentID = firstName + lastName;
-  const question = question;
   // do we need to verify that they are NOT a TA for this class before we enqueue them?
   const numInQueueB4me = fakeQueue.length;
-  fakeQueue.push({studentID: studentID, firstName: firstName})
-  res.json({message: "success", studentID: studentID, numInQueueB4me: numInQueueB4me, waitTime: fakeQueue.length * 5});
+  fakeQueue.push({studentID: studentID, firstName: firstName, question: question})
+  res.json({message: "success", studentID: studentID, numInQueueB4me: numInQueueB4me, waitTime: fakeQueue.length * 5, question: question});
 });
 
 app.listen(PORT, () => {

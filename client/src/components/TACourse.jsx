@@ -89,6 +89,7 @@ export const TACourse = ( {setStudentID} ) => {
           What do you need help with?
           <input type="text" id="course" value={question} onChange={e => setQuestion(e.target.value)}/>
         </label>
+        <input type="submit" value="Submit" />
       </form>
 
       <span className="title">TA Course</span>

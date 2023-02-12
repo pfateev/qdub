@@ -7,7 +7,8 @@ import "./Logo.css";
 import * as api from "../api/index.js"
 
 export const StudentCourse = ( {setStudentID} ) => {
-  const [courses, setCourses] = useState({});
+  const [courseList, setCourseList] = useState([{'code':'', 'name':''}]);
+  const [courseInfo, setCourseInfo] = useState('');
   const [question, setQuestion] = useState('');
   const studentID = useState(0);
 
@@ -29,8 +30,7 @@ export const StudentCourse = ( {setStudentID} ) => {
       });
 
       const responseData = await response.json();
-
-      setCourses(responseData.courses);
+      setCourseList(responseData.courses);
 
       // console.log(responseData);
     };
@@ -38,8 +38,8 @@ export const StudentCourse = ( {setStudentID} ) => {
   }, []);
 
   useEffect(() => {
-    console.log(courses);
-  }, [courses]);
+    console.log(courseList);
+  }, [courseList]);
 
 
   // MAIN onclick event
@@ -52,7 +52,7 @@ export const StudentCourse = ( {setStudentID} ) => {
       body: JSON.stringify({
         studentID: studentID,
         question: question,
-        courses: courses
+        courseInfo: courseInfo
       }),
     });
 
@@ -60,14 +60,17 @@ export const StudentCourse = ( {setStudentID} ) => {
 
     const responseData = await response.json();
     setStudentID(responseData.studentID);
-    // error handling goes here
-
   };
 
+  const handleSelect = (e) => {
+    setCourseInfo(e.target.value);
+  }
+
+  console.log(courseList);
   // to put the courses in a list format to display in drop down
-  const options = Object.keys(courses).map(course =>
-    <option value={course}>
-      {course + "-" + courses[course]}
+  const options = courseList.map((course) =>
+    <option value={course.name}>
+      {course.code + " - " + course.name}
     </option>)
 
   return (
@@ -75,12 +78,13 @@ export const StudentCourse = ( {setStudentID} ) => {
       <img className="logo" src={logo} alt="top left circles" />
       <span className="title">Enqueue</span>
       <span className="description">
-        Choose a class and questions you have
+        Choose a class and question(s) you have
       </span>
       <label>
         Choose a Course:
-        <select id="course" value={courses} onChange={e => setCourses(e.target.value)}>
-          <option value="">Select Course</option>
+        <select id="course" value={courseInfo} onChange={handleSelect}>
+          {console.log(options)}
+          <option value="Select a Course">Select a Course</option>
           {options}
         </select>
       </label>
