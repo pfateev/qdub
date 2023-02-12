@@ -73,75 +73,75 @@ class DoublyLinkedList
         }
    }
 // Removes a query from queue
-//    public remove(value: Student) :void {
-//        if(this.isEmpty())
-//        {
-//            return;
-//        }
-//        let tmp = this.head;
-//        while(tmp != null)
-//        {
-//            if(tmp.value === value)
-//            {
-//                if(tmp.prev != null)
-//                {
-//                    tmp.prev.next = tmp.next;
-//                }
-//                else
-//                {
-//                    this.head = tmp.next;
-//                }
-//                if(tmp.next != null)
-//                {
-//                    tmp.next.prev = tmp.prev;
-//                }
-//                else
-//                {
-//                    this.tail = tmp.prev;
-//                }
-//                this.size--;
-//                return;
-//            }
+   public remove(value: Student) :void {
+       if(this.isEmpty())
+       {
+           return;
+       }
+       let tmp = this.head;
+       while(tmp != null)
+       {
+           if(tmp.value === value) {
+               if(tmp.prev != null)
+               {
+                   tmp.prev.next = tmp.next;
+               }
+               else
+               {
+                   this.head = tmp.next;
+               }
+               if(tmp.next != null)
+               {
+                   tmp.next.prev = tmp.prev;
+               }
+               else
+               {
+                   this.tail = tmp.prev;
+               }
+               this.size--;
+               this.updateQueue();
+               return;
+           }
 
-//            tmp = tmp.next;
-//        }
-//    }
-   //finds the position of the given student
-//    public indexOf(value: Student)
-//    {
-//        if(this.isEmpty())
-//        {
-//            return  -1;
-//        }
-//        let index = 0;
-//        let tmp = this.head;
-//        while(tmp != null)
-//        {
-//            if(tmp.value === value)
-//            {
-//                return index;
-//            }
-//            tmp = tmp.next;
-//            index++;
+           tmp = tmp.next;
+       }
+   }
+//    finds the position of the given student
+   public indexOf(value: Student) {
+       if(this.isEmpty())
+       {
+           return  -1;
+       }
+       let index = 0;
+       let tmp = this.head;
+       while(tmp != null)
+       {
+           if(tmp.value === value)
+           {
+               return index;
+           }
+           tmp = tmp.next;
+           index++;
 
-//        }
-//        return -1;
-//    }
+       }
+       return -1;
+   }
 
-    // public updateQueue(): number {
-    //     let currTime = 0;
-    //     let curr = this.head;
-    //     let index = 0;
-    //     while(curr != null) {
-    //         curr.value.setQTime(currTime);
-    //         curr.value.setPos(index);
-    //         //move the markers forward
-    //         currTime += curr.value.getTime();
-    //         index++;
-    //         curr = curr.next;
-    //     }
-    //     return currTime;
-    // } 
+   // Updates the time and pos of every query in the queue
+    public updateQueue(): number {
+        let currTime = 0;
+        let curr = this.head;
+        let index = 0;
+        while(curr != null) {
+            curr.value.setQTime(currTime);
+            curr.value.setPos(index);
+            //move the markers forward
+            currTime += curr.value.getTime();
+            index++;
+            curr = curr.next;
+        }
+        return currTime;
+    } 
 
    //    We don't need these 
 //    public getFirst(): any
