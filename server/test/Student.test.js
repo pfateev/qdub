@@ -4,8 +4,8 @@ const { expect } = require('chai');
 const { describe } = require("node:test");
 
 describe("Student tests - getter", () => {
-	const studentId1 = 1; 
-	const studentId2 = 2; 
+	const studentId1 = 0; 
+	const studentId2 = 1; 
 	const pos1 = 1; 
 	const pos2 = 2;
 	const time = 10; 

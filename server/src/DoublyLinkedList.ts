@@ -10,124 +10,153 @@ class DoublyLinkedList
    private size: number;
    private timelen: number;
 
-   constructor()
-   {
+   constructor() {
        this.head = null;
        this.tail = null;
        this.size = 0;
        this.timelen = 0;
    }
 
-    public getSize(): number
-    {
+    public getSize(): number {
         return this.size;
     }
 
-    public getWaitTime(): number
-    {
+    public getWaitTime(): number {
         return this.timelen;
     }
 
-    public isEmpty(): boolean
-    {
+    public isEmpty(): boolean {
         return this.size <= 0;
     }
 
-   //Enqueues the student
+    // Gets the data at that index
+    public get(index: number): Student {
+        if(index > this.size || this.isEmpty() || this.tail == null || this.head == null) {
+            throw new RangeError("Index out of range.");
+        }
+
+        if(index > this.size / 2) {
+            let i = (this.size - 1) - index;
+            let tmp = this.tail;
+            while(i > 0) {
+                if(tmp.prev == null) {
+                    throw new RangeError("Index out of range.");
+                }
+                tmp = tmp.prev;
+                i--;
+            }
+            return tmp.value;
+        } else {
+            let tmp = this.head;
+            for(let i = 0; i < index; i++) {
+                if(tmp.next == null) {
+                    throw new RangeError("Index out of range.");
+                }
+                tmp = tmp.next;
+            }
+            return tmp.value;
+        }
+    }
+
+
+    //Enqueues the student
     public enqueue(value: Student){
         value.qtime = this.timelen;
         if(this.isEmpty()) {
             let tmp = new DoublyLinkedListNode(value);
             this.head = tmp;
             this.tail = tmp;
-						this.size = 1;
             return;
         } else {
             let tmp = new DoublyLinkedListNode(value);
-            tmp.next = null;
-            tmp.prev = this.tail;
-            if(this.tail != null) {
-                this.tail.next = tmp;
+            if(this.head != null && !this.head.value.status) {
+                tmp.next = this.head;
+                tmp.prev = null;
+                this.head = tmp;
+                this.updateQueue();
+            } else {
+                tmp.next = null;
+                tmp.prev = this.tail;
+                if(this.tail != null) {
+                    this.tail.next = tmp;
+                }
+                this.tail = tmp;
             }
-            this.tail = tmp;
+            
         }
         this.size++;
         this.timelen += value.getTime();
+
     }
 
-   
-   //Dequeues the query that was previously helped
-    public dequeue() {
+    // Removes a query from queue
+    public remove(value: Student) :boolean {
+        if(this.isEmpty()) {
+            return false;
+        }
+        let tmp = this.head;
+        while(tmp != null) {
+            if(tmp.value === value) {
+                if(tmp.prev != null) {
+                    tmp.prev.next = tmp.next;
+                } else {
+                    this.head = tmp.next;
+                }
+                if(tmp.next != null) {
+                    tmp.next.prev = tmp.prev;
+                } else {
+                    this.tail = tmp.prev;
+                }
+                this.size--;
+                this.updateQueue();
+                return true;
+            }
+
+            tmp = tmp.next;
+        }
+        return false;
+    }
+    //Dequeues the query that was previously helped
+    public dequeue(): Student | null {
         if(this.isEmpty() || this.head == null) {
-            return;
+            return null;
         } else if(this.size == 1) {
             this.head = null;
             this.tail = null;
             this.size--;
+            return null;
         } else {
-            this.head = this.head.next;
-            if(this.head != null) {
-                this.head.prev = null;
+            let s = this.head.value;
+            if(s.getStatus()) {
+                this.head = this.head.next;
                 this.size--;
+                this.swap();
+                this.updateQueue();
+                return s;
+            } else {
+                return null;
             }
         }
-   }
-// Removes a query from queue
-   public remove(value: Student) :void {
-       if(this.isEmpty())
-       {
-           return;
-       }
-       let tmp = this.head;
-       while(tmp != null)
-       {
-           if(tmp.value === value) {
-               if(tmp.prev != null)
-               {
-                   tmp.prev.next = tmp.next;
-               }
-               else
-               {
-                   this.head = tmp.next;
-               }
-               if(tmp.next != null)
-               {
-                   tmp.next.prev = tmp.prev;
-               }
-               else
-               {
-                   this.tail = tmp.prev;
-               }
-               this.size--;
-               this.updateQueue();
-               return;
-           }
+    }
 
-           tmp = tmp.next;
-       }
-   }
-//    finds the position of the given student
-   public indexOf(value: Student) {
-       if(this.isEmpty())
-       {
-           return  -1;
-       }
-       let index = 0;
-       let tmp = this.head;
-       while(tmp != null)
-       {
-           if(tmp.value === value)
-           {
-               return index;
-           }
-           tmp = tmp.next;
-           index++;
-
-       }
-       return -1;
-   }
-
-   // Updates the time and pos of every query in the queue
+    //finds the position of the given student
+    public indexOf(value: Student): number{
+        if(this.isEmpty()){
+            return  -1;
+        }
+        let index = 0;
+        let tmp = this.head;
+        while(tmp != null) {
+            if(tmp.value === value)
+            {
+                return index;
+            }
+            tmp = tmp.next;
+            index++;
+        }
+        return -1;
+    }
+    //Updates the time and position of each query of the queue
     public updateQueue(): number {
         let currTime = 0;
         let curr = this.head;
@@ -143,7 +172,50 @@ class DoublyLinkedList
         return currTime;
     } 
 
-   //    We don't need these 
+    // Update the student.status
+    public stepOut(pos: number): boolean {
+        if(pos < this.getSize() && pos > 0) {
+            let s = this.get(pos);
+            s.setStatus(false);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Update the student.status
+    public stepIn(pos: number): boolean {
+        if(pos < this.getSize() && pos >= 0) {
+            let s = this.get(pos);
+            s.setStatus(true);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    // move an item to the front
+    public swap(): void{
+        let curr = this.head;
+
+        if(curr == null) return;
+        while(curr != null) {
+            if(curr.value.status) {
+                if(curr.prev != null) {
+                    curr.prev.next = curr.next;
+                }
+                if(curr.next != null) {
+                    curr.next.prev = curr.prev;
+                }
+                curr.prev = null;
+                curr.next = this.head;
+                this.head = curr;
+                break;
+            }
+            curr = curr.next;
+        }
+    }
+    //    We don't need these 
 //    public getFirst(): any
 //    {
 //        if(this.head != null)
