@@ -40,8 +40,6 @@ jobs:
         working-directory: client/
       - name: Install Jest
         run: npm install jest --save-dev     
-      - name: Compile test files
-        run: tsc
       - name: Run tests
         run: npm run test
         working-directory: client/
