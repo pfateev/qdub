@@ -177,7 +177,7 @@ class DoublyLinkedList
 					this.head.prev = null;
 				}
 				this.size--;
-				this.updateQueue();
+                this.timelen = this.updateQueue();
 				return student;
 	
 			}

@@ -13,7 +13,7 @@ app.use(cors());
 // app.options('*', cors());
 
 // Course object for beta release
-const course = new Course(403, "Software Engineering");
+let course = new Course(403, "Software Engineering");
 const registrationDatabase: Map<string, Student> = new Map();
 
 // Student and ta objects for beta release
@@ -25,7 +25,7 @@ let waitTime = 0;
 
 for (let i = 0; i < 5; i++) {
     const student = new Student(ids[i], i + 1, questionTime, true, waitTime, questions[i], names[i])
-    waitTime += questionTime;
+    // waitTime += questionTime;
     course.enqueue(student);
 }
 // TODO: allow one student/TA to register
@@ -45,9 +45,9 @@ app.post("/students", (req, res) => {
         const student = new Student(
             registrationDatabase.size,
             currQ.getSize(),
-            currQ.getWaitTime(),
-            true,
             questionTime,
+            true,
+            currQ.getWaitTime(),
             "Question 1",
             inputID
         );
@@ -93,15 +93,19 @@ app.get("/queue/:courseID/:isTA", (req, res) => {
 });
 
 app.patch("/queue", (req, res) => {
-    // const { isTA } = req.body;
-    // const currQ = course.queue;
+    const { isTA } = req.body;
+    const currQ = course.queue;
     // currQ.dequeue();
     console.log("PATCH");
-    console.log(req.body);
-    console.log(course.queue);
+    // console.log(req.body);
+    // console.log(course.queue);
     course.dequeue();
-    console.log(course.queue);
-    res.status(200).json({message: "sucess"});
+    // console.log(course.queue);
+    if(isTA){
+        res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
+    } else {
+        res.status(400).json({message: "You must be a TA"});
+    }
 });
 
 app.listen(PORT, () => {

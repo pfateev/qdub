@@ -29,11 +29,9 @@ export const TAView = (props) => {
     });
 
     const responseData = await response.json();
-    // passing the studentID of the TA
-    // console.log(studentID);
-    console.log(responseData);
-    // setFirstName(responseData.studentName);
-    // setNumInQueue(responseData.numberOfPeople);
+
+    props.setNextStudent(responseData.nextStudent.name);
+    props.setNumberOfPeople(responseData.numberOfPeople);
   };
 
   return (
