@@ -20,17 +20,23 @@
   flex-basis: 100%;
   justify-content: center;
   align-items: center;
-  padding-top: 1px;
 
   min-height: 3rem;
+  min-width: 200px;
   padding: calc(.875rem - 1px) calc(1.5rem - 1px);
-  position: relative;
+
   text-decoration: none;
   transition: all 250ms;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: baseline;
+
+  width: 20%;
+  height: auto;
+  flex-basis: 7%;
+  margin-top: 10%;
+  margin-bottom: 20px;
 }
 
 .button:hover,
@@ -47,9 +53,4 @@
   background-color: #716fda;
   box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
   transform: translateY(0);
-}
-
-.log-in {
-  letter-spacing: 1px;
-  margin-top: 1px;
 }

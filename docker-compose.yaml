@@ -1,0 +1,31 @@
+version: "3"
+services: 
+  backend: 
+    build: ./server
+    container_name: backend
+    restart: always
+    ports: 
+      - "3001:3001"
+    networks:
+      - qdub
+    volumes:
+      - ./server/src:/app/src:ro
+  frontend: 
+    build: ./client
+    container_name: react-app
+    stdin_open: true
+    tty: true
+    ports:  
+      - "3000:3000"
+    volumes: 
+      - ./client/src:/app/src:ro
+    environment:
+      - REACT_APP_NAME=Qdup
+    restart: always
+    networks:
+      - qdub
+networks:
+  qdub:
+    driver: bridge
+volumes:
+  db-data:

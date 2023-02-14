@@ -1,68 +1,64 @@
-import * as React from "react";
+import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import shape from "./assets/shape.svg";
-import Button from "./components/Button";
-import Input from "./components/Input";
+import { RegistrationForm } from "./components/RegistrationForm";
+import StudentView from "./components/StudentView";
+import TAView from "./components/TAView";
+// import ClassSelect from "./components/ClassSelection.jsx";
+// import Requeue from "./components/Requeue";
 
 const App = () => {
-  const [data, setData] = React.useState(null);
-
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.message);
-        setData(data.message);
-      });
-  }, []);
-
-  const propsData = {
-    input: {
-      enterYourFullName: "First Name",
-    },
-    input1: {
-      enterYourFullName: "Last Name",
-    },
-    button: {
-      logIn: "Sign up!",
-    },
-  };
-
-  const Checkbox = ({ label, value, onChange }) => {
-    return (
-      <label>
-        <input type="checkbox" checked={value} onChange={onchange} />
-        {label}
-      </label>
-    )
-  }
-
+  const [netID, setNetID] = useState(null);
+  const [isTA, setIsTA] = useState(false);
+  const [nextStudent, setNextStudent] = useState(null);
+  const [numberOfPeople, setNumberOfPeople] = useState();
+  const [estimatedWait, setEstimatedWait] = useState(0);
   return (
-    <div className="registration">
-      <img className="shape" src={shape} />
-      <span className="queue-prototype">Queue prototype</span>
-      <span className="manual-student-ta-enq">
-        Manual student&#x2F;TA enqueue-ing for prototype
-      </span>
-      <form action="signup.html" method="post" id="signup">
-        <div class="field">
-          <label for="firstname">First Name:</label>
-          <Input type="text" id="firstname" name="firstname" placeholder="Enter your first name" />
-        </div>
-        <div class="field">
-          <label for="lastname">Last Name:</label>
-          <Input type="text" id="lastname" name="lastname" placeholder="Enter your last name" />
-        </div>
-      </form>
-      <div className="flex-container">
-        <Checkbox
-          label="Are you a TA?"
-          checked={checked}
-          onChange={handleChange}
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <RegistrationForm
+              setNetID={setNetID}
+              setIsTa={setIsTA}
+              setNextStudent={setNextStudent}
+              setNumberOfPeople={setNumberOfPeople}
+              setEstimatedWait={setEstimatedWait}
+            />
+          }
         />
-      </div>
-      <Button className="button-instance-1" {...propsData.button} />
-    </div>
+        <Route
+          path="/student-view"
+          element={
+            <StudentView
+              netID={netID}
+              isTA={isTA}
+              numberOfPeople={numberOfPeople}
+              estimatedWait={estimatedWait}
+            />
+          }
+        />
+        <Route
+          path="/ta-view"
+          element={
+            <TAView
+              netID={netID}
+              isTA={isTA}
+              nextStudent={nextStudent}
+              numberOfPeople={numberOfPeople}
+              estimatedWait={estimatedWait}
+              setNextStudent={setNextStudent}
+              setNumberOfPeople={setNumberOfPeople}
+              setEstimatedWait={setEstimatedWait}
+            />
+          }
+        />
+        {/* <Route path="/select-class" element={<ClassSelect/>}/> */}
+        {/* <Route path="/requeue" element={<Requeue/>}/> */}
+      </Routes>
+    </Router>
   );
 };
+
 export default App;
