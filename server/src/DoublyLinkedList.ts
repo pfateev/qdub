@@ -61,7 +61,7 @@ class DoublyLinkedList
 
     //Enqueues the student
     public enqueue(value: Student){
-        value.qtime = this.timelen;
+        value.setQTime(this.getWaitTime());
         if(this.isEmpty()) {
             let tmp = new DoublyLinkedListNode(value);
             this.head = tmp;
