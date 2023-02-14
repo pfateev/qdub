@@ -24,34 +24,54 @@ const questionTime = 10;
 let waitTime = 0;
 
 for (let i = 0; i < 5; i++) {
-	const student = new Student(ids[i], i + 1, questionTime, true, waitTime, questions[i], names[i])
-	waitTime += questionTime;
-	course.enqueue(student);
+    const student = new Student(ids[i], i + 1, questionTime, true, waitTime, questions[i], names[i])
+    waitTime += questionTime;
+    course.enqueue(student);
 }
-
+// TODO: allow one student/TA to register
 app.post("/students", (req, res) => {
     console.log(req.body);
-    const { firstName, lastName, isTA } = req.body;
+    const { inputID } = req.body;
     const currQ = course.queue;
-    const student = new Student(
-        registrationDatabase.size,
-        currQ.getSize(),
-        currQ.getWaitTime(),
-        true,
-        5,
-        "Question 1",
-        firstName + " " + lastName
-    );
-    registrationDatabase.set(firstName + lastName, student);
-    currQ.enqueue(student);
-    res.status(200).json({ studentID: student.getId() });
+    console.log(currQ.getSize());
+    if (inputID === "ta") {
+        res.status(200).json({
+            isTA: true,
+            nextStudent: currQ.get(0),
+            numberOfPeople: currQ.getSize(),
+            waitTime: currQ.getWaitTime()
+        });
+    } else if (inputID === "student") {
+        const student = new Student(
+            registrationDatabase.size,
+            currQ.getSize(),
+            currQ.getWaitTime(),
+            true,
+            questionTime,
+            "Question 1",
+            inputID
+        );
+        // registrationDatabase.set(firstName + lastName, student);
+        currQ.enqueue(student);
+        res.status(200).json({
+            isTA: false,
+            numberOfPeople: currQ.getSize(),
+            waitTime: currQ.getWaitTime()
+        });
+    } else {
+        // res.status(200).json({ studentID: student.getId() });
+        // send an error message here
+        console.error("Unsupported API call");
+        return;
+    }
+
 });
 
-app.get("/queue/:courseID", (req, res) => {
+app.get("/queue/:courseID/:isTA", (req, res) => {
     // Retrieve information about the queue
     console.log(req.body);
-    const { courseID } = req.params;
-    const { isTA, studentID } = req.body;
+    const { courseID, isTA } = req.params;
+    const { studentID } = req.body;
     const currQ = course.queue;
     let queueInfo: unknown;
     if (isTA) {
@@ -73,10 +93,14 @@ app.get("/queue/:courseID", (req, res) => {
 });
 
 app.patch("/queue", (req, res) => {
-    const currQ = course.queue;
-    currQ.dequeue();
+    // const { isTA } = req.body;
+    // const currQ = course.queue;
+    // currQ.dequeue();
+    console.log("PATCH");
     console.log(req.body);
-    res.status(200).send("Yay");
+    course.dequeue();
+    // res.status(200).json({message: "sucess"});
+    res.send("anything?");
 });
 
 app.listen(PORT, () => {

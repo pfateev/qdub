@@ -11,30 +11,29 @@ import "./Button.css";
  *    - Student has been helped, finished()
  */
 
-export const TAView = ( {studentID} ) => {
+export const TAView = (props) => {
 
-  const [firstName, setFirstName] = React.useState('');
-  const [numInQueue, setNumInQueue] = React.useState('');
+  // const [firstName, setFirstName] = React.useState('');
+  // const [numInQueue, setNumInQueue] = React.useState('');
+  // console.log(props);
 
   async function finished() {
-    const response = await fetch('/dequeue', {
+    const response = await fetch('http://localhost:3001/queue', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstName: firstName,
-        numInQueue: numInQueue
+        isTA: true
       }),
-
     });
 
     const responseData = await response.json();
     // passing the studentID of the TA
     // console.log(studentID);
     console.log(responseData);
-    setFirstName(responseData.firstName);
-    setNumInQueue(responseData.numInQueue);
+    // setFirstName(responseData.studentName);
+    // setNumInQueue(responseData.numberOfPeople);
   };
 
   return (
@@ -44,13 +43,13 @@ export const TAView = ( {studentID} ) => {
             Hey TA! You’re doing great! The next person you should help is
           </span>
           <span className="studentName">
-            {firstName}
+            {props.nextStudent}
           </span>
           <span className="peopleDesc">
             The number of people in queue are
           </span>
           <span className="peopleNum">
-            {numInQueue}
+            {props.numberOfPeople}
           </span>
       </div>
 
@@ -59,7 +58,7 @@ export const TAView = ( {studentID} ) => {
         {/* the question that the current student has  */}
         {/* <Input className="input-instance-1" {...propsData.input} /> */}
         <button className="button" type="finished"
-          onClick={() => finished()} >Next Student!</button>
+          onClick={finished} >Next Student!</button>
       </div>
     </div>
   );
