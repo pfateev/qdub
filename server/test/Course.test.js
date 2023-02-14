@@ -39,11 +39,11 @@ describe("Course tests - getter", () => {
 		expect(course.queue.getSize()).to.be.eq(0);
 		course.enqueue(student1);
 		expect(course.queue.getSize()).to.be.eq(1);
-		expect(course.queue.getWaitTime()).to.be.eq(qtime1);
+		expect(course.queue.getWaitTime()).to.be.eq(qtime1 + time); // 10
 
 		course.enqueue(student2);
 		expect(course.queue.getSize()).to.be.eq(2);
-		expect(course.queue.getWaitTime()).to.be.eq(qtime2);
+		expect(course.queue.getWaitTime()).to.be.eq(qtime2 + time);
 	});
 
 	it("dequeue test", () => {
