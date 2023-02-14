@@ -12,8 +12,22 @@ app.use(express.json());
 app.use(cors());
 // app.options('*', cors());
 
+// Course object for beta release
 const course = new Course(403, "Software Engineering");
 const registrationDatabase: Map<string, Student> = new Map();
+
+// Student and ta objects for beta release
+const ids: number[] = [11111, 11112, 11113, 11114, 11115];
+const names: string[] = ["Student1", "Student2", "Student3", "Student4", "Student5"]
+const questions: string[] = ["question1", "question2", "question3", "question4", "question5"];
+const questionTime = 10;
+let waitTime = 0;
+
+for (let i = 0; i < 5; i++) {
+	const student = new Student(ids[i], i + 1, questionTime, true, waitTime, questions[i], names[i])
+	waitTime += questionTime;
+	course.enqueue(student);
+}
 
 app.post("/students", (req, res) => {
     console.log(req.body);
