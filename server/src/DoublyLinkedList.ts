@@ -60,33 +60,54 @@ class DoublyLinkedList
 
 
     //Enqueues the student
-    public enqueue(value: Student){
-        value.setQTime(this.getWaitTime());
-        if(this.isEmpty()) {
-            let tmp = new DoublyLinkedListNode(value);
-            this.head = tmp;
-            this.tail = tmp;
-        } else {
-            let tmp = new DoublyLinkedListNode(value);
-            if(this.head != null && !this.head.value.status) {
-                tmp.next = this.head;
-                tmp.prev = null;
-                this.head = tmp;
-                this.updateQueue();
-            } else {
-                tmp.next = null;
-                tmp.prev = this.tail;
-                if(this.tail != null) {
-                    this.tail.next = tmp;
-                }
-                this.tail = tmp;
-            }
+    //public enqueue(value: Student){
+    //    value.setQTime(this.getWaitTime());
+    //    if(this.isEmpty()) {
+    //        let tmp = new DoublyLinkedListNode(value);
+    //        this.head = tmp;
+    //        this.tail = tmp;
+    //    } else {
+    //        let tmp = new DoublyLinkedListNode(value);
+    //        if(this.head != null && !this.head.value.status) {
+    //            tmp.next = this.head;
+    //            tmp.prev = null;
+    //            this.head = tmp;
+    //            this.updateQueue();
+    //        } else {
+    //            tmp.next = null;
+    //            tmp.prev = this.tail;
+    //            if(this.tail != null) {
+    //                this.tail.next = tmp;
+    //            }
+    //            this.tail = tmp;
+    //        }
             
-        }
-        this.size += 1;
-        this.timelen += value.getTime();
+    //    }
+    //    this.size += 1;
+    //    this.timelen += value.getTime();
 
-    }
+    //}
+
+
+		// BETA version
+		public enqueue(value: Student){
+			value.setQTime(this.getWaitTime());
+			let newNode = new DoublyLinkedListNode(value);
+			if(this.isEmpty()) {
+					this.head = newNode;
+					this.tail = newNode;
+			} else {
+				newNode.next = null;
+				newNode.prev = this.tail;
+				if (this.tail != null) {
+					this.tail.next = newNode;
+				}
+				this.tail = newNode;
+			}
+			this.size += 1;
+			this.timelen += value.getTime();
+
+	}
 
     // Removes a query from queue
     public remove(value: Student) :boolean {
@@ -116,27 +137,51 @@ class DoublyLinkedList
         return false;
     }
     //Dequeues the query that was previously helped
-    public dequeue(): Student | null {
-        if(this.isEmpty() || this.head == null) {
-            return null;
-        } else if(this.size == 1) {
-            this.head = null;
-            this.tail = null;
-            this.size--;
-            return null;
-        } else {
-            let s = this.head.value;
-            if(s.getStatus()) {
-                this.head = this.head.next;
-                this.size--;
-                this.swap();
-                this.timelen = this.updateQueue();
-                return s;
-            } else {
-                return null;
-            }
-        }
-    }
+    //public dequeue(): Student | null {
+    //    if(this.isEmpty() || this.head == null) {
+    //        return null;
+    //    } else if(this.size == 1) {
+    //        this.head = null;
+    //        this.tail = null;
+    //        this.size--;
+    //        return null;
+    //    } else {
+    //        let s = this.head.value;
+    //        if(s.getStatus()) {
+    //            this.head = this.head.next;
+    //            this.size--;
+    //            this.swap();
+    //            this.timelen = this.updateQueue();
+    //            return s;
+    //        } else {
+    //            return null;
+    //        }
+    //    }
+    //}
+
+		// BETA version
+		public dequeue(): Student | null {
+			if (this.isEmpty() || this.head == null) {
+				return null;
+			} else if (this.size == 1) {
+				const student = this.head.value;
+				this.head = null;
+				this.tail = null;
+				this.size--;
+				return student;
+			} else {
+				let student = this.head.value;
+
+				this.head = this.head.next;
+				if (this.head) {
+					this.head.prev = null;
+				}
+				this.size--;
+				this.updateQueue();
+				return student;
+	
+			}
+	}
 
     //finds the position of the given student
     public indexOf(value: Student): number{
