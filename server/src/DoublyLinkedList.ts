@@ -66,7 +66,6 @@ class DoublyLinkedList
             let tmp = new DoublyLinkedListNode(value);
             this.head = tmp;
             this.tail = tmp;
-            return;
         } else {
             let tmp = new DoublyLinkedListNode(value);
             if(this.head != null && !this.head.value.status) {
@@ -84,7 +83,7 @@ class DoublyLinkedList
             }
             
         }
-        this.size++;
+        this.size += 1;
         this.timelen += value.getTime();
 
     }
