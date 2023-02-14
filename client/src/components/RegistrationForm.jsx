@@ -29,8 +29,10 @@ export const RegistrationForm = (props) => {
         inputID: inputID
       }),
     });
-
+    // const responseData = await submitForm(
+    //   JSON.stringify({ inputID: inputID }), "/students", "POST");
     const responseData = await response.json();
+
     // later this will need to be validated
     console.log(responseData);
     props.setNetID(inputID);

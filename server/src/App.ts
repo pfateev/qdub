@@ -98,9 +98,10 @@ app.patch("/queue", (req, res) => {
     // currQ.dequeue();
     console.log("PATCH");
     console.log(req.body);
+    console.log(course.queue);
     course.dequeue();
-    // res.status(200).json({message: "sucess"});
-    res.send("anything?");
+    console.log(course.queue);
+    res.status(200).json({message: "sucess"});
 });
 
 app.listen(PORT, () => {
