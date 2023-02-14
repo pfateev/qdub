@@ -131,7 +131,7 @@ class DoublyLinkedList
                 this.head = this.head.next;
                 this.size--;
                 this.swap();
-                this.updateQueue();
+                this.timelen = this.updateQueue();
                 return s;
             } else {
                 return null;
@@ -194,18 +194,20 @@ class DoublyLinkedList
         }
 
     }
-    // move an item to the front
+    // move an item to the front if it's status is valid.
     public swap(): void{
         let curr = this.head;
-
-        if(curr == null) return;
         while(curr != null) {
             if(curr.value.status) {
-                if(curr.prev != null) {
+                if(curr.prev != null) { //checks if it is the head
                     curr.prev.next = curr.next;
+                } else {
+                    return;
                 }
-                if(curr.next != null) {
+                if(curr.next != null) { // checks if it is the tail
                     curr.next.prev = curr.prev;
+                } else {
+                    this.tail = curr.prev;
                 }
                 curr.prev = null;
                 curr.next = this.head;
