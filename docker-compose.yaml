@@ -10,9 +10,8 @@ services:
       - qdub
     volumes:
       - ./server/src:/app/src:ro
-    args: ["--dockerfile=.server/Dockerfile"]
   frontend: 
-    build: ./frontend
+    build: ./client
     container_name: react-app
     stdin_open: true
     tty: true
@@ -25,7 +24,6 @@ services:
     restart: always
     networks:
       - qdub
-    args: ["--dockerfile=./client/Dockerfile"]
 networks:
   qdub:
     driver: bridge
