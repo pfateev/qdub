@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: 16
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
         working-directory: client/
       - name: Install Jest
         run: npm install jest --save-dev     
