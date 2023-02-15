@@ -17,12 +17,25 @@ A priority queueing web application made by UW students in CSE 403 with the ambi
 ##### reports
 - Contains the weekly reports
 
-#### To run the backend & frontend in brower:
-##### backend
-- in root directory
-- (first time) run `npm install`
-- run `npm start`
-##### frontend
-- in `client` directory
-- (first time) run `npm install`
-- run `npm start`
+#### Running the project:
+##### Docker
+- Install Docker using the official GUI installer from https://www.docker.com/
+- Clone repo
+- Make sure you are on the main branch and the Docker GUI is running
+- In root directory run the following command:
+  - docker-compose up --build
+    - For building the project the first time
+- In the Docker GUI click on the qdub container and click the port link 3000:3000
+  - You may also navigate in your browser to http://localhost:3000/
+
+##### Using the application
+- Currently only two usernames will be accepted
+  - "ta"
+    - will show TA view of the current queue (pre-populated with students)
+    - can dequeue using the "finished" button
+  - "student"
+    - logging in as this username will add another student to the queue and update the state
+
+##### Shutting down
+- You can use the following command : docker-compose down OR shut down the application in the Docker GUI
+
