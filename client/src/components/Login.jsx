@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import "./Login.css";
 import "./Button.css";
 import "./Logo.css";
-import * as api from "../api/index.js"
+import TAModal from './TAModal';
 
 export const Login = ( {setStudentID} ) => {
   const [NetID, setNetID] = useState('');
@@ -48,6 +48,10 @@ export const Login = ( {setStudentID} ) => {
       <label>
         NetID: <input className="input" value={NetID} placeholder="Enter your NetID" onChange={e => setNetID(e.target.value)} />
       </label>
+
+      <button>Show Modal</button>
+      <TAModal />
+
       <button className="button" type="submit"
         onClick={() => getData()}>
         Login up!
