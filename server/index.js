@@ -9,9 +9,25 @@ app.use(express.json());
 //   res.json({message: "success"});
 // });
 
-app.post("/formtest", (req, res) => {
+const fakeQueue = [];
+const fakeCourseList = [
+  {
+    "code": "401",
+    "name": "classA"
+  },
+  {
+    "code": "402",
+    "name": "classB"
+  },
+  {
+    "code": "403",
+    "name": "classC"
+  }
+];
+
+app.get("/formtest", (req, res) => {
   console.log(req.body);
-  res.json({message: "success", queueSize: 1, waitTime: 5});
+  res.json({message: "success", courses: fakeCourseList});
 });
 
 app.post("/isTa", (req, res) => {
@@ -29,16 +45,14 @@ app.patch("/dequeue", (req, res) => {
   res.json({message: "success", firstName: firstName, numInQueue: numInQueue});
 });
 
-const fakeQueue = [];
-
 app.post("/enqueue", (req, res) => {
   console.log(req.body);
-  const {firstName, lastName} = req.body;
+  const {firstName, lastName, question} = req.body;
   const studentID = firstName + lastName;
   // do we need to verify that they are NOT a TA for this class before we enqueue them?
   const numInQueueB4me = fakeQueue.length;
-  fakeQueue.push({studentID: studentID, firstName: firstName})
-  res.json({message: "success", studentID: studentID, numInQueueB4me: numInQueueB4me, waitTime: fakeQueue.length * 5});
+  fakeQueue.push({studentID: studentID, firstName: firstName, question: question})
+  res.json({message: "success", studentID: studentID, numInQueueB4me: numInQueueB4me, waitTime: fakeQueue.length * 5, question: question});
 });
 
 app.listen(PORT, () => {
