@@ -27,10 +27,14 @@ export const TAView = (props) => {
         isTA: true
       }),
     });
-
+    
     const responseData = await response.json();
-
-    props.setNextStudent(responseData.nextStudent.name);
+    console.log(responseData);
+    if(responseData.nextStudent == null) {
+      props.setNextStudent("");
+    } else {
+      props.setNextStudent(responseData.nextStudent.name);
+    }
     props.setNumberOfPeople(responseData.numberOfPeople);
   };
 
