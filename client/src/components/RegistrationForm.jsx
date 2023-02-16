@@ -41,7 +41,11 @@ export const RegistrationForm = (props) => {
     props.setNumberOfPeople(responseData.numberOfPeople);
     // error handling goes here
     if (responseData.isTA) {
-      props.setNextStudent(responseData.nextStudent.name);
+      if(responseData.nextStudent == null) {
+        props.setNextStudent("");
+      } else {
+        props.setNextStudent(responseData.nextStudent.name);
+      }
       routeChangeTA();
     } else {
       routeChangeStudent();

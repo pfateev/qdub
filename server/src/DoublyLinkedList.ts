@@ -30,9 +30,12 @@ class DoublyLinkedList
     }
 
     // Gets the data at that index
-    public get(index: number): Student {
+    public get(index: number): Student | null {
+        console.log(this.size);
         if(index > this.size || this.isEmpty() || this.tail == null || this.head == null) {
-            throw new RangeError("Index out of range.");
+            console.log("entered");
+            return null;
+            // throw new RangeError("Index out of range.");
         }
 
         if(index > this.size / 2) {
@@ -160,27 +163,27 @@ class DoublyLinkedList
     //}
 
 		// BETA version
-		public dequeue(): Student | null {
-			if (this.isEmpty() || this.head == null) {
-				return null;
-			} else if (this.size == 1) {
-				const student = this.head.value;
-				this.head = null;
-				this.tail = null;
-				this.size--;
-				return student;
-			} else {
-				let student = this.head.value;
+    public dequeue(): Student | null {
+        if (this.isEmpty() || this.head == null) {
+            return null;
+        } else if (this.size == 1) {
+            const student = this.head.value;
+            this.head = null;
+            this.tail = null;
+            this.size = 0;
+            this.timelen = 0;
+            return student;
+        } else {
+            let student = this.head.value;
+            this.head = this.head.next;
+            if (this.head) {
+                this.head.prev = null;
+            }
+            this.size--;
+            this.timelen = this.updateQueue();
+            return student;
 
-				this.head = this.head.next;
-				if (this.head) {
-					this.head.prev = null;
-				}
-				this.size--;
-                this.timelen = this.updateQueue();
-				return student;
-	
-			}
+        }
 	}
 
     //finds the position of the given student
@@ -220,6 +223,7 @@ class DoublyLinkedList
     public stepOut(pos: number): boolean {
         if(pos < this.getSize() && pos > 0) {
             let s = this.get(pos);
+            if(s == null) return false;
             s.setStatus(false);
             return true;
         } else {
@@ -231,6 +235,7 @@ class DoublyLinkedList
     public stepIn(pos: number): boolean {
         if(pos < this.getSize() && pos >= 0) {
             let s = this.get(pos);
+            if(s == null) return false;
             s.setStatus(true);
             return true;
         } else {

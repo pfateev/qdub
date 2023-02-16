@@ -102,6 +102,7 @@ app.patch("/queue", (req, res) => {
     course.dequeue();
     // console.log(course.queue);
     if(isTA){
+        console.log({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
         res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
     } else {
         res.status(400).json({message: "You must be a TA"});
