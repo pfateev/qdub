@@ -31,9 +31,7 @@ class DoublyLinkedList
 
     // Gets the data at that index
     public get(index: number): Student | null {
-        console.log(this.size);
         if(index > this.size || this.isEmpty() || this.tail == null || this.head == null) {
-            console.log("entered");
             return null;
             // throw new RangeError("Index out of range.");
         }
@@ -163,6 +161,7 @@ class DoublyLinkedList
     //}
 
 		// BETA version
+
     public dequeue(): Student | null {
         if (this.isEmpty() || this.head == null) {
             return null;
@@ -224,6 +223,7 @@ class DoublyLinkedList
         if(pos < this.getSize() && pos > 0) {
             let s = this.get(pos);
             if(s == null) return false;
+
             s.setStatus(false);
             return true;
         } else {

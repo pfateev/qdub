@@ -3,7 +3,7 @@ name: Qdup-CI
 on: 
   push:
     branchs: 
-      - 'alpha-fullstack'
+      - 'main'
 
 jobs: 
   backend-unit-test:
