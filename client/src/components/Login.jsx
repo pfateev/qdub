@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
-import {useNavigate} from 'react-router-dom'
+import {Route, useNavigate} from 'react-router-dom'
 import "./Login.css";
 import "./Button.css";
 import "./Logo.css";
-import TAModal from './TAModal';
+import Modal from './Modal';
 
 export const Login = ( {setStudentID} ) => {
   const [NetID, setNetID] = useState('');
   const studentID = useState(0);
+  const [show, setShow] = useState(false);
+  // const [isTA, setIsTA] = useState(false);
 
   // navigation route
   let navigate = useNavigate();
+  const routeChangeTA = () => {
+    let path = `/ta-view`;
+    navigate(path);
+  }
   const routeChangeStudent = () => {
     let path = `/student-view`;
     navigate(path);
@@ -49,9 +55,10 @@ export const Login = ( {setStudentID} ) => {
         NetID: <input className="input" value={NetID} placeholder="Enter your NetID" onChange={e => setNetID(e.target.value)} />
       </label>
 
-      <button>Show Modal</button>
-      <TAModal />
-
+      <button onClick={() => setShow(true)}>Show Modal</button>
+      <Modal title="Hi TA" onClose={() => setShow(false)} onConfirm={() => routeChangeTA()} show={show}>
+        <p>Are you....?</p>
+      </Modal>
       <button className="button" type="submit"
         onClick={() => getData()}>
         Login up!
