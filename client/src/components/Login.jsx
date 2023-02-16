@@ -3,7 +3,7 @@ import logo from "../assets/logo.svg";
 import {Route, useNavigate} from 'react-router-dom'
 import "./Login.css";
 import "./Button.css";
-import "./Logo.css";
+import circles from "../assets/circles.png";
 import Modal from './Modal';
 
 export const Login = ( {setStudentID} ) => {
@@ -46,7 +46,7 @@ export const Login = ( {setStudentID} ) => {
 
   return (
     <div className="registration">
-      <img className="logo" src={logo} alt="top left circles" />
+      <img className="logo" src={circles} alt="top left circles" />
       <span className="title">Queue prototype</span>
       <span className="description">
         Manual student&#x2F;TA enqueue-ing for prototype
