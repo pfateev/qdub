@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
 import {useNavigate} from 'react-router-dom'
-import "./RegistrationForm.css";
+import "./StudentCourse.css";
 import "./Button.css";
 import "./Logo.css";
 import * as api from "../api/index.js"

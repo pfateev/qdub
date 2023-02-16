@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
 import {useNavigate} from 'react-router-dom'
-import "./RegistrationForm.css";
+import "./TACourse.css";
 import "./Button.css";
 import "./Logo.css";
 import * as api from "../api/index.js"
 
 export const TACourse = ( {setStudentID} ) => {
   const [courses, setCourses] = useState({});
-  const [question, setQuestion] = useState('');
   const studentID = useState(0);
 
   // navigation route
   let navigate = useNavigate();
   const routeChangeStudent = () => {
-    let path = `/student-view`;
+    let path = `/ta-view`;
     navigate(path);
   }
 
@@ -51,7 +50,6 @@ export const TACourse = ( {setStudentID} ) => {
       },
       body: JSON.stringify({
         studentID: studentID,
-        question: question,
         courses: courses
       }),
     });
@@ -73,25 +71,6 @@ export const TACourse = ( {setStudentID} ) => {
   return (
     <div className="registration">
       <img className="logo" src={logo} alt="top left circles" />
-      <span className="title">Enqueue</span>
-      <span className="description">
-        Choose a class and questions you have
-      </span>
-      <label>
-        Choose a Course:
-        <select id="course" value={courses} onChange={e => setCourses(e.target.value)}>
-          <option value="">Select Course</option>
-          {options}
-        </select>
-      </label>
-      <form>
-        <label>
-          What do you need help with?
-          <input type="text" id="course" value={question} onChange={e => setQuestion(e.target.value)}/>
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-
       <span className="title">TA Course</span>
       <span className="description">
         Choose a class to start a queue for

@@ -15,11 +15,11 @@ export const Login = ( {setStudentID} ) => {
   // navigation route
   let navigate = useNavigate();
   const routeChangeTA = () => {
-    let path = `/ta-view`;
+    let path = `/ta-course`;
     navigate(path);
   }
   const routeChangeStudent = () => {
-    let path = `/student-view`;
+    let path = `/student-course`;
     navigate(path);
   }
 
