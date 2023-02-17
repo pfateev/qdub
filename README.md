@@ -40,7 +40,7 @@ A priority queueing web application made by UW students in CSE 403 with the ambi
 
 ### Version Control:
 
-Our repository is hosted on github and all of the version control will be done with git. All final changes can be seen in "Main". For the prototype, we have bundled all the changes in frontend and backend into the branch "alpha-fullstack". This branch also includes all of the Automated Testing and CI components. Typically, for the latest changes in the frontend, we would need to navigate to the "frontend" branch. The backend's latest changes are in "ts-setup". Finally, any database changes can be found in "docker-db".
+Our repository is hosted on github and all of the version control will be done with git. All final changes can be seen in "main". For the prototype, we have bundled all the changes in frontend and backend into the branch "alpha-fullstack". This branch also includes all of the Automated Testing and CI components. Typically, for the latest changes in the frontend, we would need to navigate to the "frontend" branch. The backend's latest changes are in "ts-setup". Finally, any database changes can be found in "docker-db".
 
 ### Bug Tracking:
 
