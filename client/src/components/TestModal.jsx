@@ -9,7 +9,7 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
-    Textarea
+    Text
 } from '@chakra-ui/react'
 
 export function TestModal() {
@@ -37,7 +37,7 @@ export function TestModal() {
                     <ModalHeader>Modal Title</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Textarea>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore amet libero nostrum! Autem ea eos culpa consectetur. Perferendis aut rem qui facilis harum consectetur eveniet laboriosam nemo ex? Cupiditate, illo.</Textarea>
+                        <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore amet libero nostrum! Autem ea eos culpa consectetur. Perferendis aut rem qui facilis harum consectetur eveniet laboriosam nemo ex? Cupiditate, illo.</Text>
                     </ModalBody>
 
                     <ModalFooter>
