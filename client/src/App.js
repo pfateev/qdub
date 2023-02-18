@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { RegistrationForm } from "./components/RegistrationForm";
 import StudentView from "./components/StudentView";
 import TAView from "./components/TAView";
-// import ClassSelect from "./components/ClassSelection.jsx";
-// import Requeue from "./components/Requeue";
+import Login from "./components/Login";
+import StudentCourse from "./components/StudentCourse";
+import TACourse from "./components/TACourse";
+import Home from "./components/Home";
 
 const App = () => {
   const [netID, setNetID] = useState(null);
