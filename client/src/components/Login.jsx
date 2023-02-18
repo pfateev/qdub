@@ -5,6 +5,7 @@ import "./Login.css";
 import "./Button.css";
 import circles from "../assets/circles.png";
 import Modal from './Modal';
+import { TestModal } from './TestModal';
 
 export const Login = (props) => {
   const [inputID, setInputID] = useState('');
@@ -76,6 +77,7 @@ export const Login = (props) => {
         onClick={getData}>
         Login up!
       </button>
+      <TestModal></TestModal>
     </div>
   );
 }
