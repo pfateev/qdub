@@ -6,42 +6,55 @@ import "./Button.css";
 import circles from "../assets/circles.png";
 import Modal from './Modal';
 
-export const Login = ( {setStudentID} ) => {
-  const [NetID, setNetID] = useState('');
-  const studentID = useState(0);
+export const Login = (props) => {
+  const [inputID, setInputID] = useState('');
   const [show, setShow] = useState(false);
   // const [isTA, setIsTA] = useState(false);
 
   // navigation route
   let navigate = useNavigate();
   const routeChangeTA = () => {
-    let path = `/ta-course`;
+    let path = `/ta-courses`;
     navigate(path);
   }
   const routeChangeStudent = () => {
-    let path = `/student-course`;
+    let path = `/student-courses`;
     navigate(path);
   }
 
   // MAIN onclick event
   const getData = async () => {
-    const response = await fetch('/enqueue', {
+    const response = await fetch('http://localhost:3001/students', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        studentID: studentID,
-        NetID: NetID,
+        inputID: inputID
       }),
     });
-
-    routeChangeStudent();
-
+    // const responseData = await submitForm(
+    //   JSON.stringify({ inputID: inputID }), "/students", "POST");
     const responseData = await response.json();
-    setStudentID(responseData.studentID);
-    // error handling goes here
 
+    // later this will need to be validated
+    console.log(responseData);
+    props.setNetID(inputID);
+    props.setIsTa(responseData.isTA);
+    props.setEstimatedWait(responseData.estimatedWait);
+    props.setNumberOfPeople(responseData.numberOfPeople);
+    // error handling goes here
+    if (responseData.isTA) {
+      if(responseData.nextStudent == null) {
+        props.setNextStudent("");
+      } else {
+        props.setNextStudent(responseData.nextStudent.name);
+      }
+      // routeChangeTA();
+      setShow(true);
+    } else {
+      routeChangeStudent();
+    }
   };
 
   return (
@@ -52,15 +65,15 @@ export const Login = ( {setStudentID} ) => {
         Manual student&#x2F;TA enqueue-ing for prototype
       </span>
       <label>
-        NetID: <input className="input" value={NetID} placeholder="Enter your NetID" onChange={e => setNetID(e.target.value)} />
+        NetID: <input className="input" value={inputID} placeholder="Enter your NetID" onChange={e => setInputID(e.target.value)} />
       </label>
 
-      <button onClick={() => setShow(true)}>Show Modal</button>
+      {/* <button onClick={() => setShow(true)}>Show Modal</button> */}
       <Modal title="Hi TA" onClose={() => setShow(false)} onConfirm={() => routeChangeTA()} show={show}>
         <p>Are you....?</p>
       </Modal>
       <button className="button" type="submit"
-        onClick={() => getData()}>
+        onClick={getData}>
         Login up!
       </button>
     </div>

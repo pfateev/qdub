@@ -20,7 +20,7 @@ const App = () => {
         <Route
           path="/"
           element={
-            <RegistrationForm
+            <Login
               setNetID={setNetID}
               setIsTa={setIsTA}
               setNextStudent={setNextStudent}
@@ -55,8 +55,8 @@ const App = () => {
             />
           }
         />
-        {/* <Route path="/select-class" element={<ClassSelect/>}/> */}
-        {/* <Route path="/requeue" element={<Requeue/>}/> */}
+        <Route path="/student-courses" element={<StudentCourse/>}/>
+        <Route path="/ta-courses" element={<TACourse/>}/>
       </Routes>
     </Router>
   );
