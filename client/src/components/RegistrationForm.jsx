@@ -52,27 +52,3 @@ export const RegistrationForm = ( {setStudentID} ) => {
 
   };
 
-
-  return (
-    <div className="registration">
-      <img className="logo" src={logo} alt="top left circles" />
-      <span className="title">Queue prototype</span>
-      <span className="description">
-        Manual student&#x2F;TA enqueue-ing for prototype
-      </span>
-      <label>
-        First Name: <input className="input" value={firstName} placeholder="Enter your first name" onChange={e => setFirstName(e.target.value)} />
-      </label>
-      <label>
-        Last Name: <input className="input" value={lastName} placeholder="Enter your last name" onChange={e => setLastName(e.target.value)} />
-      </label>
-      <label>
-        <input className="checkBox" type="checkbox" onChange={() => setIsTA(!isTA)} /> Are you a TA?
-      </label>
-      <button className="button" type="submit"
-        onClick={() => getData()}>
-        Sign up!
-      </button>
-    </div>
-  );
-}
