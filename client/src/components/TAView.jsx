@@ -13,10 +13,6 @@ import "./Button.css";
 
 export const TAView = (props) => {
 
-  // const [firstName, setFirstName] = React.useState('');
-  // const [numInQueue, setNumInQueue] = React.useState('');
-  // console.log(props);
-
   async function finished() {
     const response = await fetch('http://localhost:3001/queue', {
       method: 'PATCH',
@@ -40,27 +36,31 @@ export const TAView = (props) => {
 
   return (
     <div className="view">
-      <div className="header">
-          <span className="heyTA">
-            Hey TA! You’re doing great! The next person you should help is
+      <div className="TAheader">
+        {props.numberOfPeople > 0 ?
+          <span className="yesPeople">
+            Hey TA! You’re doing great! The next person you should help is 
+            <span className="studentName">
+              {props.nextStudent}
+            </span>
+            <span className="peopleDesc">
+              The number of people in queue are 
+            </span>
+            <span className="peopleNum">
+              {props.numberOfPeople}
+            </span>
           </span>
-          <span className="studentName">
-            {props.nextStudent}
+        :
+          <span className="noPeople">
+            Hey TA, great job! There are no more people in the queue 🥳
           </span>
-          <span className="peopleDesc">
-            The number of people in queue are
-          </span>
-          <span className="peopleNum">
-            {props.numberOfPeople}
-          </span>
+        }
       </div>
-
+  
       <div className="center">
-        {/* <img className="shape" src={shape} /> */}
-        {/* the question that the current student has  */}
-        {/* <Input className="input-instance-1" {...propsData.input} /> */}
-        <button className="button" type="finished"
-          onClick={finished} >Next Student!</button>
+        <button className="button" type="finished" onClick={finished}>
+          Next Student!
+        </button>
       </div>
     </div>
   );
