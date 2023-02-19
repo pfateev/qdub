@@ -1,26 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import logo from "../assets/logo.svg";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import "./RegistrationForm.css";
 import "./Button.css";
 import "./Logo.css";
-import * as api from "../api/index.js"
 
-export const RegistrationForm = ( {setStudentID} ) => {
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [isTA, setIsTA] = useState(false);
-  const studentID = useState(0);
-
+export const RegistrationForm = (props) => {
+  const [inputID, setInputID] = useState('');
   // navigation route
-  let navigate = useNavigate(); 
-  const routeChangeTA = () => { 
-    let path = `/ta-view`; 
+  let navigate = useNavigate();
+  const routeChangeTA = () => {
+    let path = `/ta-view`;
     navigate(path);
   }
-  const routeChangeStudent = () => { 
-    let path = `/student-view`; 
+  const routeChangeStudent = () => {
+    let path = `/student-view`;
     navigate(path);
   }
 
@@ -32,23 +26,30 @@ export const RegistrationForm = ( {setStudentID} ) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        studentID: studentID,
-        firstName: firstName,
-        lastName: lastName,
-        isTA: isTA
+        inputID: inputID
       }),
     });
+    // const responseData = await submitForm(
+    //   JSON.stringify({ inputID: inputID }), "/students", "POST");
+    const responseData = await response.json();
 
-    if (isTA) {
+    // later this will need to be validated
+    console.log(responseData);
+    props.setNetID(inputID);
+    props.setIsTa(responseData.isTA);
+    props.setEstimatedWait(responseData.estimatedWait);
+    props.setNumberOfPeople(responseData.numberOfPeople);
+    // error handling goes here
+    if (responseData.isTA) {
+      if(responseData.nextStudent == null) {
+        props.setNextStudent("");
+      } else {
+        props.setNextStudent(responseData.nextStudent.name);
+      }
       routeChangeTA();
     } else {
       routeChangeStudent();
     }
-
-    const responseData = await response.json();
-    setStudentID(responseData.studentID);
-    // error handling goes here
-
   };
 
 
@@ -60,16 +61,10 @@ export const RegistrationForm = ( {setStudentID} ) => {
         Manual student&#x2F;TA enqueue-ing for prototype
       </span>
       <label>
-        First Name: <input className="input" value={firstName} placeholder="Enter your first name" onChange={e => setFirstName(e.target.value)} />
-      </label>
-      <label>
-        Last Name: <input className="input" value={lastName} placeholder="Enter your last name" onChange={e => setLastName(e.target.value)} />
-      </label>
-      <label>
-        <input className="checkBox" type="checkbox" onChange={() => setIsTA(!isTA)} /> Are you a TA?
+        netID: <input className="input" value={inputID} placeholder="Enter your netID" onChange={e => setInputID(e.target.value)} />
       </label>
       <button className="button" type="submit"
-        onClick={() => getData()}>
+        onClick={getData}>
         Sign up!
       </button>
     </div>
