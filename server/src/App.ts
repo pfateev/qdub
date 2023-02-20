@@ -4,6 +4,7 @@ var cors = require('cors');
 import Course from './Course';
 import Student from './Student';
 import { StudentInfo, QueueInfo, TAQueueInfo } from './RouteReturnTypes';
+import knex from 'knex';
 
 const PORT = process.env.PORT || 3001;
 
@@ -107,6 +108,30 @@ app.patch("/queue", (req, res) => {
         res.status(400).json({message: "You must be a TA"});
     }
 });
+
+// need this to connect to database
+const db = knex({
+    client: 'pg',
+    connection: {
+        host: "db",
+        user: "user",
+        password: "password",
+        database: "database",
+        port: 5432
+    }
+});
+
+// example for prepared statement creation & usage
+app.get('/', async (req, res) => {
+    try {
+      console.log(req.query)
+      const result = await db.raw('SELECT * FROM courses WHERE id = ?', [req.query.id]);
+      res.send(result.rows);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('An error occurred');
+    }
+  });
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
