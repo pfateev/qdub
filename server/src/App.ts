@@ -211,21 +211,23 @@ app.get("/queue/:courseID/:isTA", (req, res) => {
     res.status(200).json(queueInfo);
 });
 
-//app.patch("/queue", (req, res) => {
-//    const { isTA } = req.body;
-//    const currQ = course.queue;
-//    // currQ.dequeue();
-//    console.log("PATCH");
-//    // console.log(req.body);
-//    // console.log(course.queue);
-//    course.dequeue();
-//    // console.log(course.queue);
-//    if(isTA){
-//        res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
-//    } else {
-//        res.status(400).json({message: "You must be a TA"});
-//    }
-//});
+app.patch("/queue", (req, res) => {
+    const { isTA, courseID } = req.body;
+		const id: number = +courseID;
+		let course = courseMap[id]
+    const currQ = course.queue;
+
+    // currQ.dequeue();
+    console.log("PATCH");
+
+    course.dequeue();
+    // console.log(course.queue);
+    if(isTA){
+        res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
+    } else {
+        res.status(400).json({message: "You must be a TA"});
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
