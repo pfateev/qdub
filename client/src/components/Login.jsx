@@ -1,20 +1,25 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
-import { useNavigate } from 'react-router-dom'
-import "./RegistrationForm.css";
+import {Route, useNavigate} from 'react-router-dom'
+import "./Login.css";
 import "./Button.css";
-import "./Logo.css";
+import circles from "../assets/circles.png";
+import Modal from './Modal';
+import { TestModal } from './TestModal';
 
-export const RegistrationForm = (props) => {
+export const Login = (props) => {
   const [inputID, setInputID] = useState('');
+  const [show, setShow] = useState(false);
+  // const [isTA, setIsTA] = useState(false);
+
   // navigation route
   let navigate = useNavigate();
   const routeChangeTA = () => {
-    let path = `/ta-view`;
+    let path = `/ta-courses`;
     navigate(path);
   }
   const routeChangeStudent = () => {
-    let path = `/student-view`;
+    let path = `/student-courses`;
     navigate(path);
   }
 
@@ -46,27 +51,34 @@ export const RegistrationForm = (props) => {
       } else {
         props.setNextStudent(responseData.nextStudent.name);
       }
-      routeChangeTA();
+      // routeChangeTA();
+      setShow(true);
     } else {
       routeChangeStudent();
     }
   };
 
-
   return (
     <div className="registration">
-      <img className="logo" src={logo} alt="top left circles" />
+      <img className="logo" src={circles} alt="top left circles" />
       <span className="title">Queue prototype</span>
       <span className="description">
         Manual student&#x2F;TA enqueue-ing for prototype
       </span>
       <label>
-        netID: <input className="input" value={inputID} placeholder="Enter your netID" onChange={e => setInputID(e.target.value)} />
+        NetID: <input className="input" value={inputID} placeholder="Enter your NetID" onChange={e => setInputID(e.target.value)} />
       </label>
+
+      {/* <button onClick={() => setShow(true)}>Show Modal</button> */}
+      <Modal title="Hi TA" onClose={() => setShow(false)} onConfirm={() => routeChangeTA()} show={show}>
+        <p>Are you....?</p>
+      </Modal>
       <button className="button" type="submit"
         onClick={getData}>
-        Sign up!
+        Login up!
       </button>
+      <TestModal></TestModal>
     </div>
   );
 }
+export default Login;

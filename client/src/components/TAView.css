@@ -12,19 +12,15 @@
   line-height: 21px;
 }
 
-.header {
+.TAheader {
   grid-row: 1/2;
   display: grid;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 0.8fr);
   gap: 4%;
   text-align: center;
   background-color: #918fe1;
-  /* flex-basis: 37%; */
-  /* justify-content: center; */
-  /* margin-bottom: 23px; */
-  /* margin-right: 300px; */
   padding-top: 10%;
-  padding-bottom: 5%;
+  padding-bottom: 0;
 
 }
 
@@ -51,6 +47,13 @@
 .peopleDesc {
   margin-bottom: 1em;
   z-index: 1;
+  display: block;
+}
+
+.studentName {
+  display: block;
+  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 .peopleNum {

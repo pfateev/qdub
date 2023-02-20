@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./StudentView.css";
 import "./Button.css";
 import "./Logo.css";
@@ -9,25 +9,34 @@ const StudentView = ({ netID, isTA }) => {
   const [queueSize, setQueueSize] = useState();
   const [waitTime, setWaitTime] = useState();
 
-  async function update() {
-    const response = await
-      fetch(`http://localhost:3001/queue/403/${isTA}`, {
+  useEffect(() => {
+    // Define a function that makes the API call and updates the data state
+    const fetchData = async () => {
+      const response = await fetch(`http://localhost:3001/queue/403/${isTA}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         }
-
       });
+      const responseData = await response.json();
+      setQueueSize(responseData.numberOfPeople);
+      setWaitTime(responseData.estimatedWait);
+      // return true for cross-origin fetch
+      return true;
+    };
 
-    const responseData = await response.json();
-    // passing the studentID of the student
-    // console.log(studentID);
-    setQueueSize(responseData.numberOfPeople);
-    setWaitTime(responseData.estimatedWait);
-  };
+    // Call the function immediately and then schedule it to be called every 10 seconds
+    fetchData();
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 500);
+
+    // Return a cleanup function that clears the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
 
   // update queue info on timed intervals
-  update();
+  // update();
   // setInterval(update, 10000);
 
   return (
