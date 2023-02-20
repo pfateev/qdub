@@ -4,6 +4,7 @@ var cors = require('cors');
 import Course from './Course';
 import Student from './Student';
 import { StudentInfo, QueueInfo, TAQueueInfo } from './RouteReturnTypes';
+import DoublyLinkedList from './DoublyLinkedList';
 
 const PORT = process.env.PORT || 3001;
 
@@ -18,6 +19,10 @@ export interface IHash {
 
 export interface IHash2 {
 	[details: number] : Course;
+}
+
+export interface IHash3 {
+	[details: string] : string;
 }
 
 /* FAKE DB
@@ -74,12 +79,21 @@ export interface IHash2 {
 	let courseId = [403, 455];
 	let courseName = ["Software Engineer", "Computer Vison"];
 	let students = ["izzyv", "wenli", "pashap", "jaredt", "triv", "stu1", "stu2", "stu3", "stu4"];
+	let studentNames = ["Izzy", "Wendi", "Pasha", "Jared", "Tri", "Student1", "Student2", "Student3", "Student4"];
 	let course403 = ["stu", "stu", "ta", "ta", "none", "stu", "stu", "none", "none"];
 	let course455 = ["ta", "ta", "stu", "none", "stu", "none", "none", "stu", "stu"];
 
+	
 	let studentClassesMap: IHash = {};
 	let taClassesMap: IHash = {};
 	let courseMap: IHash2 = {};
+	let studentInfo: IHash3 = {};
+	const questionTime = 10;
+
+	// Build studentInfo map
+	for(let i = 0; i < students.length; ++i) {
+		studentInfo[students[i]] = studentNames[i];
+	}
 
 	// Build course object and map them with courseID in courseMap
 	for (let i = 0; i < courseId.length; i++) {
@@ -131,6 +145,8 @@ export interface IHash2 {
 app.post("/students", (req, res) => {
     console.log(req.body);
     const { inputID } = req.body;
+		const { courseID } = req.body;
+		const course = courseMap[courseID];
     const currQ = course.queue;
     console.log(currQ.getSize());
     if (inputID === "ta") {
@@ -142,7 +158,7 @@ app.post("/students", (req, res) => {
         });
     } else if (inputID === "student") {
         const student = new Student(
-            registrationDatabase.size,
+            course.queue.getSize(),
             currQ.getSize(),
             questionTime,
             true,
@@ -171,41 +187,45 @@ app.get("/queue/:courseID/:isTA", (req, res) => {
     console.log(req.body);
     const { courseID, isTA } = req.params;
     const { studentID } = req.body;
-    const currQ = course.queue;
+		
+		const courseID_: number = +courseID;
+		const studentID_: number = +studentID;
+    const currQ = courseMap[courseID_];
     let queueInfo: unknown;
+		let queue: DoublyLinkedList = courseMap[courseID_].queue;
     if (isTA) {
         queueInfo = <TAQueueInfo>queueInfo;
         queueInfo =
         {
-            studentName: registrationDatabase.get(studentID)?.getName(),
-            numberOfPeople: currQ.getSize(),
-            estimatedWait: currQ.getWaitTime()
+            studentName: studentInfo[studentID_],
+            numberOfPeople: queue.getSize(),
+            estimatedWait: queue.getWaitTime()
         };
     } else {
         queueInfo = <QueueInfo>queueInfo;
         queueInfo = {
-            numberOfPeople: currQ.getSize(),
-            estimatedWait: currQ.getWaitTime()
+            numberOfPeople: queue.getSize(),
+            estimatedWait: queue.getWaitTime()
         };;
     }
     res.status(200).json(queueInfo);
 });
 
-app.patch("/queue", (req, res) => {
-    const { isTA } = req.body;
-    const currQ = course.queue;
-    // currQ.dequeue();
-    console.log("PATCH");
-    // console.log(req.body);
-    // console.log(course.queue);
-    course.dequeue();
-    // console.log(course.queue);
-    if(isTA){
-        res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
-    } else {
-        res.status(400).json({message: "You must be a TA"});
-    }
-});
+//app.patch("/queue", (req, res) => {
+//    const { isTA } = req.body;
+//    const currQ = course.queue;
+//    // currQ.dequeue();
+//    console.log("PATCH");
+//    // console.log(req.body);
+//    // console.log(course.queue);
+//    course.dequeue();
+//    // console.log(course.queue);
+//    if(isTA){
+//        res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
+//    } else {
+//        res.status(400).json({message: "You must be a TA"});
+//    }
+//});
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
