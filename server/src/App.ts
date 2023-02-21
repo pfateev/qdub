@@ -93,6 +93,8 @@ export interface IHash3 {
 	// Build studentInfo map
 	for(let i = 0; i < students.length; ++i) {
 		studentInfo[students[i]] = studentNames[i];
+		studentClassesMap[students[i]] = new Set<number>;
+		taClassesMap[students[i]] = new Set<number>;
 	}
 
 	// Build course object and map them with courseID in courseMap
@@ -104,39 +106,39 @@ export interface IHash3 {
 	// Build studentClassesMap and taClassesMap
 	for (let i = 0; i < students.length; i++) {
 		if(course403[i] == "stu") {
-			if (studentClassesMap[students[i]]) {
+			//if (studentClassesMap[students[i]]) {
 				studentClassesMap[students[i]].add(403);
-			} else {
-				let studentClasses =new Set<number>;
-				studentClasses.add(403);
-				studentClassesMap[students[i]] = studentClasses;
-			}
+			//} else {
+			//	let studentClasses =new Set<number>;
+			//	studentClasses.add(403);
+			//	studentClassesMap[students[i]] = studentClasses;
+			//}
 		} else if (course403[i] == "ta") {
-			if (taClassesMap[students[i]]) {
+			//if (taClassesMap[students[i]]) {
 				taClassesMap[students[i]].add(403);
-			} else {
-				let taClasses =new Set<number>;
-				taClasses.add(403);
-				taClassesMap[students[i]] = taClasses;
-			}
+			//} else {
+			//	let taClasses =new Set<number>;
+			//	taClasses.add(403);
+			//	taClassesMap[students[i]] = taClasses;
+			//}
 		}
 
 		if(course455[i] == "stu") {
-			if (studentClassesMap[students[i]]) {
+			//if (studentClassesMap[students[i]]) {
 				studentClassesMap[students[i]].add(455);
-			} else {
-				let studentClasses =new Set<number>;
-				studentClasses.add(455);
-				studentClassesMap[students[i]] = studentClasses;
-			}
+			//} else {
+			//	let studentClasses =new Set<number>;
+			//	studentClasses.add(455);
+			//	studentClassesMap[students[i]] = studentClasses;
+			//}
 		} else if (course455[i] == "ta") {
-			if (taClassesMap[students[i]]) {
+			//if (taClassesMap[students[i]]) {
 				taClassesMap[students[i]].add(455);
-			} else {
-				let taClasses =new Set<number>;
-				taClasses.add(455);
-				taClassesMap[students[i]] = taClasses;
-			}
+			//} else {
+			//	let taClasses =new Set<number>;
+			//	taClasses.add(455);
+			//	taClassesMap[students[i]] = taClasses;
+			//}
 		}
 	}
 
@@ -145,89 +147,69 @@ export interface IHash3 {
 app.post("/students", (req, res) => {
     console.log(req.body);
     const { inputID } = req.body;
-		const { courseID } = req.body;
-		const course = courseMap[courseID];
-    const currQ = course.queue;
-    console.log(currQ.getSize());
-    if (inputID === "ta") {
-        res.status(200).json({
-            isTA: true,
-            nextStudent: currQ.get(0),
-            numberOfPeople: currQ.getSize(),
-            waitTime: currQ.getWaitTime()
-        });
-    } else if (inputID === "student") {
-        const student = new Student(
-            course.queue.getSize(),
-            currQ.getSize(),
-            questionTime,
-            true,
-            currQ.getWaitTime(),
-            "Question 1",
-            inputID
-        );
-        // registrationDatabase.set(firstName + lastName, student);
-        currQ.enqueue(student);
-        res.status(200).json({
-            isTA: false,
-            numberOfPeople: currQ.getSize(),
-            waitTime: currQ.getWaitTime()
-        });
-    } else {
-        // res.status(200).json({ studentID: student.getId() });
-        // send an error message here
-        console.error("Unsupported API call");
-        return;
-    }
+		if (studentInfo[inputID]) {
+			console.log(studentClassesMap[inputID]);
+			console.log(taClassesMap[inputID]);
+			res.status(200).json({
+				netID: inputID,
+				studentCourses: Array.from(studentClassesMap[inputID].values()),
+				TACourses: Array.from(taClassesMap[inputID].values())
+				//studentCourses: [403, 455],
+				//TACourses: []
+			});
+			//console.log(res);
+		} else {
+			res.status(400).json({ message: "NetID does not exist" });
+		}	
 
 });
 
-app.get("/queue/:courseID/:isTA", (req, res) => {
-    // Retrieve information about the queue
-    console.log(req.body);
-    const { courseID, isTA } = req.params;
-    const { studentID } = req.body;
+//app.get("/queue/:courseID/:isTA", (req, res) => {
+//    // Retrieve information about the queue
+//    console.log(req.body);
+//    const { courseID, isTA } = req.params;
+//    const { studentID } = req.body;
 		
-		const courseID_: number = +courseID;
-		const studentID_: number = +studentID;
-    const currQ = courseMap[courseID_];
-    let queueInfo: unknown;
-		let queue: DoublyLinkedList = courseMap[courseID_].queue;
-    if (isTA) {
-        queueInfo = <TAQueueInfo>queueInfo;
-        queueInfo =
-        {
-            studentName: studentInfo[studentID_],
-            numberOfPeople: queue.getSize(),
-            estimatedWait: queue.getWaitTime()
-        };
-    } else {
-        queueInfo = <QueueInfo>queueInfo;
-        queueInfo = {
-            numberOfPeople: queue.getSize(),
-            estimatedWait: queue.getWaitTime()
-        };;
-    }
-    res.status(200).json(queueInfo);
-});
+//		const courseID_: number = +courseID;
+//		const studentID_: number = +studentID;
+//    const currQ = courseMap[courseID_];
+//    let queueInfo: unknown;
+//		let queue: DoublyLinkedList = courseMap[courseID_].queue;
+//    if (isTA) {
+//        queueInfo = <TAQueueInfo>queueInfo;
+//        queueInfo =
+//        {
+//            studentName: studentInfo[studentID_],
+//            numberOfPeople: queue.getSize(),
+//            estimatedWait: queue.getWaitTime()
+//        };
+//    } else {
+//        queueInfo = <QueueInfo>queueInfo;
+//        queueInfo = {
+//            numberOfPeople: queue.getSize(),
+//            estimatedWait: queue.getWaitTime()
+//        };;
+//    }
+//    res.status(200).json(queueInfo);
+//});
 
-app.patch("/queue", (req, res) => {
-    const { isTA, courseID } = req.body;
-		const id: number = +courseID;
-		let course = courseMap[id]
-    const currQ = course.queue;
+//app.patch("/queue", (req, res) => {
+//    const { isTA, courseID } = req.body;
+//		const id: number = +courseID;
+//		let course = courseMap[id]
+//    const currQ = course.queue;
 
-    // currQ.dequeue();
-    console.log("PATCH");
+//    // currQ.dequeue();
+//    console.log("PATCH");
 
-    course.dequeue();
-    // console.log(course.queue);
-    if(isTA){
-        res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
-    } else {
-        res.status(400).json({message: "You must be a TA"});
-    }
-});
+//    course.dequeue();
+//    // console.log(course.queue);
+//    if(isTA){
+//        res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
+//    } else {
+//        res.status(400).json({message: "You must be a TA"});
+//    }
+//});
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
