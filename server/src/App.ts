@@ -25,6 +25,10 @@ export interface IHash3 {
 	[details: string] : string;
 }
 
+export interface IHash4 {
+	[details: number] : string;
+}
+
 /* FAKE DB
  							COURSE TABLE 
 	----------------------------------------------
@@ -126,16 +130,14 @@ app.post("/students", (req, res) => {
 		if (studentInfo[inputID]) {
 			console.log(studentClassesMap[inputID]);
 			console.log(taClassesMap[inputID]);
-			let studentCourseNames: string[] = [];
-			let taCourseNames: string[] = [];
-			studentClassesMap[inputID].forEach(e => studentCourseNames.push(courseMap[e].name));
-			taClassesMap[inputID].forEach(e => taCourseNames.push(courseMap[e].name));
+			let studentCourseNames: IHash4 = {};
+			let taCourseNames: IHash4 = {};
+			studentClassesMap[inputID].forEach(e => studentCourseNames[e] = courseMap[e].name);
+			taClassesMap[inputID].forEach(e => taCourseNames[e] = courseMap[e].name);
 			res.status(200).json({
 				netID: inputID,
-				studentCourses: Array.from(studentClassesMap[inputID].values()),
-				TACourses: Array.from(taClassesMap[inputID].values()), 
-				studentCourseNames: studentCourseNames,
-				taCourseNames: taCourseNames
+				studentCourses: studentCourseNames,
+				TACourses: taCourseNames, 
 			});
 		} else {
 			res.status(400).json({ message: "NetID does not exist" });
