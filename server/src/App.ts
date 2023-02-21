@@ -142,8 +142,10 @@ app.post("/students", (req, res) => {
 			taClassesMap[inputID].forEach(e => taCourseNames[e] = courseMap[e].name);
 			res.status(200).json({
 				netID: inputID,
-				studentCourses: studentCourseNames,
-				TACourses: taCourseNames, 
+				studentCourses: Array.from(studentClassesMap[inputID].values()),
+				taCourses: Array.from(taClassesMap[inputID].values())
+				//studentCourses: [403, 455],
+				//TACourses: []
 			});
 		} else {
 			res.status(400).json({ message: "NetID does not exist" });
