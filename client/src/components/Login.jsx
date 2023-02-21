@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
-import {Route, useNavigate} from 'react-router-dom'
+import { Route, useNavigate } from 'react-router-dom'
 import "./Login.css";
 import "./Button.css";
 import circles from "../assets/circles.png";
@@ -32,7 +32,7 @@ export const Login = (props) => {
       },
       body: JSON.stringify({
         inputID: inputID
-      }),
+      })
     });
     // const responseData = await submitForm(
     //   JSON.stringify({ inputID: inputID }), "/students", "POST");
@@ -40,21 +40,31 @@ export const Login = (props) => {
 
     // later this will need to be validated
     console.log(responseData);
-    props.setNetID(inputID);
-    props.setIsTa(responseData.isTA);
-    props.setEstimatedWait(responseData.estimatedWait);
-    props.setNumberOfPeople(responseData.numberOfPeople);
+    // props.setNetID(inputID);
+    // props.setIsTa(responseData.isTA);
+    // props.setEstimatedWait(responseData.estimatedWait);
+    // props.setNumberOfPeople(responseData.numberOfPeople);
     // error handling goes here
-    if (responseData.isTA) {
-      if(responseData.nextStudent == null) {
-        props.setNextStudent("");
-      } else {
-        props.setNextStudent(responseData.nextStudent.name);
-      }
-      // routeChangeTA();
-      setShow(true);
+    // if (responseData.isTA) {
+    //   if(responseData.nextStudent == null) {
+    //     props.setNextStudent("");
+    //   } else {
+    //     props.setNextStudent(responseData.nextStudent.name);
+    //   }
+    //   // routeChangeTA();
+    //   setShow(true);
+    // } else {
+    //   routeChangeStudent();
+    // }
+    const { netID, taCourses, studentCourses } = responseData;
+    const { setNetID, setStudentCourses, setTaCourses } = props;
+    setStudentCourses(studentCourses);
+    setTaCourses(taCourses);
+    setNetID(netID);
+    if (taCourses.length === 0) {
+      routeChangeStudent()
     } else {
-      routeChangeStudent();
+      setShow(true);
     }
   };
 

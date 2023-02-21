@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import "./StudentCourse.css";
 import "./Button.css";
 import "./Logo.css";
-import * as api from "../api/index.js"
+import { Select, Input, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
 
-export const StudentCourse = ( {setStudentID} ) => {
-  const [courseList, setCourseList] = useState([{'code':'', 'name':''}]);
-  const [courseInfo, setCourseInfo] = useState('');
+export const StudentCourse = (props) => {
+  // const [courseList, setCourseList] = useState([{ 'code': '', 'name': '' }]);
+  // const [courseInfo, setCourseInfo] = useState('');
   const [question, setQuestion] = useState('');
-  const studentID = useState(0);
+  const [selectedValue, setSelectedValue] = useState('');
+  const isError = question === '';
+
+  const { netID, studentCourses, setSelectedCourse } = props;
 
   // navigation route
   let navigate = useNavigate();
@@ -20,82 +23,82 @@ export const StudentCourse = ( {setStudentID} ) => {
   }
 
   // To get course list upon page load
-  useEffect(() => {
-    const getCourses = async () => {
-      const response = await fetch('/formtest', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
 
-      const responseData = await response.json();
-      setCourseList(responseData.courses);
+  const enqueue = async () => {
+    console.log({course: selectedValue, question: question});
+    // const response = await fetch('/queue/enqueue', {
+    //   method: 'PATCH',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     netID: netID
+    //   })
+    // });
 
-      // console.log(responseData);
-    };
-    getCourses();
-  }, []);
+    // const responseData = await response.json();
+    
+    // setCourseList(responseData.courses);
 
-  useEffect(() => {
-    console.log(courseList);
-  }, [courseList]);
+    // console.log(responseData);
+  };
+
+  // useEffect(() => {
+  //   console.log(studentCourses);
+  // }, [studentCourses]);
 
 
   // MAIN onclick event
-  const getData = async () => {
-    const response = await fetch('/enqueue', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        studentID: studentID,
-        question: question,
-        courseInfo: courseInfo
-      }),
-    });
+  // const getData = async () => {
+  //   const response = await fetch('/enqueue', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       studentID: studentID,
+  //       question: question,
+  //       courseInfo: courseInfo
+  //     }),
+  //   });
 
-    routeChangeStudent();
+  //   routeChangeStudent();
 
-    const responseData = await response.json();
-    setStudentID(responseData.studentID);
-  };
+  //   const responseData = await response.json();
+  //   setStudentID(responseData.studentID);
+  // };
 
-  const handleSelect = (e) => {
-    setCourseInfo(e.target.value);
-  }
+  // const handleSelect = (e) => {
+  //   setSelectedCourse(e.target.value);
+  // }
 
-  console.log(courseList);
   // to put the courses in a list format to display in drop down
-  const options = courseList.map((course) =>
-    <option value={course.name}>
-      {course.code + " - " + course.name}
+  const options = studentCourses.map((course) =>
+    <option value={course} key={course}>
+      {course}
     </option>)
 
   return (
     <div className="registration">
       <img className="logo" src={logo} alt="top left circles" />
-      <span className="title">Enqueue</span>
-      <span className="description">
-        Choose a class and question(s) you have
-      </span>
       <label>
-        Choose a Course:
-        <select id="course" value={courseInfo} onChange={handleSelect}>
-          {console.log(options)}
-          <option value="Select a Course">Select a Course</option>
-          {options}
-        </select>
       </label>
-      <form>
-        <label>
-          What do you need help with?
-          <input type="text" id="course" value={question} onChange={e => setQuestion(e.target.value)}/>
-        </label>
-      </form>
+      <FormControl width='33%'>
+        <FormLabel>
+          <Heading>Enqueue</Heading>
+        </FormLabel>
+        <Select value={selectedValue} placeholder='Choose a course:' onChange={e => setSelectedValue(e.target.value)}>
+          {options}
+        </Select>
+        <Input
+          type='text'
+          placeholder='What do you need help with?'
+          onChange={e => setQuestion(e.target.value)}
+        >
+        </Input>
+      </FormControl>
       <button className="button" type="submit"
-        onClick={() => getData()}>
+        onClick={enqueue}>
         Queue up!
       </button>
     </div>
