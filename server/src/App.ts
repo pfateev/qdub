@@ -14,7 +14,7 @@ app.use(cors());
 // app.options('*', cors());
 
 export interface IHash {
-	[details: string] : Set<number>;
+	[details: string] : Array<number>;
 }
 
 export interface IHash2 {
@@ -27,6 +27,10 @@ export interface IHash3 {
 
 export interface IHash4 {
 	[details: number] : string;
+}
+
+export interface IHash5 {
+	[details: number] : Array<string>;
 }
 
 /* FAKE DB
@@ -92,33 +96,35 @@ export interface IHash4 {
 	let taClassesMap: IHash = {};
 	let courseMap: IHash2 = {};
 	let studentInfo: IHash3 = {};
+	let questionsMap: IHash5 = {};
 	const questionTime = 10;
 
 	// Build studentInfo map
 	for(let i = 0; i < students.length; ++i) {
 		studentInfo[students[i]] = studentNames[i];
-		studentClassesMap[students[i]] = new Set<number>;
-		taClassesMap[students[i]] = new Set<number>;
+		studentClassesMap[students[i]] = new Array<number>;
+		taClassesMap[students[i]] = new Array<number>;
 	}
 
 	// Build course object and map them with courseID in courseMap
 	for (let i = 0; i < courseId.length; i++) {
 		const course = new Course(courseId[i], courseName[i]);
 		courseMap[courseId[i]] = course;
+		questionsMap[courseId[i]] = new Array<string>;
 	}
 
 	// Build studentClassesMap and taClassesMap
 	for (let i = 0; i < students.length; i++) {
 		if(course403[i] == "stu") {
-				studentClassesMap[students[i]].add(403);
+				studentClassesMap[students[i]].push(403);
 		} else if (course403[i] == "ta") {
-				taClassesMap[students[i]].add(403);
+				taClassesMap[students[i]].push(403);
 		}
 
 		if(course455[i] == "stu") {
-				studentClassesMap[students[i]].add(455);
+				studentClassesMap[students[i]].push(455);
 		} else if (course455[i] == "ta") {
-				taClassesMap[students[i]].add(455);
+				taClassesMap[students[i]].push(455);
 		}
 	}
 
@@ -204,18 +210,48 @@ app.patch("/queue/enqueue", (req, res) => {
 
 	const student = new Student(studentID_, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID_] );
 	course.enqueue(student);
+	questionsMap[courseID_].push(question);
 
 	res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
 });
 
-// API for stepIn and StepOut
-// API for setting notification
+// API for stepIn 
+app.patch("/student/stepIn", (req, res) => {
+	const { courseID, studentPosition } = req.body; 
+	const courseID_: number = +courseID;
+	const studentPosition_: number = +studentPosition;
+
+	let course = courseMap[courseID_]
+	course.queue.stepIn(studentPosition_);
+
+	res.status(200).json({status: true});
+});
+
+// API for StepOut
+app.patch("/student/stepOut", (req, res) => {
+	const { courseID, studentPosition } = req.body; 
+	const courseID_: number = +courseID;
+	const studentPosition_: number = +studentPosition;
+
+	let course = courseMap[courseID_]
+	course.queue.stepOut(studentPosition_);
+
+	res.status(200).json({status: true});
+});
+
 // API for display of all questions being asked
+app.get("/queue/questions/:courseID", (req, res) => {
+	// Retrieve information about the queue
+	console.log(req.body);
+	const { courseID } = req.params;
 
-//app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
+	// check if is a TA with studentID and courseID
+	const courseID_: number = +courseID;
 
+	res.status(200).json(questionsMap[courseID_]);
+});
 
-//});
+// API for setting notification
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
