@@ -106,39 +106,15 @@ export interface IHash3 {
 	// Build studentClassesMap and taClassesMap
 	for (let i = 0; i < students.length; i++) {
 		if(course403[i] == "stu") {
-			//if (studentClassesMap[students[i]]) {
 				studentClassesMap[students[i]].add(403);
-			//} else {
-			//	let studentClasses =new Set<number>;
-			//	studentClasses.add(403);
-			//	studentClassesMap[students[i]] = studentClasses;
-			//}
 		} else if (course403[i] == "ta") {
-			//if (taClassesMap[students[i]]) {
 				taClassesMap[students[i]].add(403);
-			//} else {
-			//	let taClasses =new Set<number>;
-			//	taClasses.add(403);
-			//	taClassesMap[students[i]] = taClasses;
-			//}
 		}
 
 		if(course455[i] == "stu") {
-			//if (studentClassesMap[students[i]]) {
 				studentClassesMap[students[i]].add(455);
-			//} else {
-			//	let studentClasses =new Set<number>;
-			//	studentClasses.add(455);
-			//	studentClassesMap[students[i]] = studentClasses;
-			//}
 		} else if (course455[i] == "ta") {
-			//if (taClassesMap[students[i]]) {
 				taClassesMap[students[i]].add(455);
-			//} else {
-			//	let taClasses =new Set<number>;
-			//	taClasses.add(455);
-			//	taClassesMap[students[i]] = taClasses;
-			//}
 		}
 	}
 
@@ -150,65 +126,93 @@ app.post("/students", (req, res) => {
 		if (studentInfo[inputID]) {
 			console.log(studentClassesMap[inputID]);
 			console.log(taClassesMap[inputID]);
+			let studentCourseNames: string[] = [];
+			let taCourseNames: string[] = [];
+			studentClassesMap[inputID].forEach(e => studentCourseNames.push(courseMap[e].name));
+			taClassesMap[inputID].forEach(e => taCourseNames.push(courseMap[e].name));
 			res.status(200).json({
 				netID: inputID,
 				studentCourses: Array.from(studentClassesMap[inputID].values()),
-				TACourses: Array.from(taClassesMap[inputID].values())
-				//studentCourses: [403, 455],
-				//TACourses: []
+				TACourses: Array.from(taClassesMap[inputID].values()), 
+				studentCourseNames: studentCourseNames,
+				taCourseNames: taCourseNames
 			});
-			//console.log(res);
 		} else {
 			res.status(400).json({ message: "NetID does not exist" });
 		}	
-
 });
 
-//app.get("/queue/:courseID/:isTA", (req, res) => {
-//    // Retrieve information about the queue
-//    console.log(req.body);
-//    const { courseID, isTA } = req.params;
-//    const { studentID } = req.body;
-		
-//		const courseID_: number = +courseID;
-//		const studentID_: number = +studentID;
-//    const currQ = courseMap[courseID_];
-//    let queueInfo: unknown;
-//		let queue: DoublyLinkedList = courseMap[courseID_].queue;
-//    if (isTA) {
-//        queueInfo = <TAQueueInfo>queueInfo;
-//        queueInfo =
-//        {
-//            studentName: studentInfo[studentID_],
-//            numberOfPeople: queue.getSize(),
-//            estimatedWait: queue.getWaitTime()
-//        };
-//    } else {
-//        queueInfo = <QueueInfo>queueInfo;
-//        queueInfo = {
-//            numberOfPeople: queue.getSize(),
-//            estimatedWait: queue.getWaitTime()
-//        };;
-//    }
-//    res.status(200).json(queueInfo);
-//});
+app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
+    // Retrieve information about the queue
+    console.log(req.body);
+    const { courseID, isTA, studentID } = req.params;
 
-//app.patch("/queue", (req, res) => {
-//    const { isTA, courseID } = req.body;
-//		const id: number = +courseID;
-//		let course = courseMap[id]
-//    const currQ = course.queue;
+		// check if is a TA with studentID and courseID
+		const courseID_: number = +courseID;
+		const studentID_: number = +studentID;
+	
+    const currQ = courseMap[courseID_];
+    let queueInfo: unknown;
+		let queue: DoublyLinkedList = courseMap[courseID_].queue;
+    if (isTA) {
+        queueInfo = <TAQueueInfo>queueInfo;
+        queueInfo =
+        {
+            studentName: studentInfo[studentID_],
+            numberOfPeople: queue.getSize(),
+            estimatedWait: queue.getWaitTime()
+        };
+    } else {
+        queueInfo = <QueueInfo>queueInfo;
+        queueInfo = {
+            numberOfPeople: queue.getSize(),
+            estimatedWait: queue.getWaitTime()
+        };;
+    }
+    res.status(200).json(queueInfo);
+});
 
-//    // currQ.dequeue();
-//    console.log("PATCH");
+app.patch("/queue", (req, res) => {
+    const { isTA, courseID } = req.body; // do not verify TA for now
+		const id: number = +courseID;
+		let course = courseMap[id]
+    const currQ = course.queue;
 
-//    course.dequeue();
-//    // console.log(course.queue);
-//    if(isTA){
-//        res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
-//    } else {
-//        res.status(400).json({message: "You must be a TA"});
-//    }
+    // currQ.dequeue();
+    console.log("PATCH");
+
+    course.dequeue();
+    // console.log(course.queue);
+    if(isTA){
+        res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
+    } else {
+        res.status(400).json({message: "You must be a TA"});
+    }
+});
+
+// API for enqueue
+app.patch("/queue/enqueue", (req, res) => {
+	const { courseID, studentID, question, questionTime } = req.body; 
+	const courseID_: number = +courseID;
+	const studentID_: number = +studentID;
+	const time_ = +questionTime;
+
+	let course = courseMap[courseID_]
+	const currQ = course.queue;
+
+	const student = new Student(studentID_, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID_] );
+	course.enqueue(student);
+
+	res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
+});
+
+// API for stepIn and StepOut
+// API for setting notification
+// API for display of all questions being asked
+
+//app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
+
+
 //});
 
 app.listen(PORT, () => {
