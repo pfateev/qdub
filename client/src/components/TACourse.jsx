@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import logo from "../assets/logo.svg";
 import {useNavigate} from 'react-router-dom'
-import "./TaCourse.css";
+import "./TACourse.css";
 import "./Button.css";
 import "./Logo.css";
 import { Select, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
 
-export const TaCourse = ( { netID, taCourses, setSelectedCourse } ) => {
+export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
   const [selectedValue, setSelectedValue] = useState('');
 
   // navigation route
@@ -65,4 +65,4 @@ export const TaCourse = ( { netID, taCourses, setSelectedCourse } ) => {
     </div>
   );
 }
-export default TaCourse;
+export default TACourse;

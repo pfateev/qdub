@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./TaView.css";
+import "./TAView.css";
 import "./Button.css";
 // import shape from "./assets/shape.svg";
 
@@ -11,7 +11,7 @@ import "./Button.css";
  *    - Student has been helped, finished()
  */
 
-export const TaView = (props) => {
+export const TAView = (props) => {
 
   async function finished() {
     const response = await fetch('http://localhost:3001/queue', {
@@ -66,4 +66,4 @@ export const TaView = (props) => {
   );
 };
 
-export default TaView;
+export default TAView;

@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import "./App.css";
 import StudentView from "./components/StudentView";
-import TaView from "./components/TaView";
+import TAView from "./components/TAView";
 import Login from "./components/Login";
 import StudentCourse from "./components/StudentCourse";
-import TaCourse from "./components/TaCourse";
+import TACourse from "./components/TACourse";
 import Home from "./components/Home";
 
 const App = () => {
@@ -56,7 +56,7 @@ const App = () => {
           <Route
             path="/ta-view"
             element={
-              <TaView
+              <TAView
                 netID={netID}
                 isTa={isTa}
                 nextStudent={nextStudent}
@@ -81,7 +81,7 @@ const App = () => {
           <Route
             path="/ta-courses"
             element={
-              <TaCourse
+              <TACourse
                 netID={netID}
                 taCourses={taCourses}
                 setSelectedCourse={setSelectedCourse}
