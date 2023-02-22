@@ -11,6 +11,7 @@
   opacity: 0;
   transition: all 0.3 ease-in-out;
   pointer-events: none;
+  z-index: 10;
 }
 
 .modal.show {
@@ -41,4 +42,35 @@
   padding: 10px;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
+}
+
+.submitButt {
+  display: block;
+  background-color:  #918fe1;
+  height: 40px;
+  border-radius: 20px;
+  line-height: 36px;
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 0.875em;
+  border: none;
+  font-weight: 700;
+  padding: 0 34px;
+  margin: 0 auto;
+}
+
+.submitButt:hover {
+  background-color: #918fe1;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 2px 10px;
+}
+
+.cancelButt {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 1em;
+}
+
+.cancelButt:hover {
+  text-decoration: underline;
 }

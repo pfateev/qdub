@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import logo from "../assets/logo.svg";
 import { useNavigate } from 'react-router-dom'
 import "./StudentCourse.css";
@@ -20,7 +20,7 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
     navigate(path);
   }
 
-  // To get course list upon page load of the StudentView
+  // Enqueue student
   const enqueue = async () => {
     // console.log({course: selectedValue, question: question});
     const response = await fetch('http://localhost:3001/queue/enqueue', {
@@ -38,7 +38,7 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
     });
 
     const responseData = await response.json();
-    
+
     //TODO: waiting on backend route to be finished
     console.log(responseData);
 
@@ -55,8 +55,6 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   return (
     <div className="registration">
       <img className="logo" src={logo} alt="top left circles" />
-      <label>
-      </label>
       <FormControl width='33%'>
         <FormLabel>
           <Heading>Enqueue</Heading>
