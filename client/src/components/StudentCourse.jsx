@@ -6,14 +6,12 @@ import "./Button.css";
 import "./Logo.css";
 import { Select, Input, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
 
-export const StudentCourse = (props) => {
-  // const [courseList, setCourseList] = useState([{ 'code': '', 'name': '' }]);
-  // const [courseInfo, setCourseInfo] = useState('');
+export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   const [question, setQuestion] = useState('');
+  const [questionTime, setQuestionTime] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
-  const isError = question === '';
-
-  const { netID, studentCourses, setSelectedCourse } = props;
+  // TODO input validation:
+  // const isError = question === '';
 
   // navigation route
   let navigate = useNavigate();
@@ -22,55 +20,31 @@ export const StudentCourse = (props) => {
     navigate(path);
   }
 
-  // To get course list upon page load
-
+  // To get course list upon page load of the StudentView
   const enqueue = async () => {
-    console.log({course: selectedValue, question: question});
-    // const response = await fetch('/queue/enqueue', {
-    //   method: 'PATCH',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     netID: netID
-    //   })
-    // });
+    // console.log({course: selectedValue, question: question});
+    const response = await fetch('http://localhost:3001/queue/enqueue', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        courseID: selectedValue,
+        studentID: netID,
+        question: question,
+        // TODO: this default value needs to turned into a proper variable
+        questionTime: 5
+      })
+    });
 
-    // const responseData = await response.json();
+    const responseData = await response.json();
     
-    // setCourseList(responseData.courses);
+    //TODO: waiting on backend route to be finished
+    console.log(responseData);
 
-    // console.log(responseData);
+    setSelectedCourse(selectedValue);
+    routeChangeStudent();
   };
-
-  // useEffect(() => {
-  //   console.log(studentCourses);
-  // }, [studentCourses]);
-
-
-  // MAIN onclick event
-  // const getData = async () => {
-  //   const response = await fetch('/enqueue', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       studentID: studentID,
-  //       question: question,
-  //       courseInfo: courseInfo
-  //     }),
-  //   });
-
-  //   routeChangeStudent();
-
-  //   const responseData = await response.json();
-  //   setStudentID(responseData.studentID);
-  // };
-
-  // const handleSelect = (e) => {
-  //   setSelectedCourse(e.target.value);
-  // }
 
   // to put the courses in a list format to display in drop down
   const options = studentCourses.map((course) =>
@@ -87,7 +61,7 @@ export const StudentCourse = (props) => {
         <FormLabel>
           <Heading>Enqueue</Heading>
         </FormLabel>
-        <Select value={selectedValue} placeholder='Choose a course:' onChange={e => setSelectedValue(e.target.value)}>
+        <Select value={selectedValue} placeholder='Choose a course:' onChange={e => setSelectedValue(parseInt(e.target.value))}>
           {options}
         </Select>
         <Input

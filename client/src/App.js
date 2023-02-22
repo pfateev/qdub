@@ -38,6 +38,7 @@ const App = () => {
             element={
               <StudentView
                 netID={netID}
+                selectedCourse={selectedCourse}
                 isTA={isTA}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
