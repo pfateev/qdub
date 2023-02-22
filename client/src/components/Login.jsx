@@ -65,8 +65,8 @@ export const Login = (props) => {
     if (taCourses.length === 0) {
       routeChangeStudent()
     } else {
-      // setShow(true);
-      onOpen();
+      setShow(true);
+      // onOpen();
     }
   };
 
@@ -82,9 +82,15 @@ export const Login = (props) => {
       </label>
 
       {/* <button onClick={() => setShow(true)}>Show Modal</button> */}
-      {/* <Modal title="Hi TA" onClose={() => setShow(false)} onConfirm={() => routeChangeTa()} show={show}>
+      <Modal
+        title="Hi TA!"
+        onClose={() => setShow(false)}
+        onConfirmTa={() => routeChangeTa()}
+        onConfirmStudent={() => routeChangeStudent()}
+        show={show}
+      >
         <p>Are you....?</p>
-      </Modal> */}
+      </Modal>
       <button className="button" type="submit"
         onClick={getData}>
         Login up!
