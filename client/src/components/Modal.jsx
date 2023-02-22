@@ -12,12 +12,13 @@ const Modal = props => {
           {props.children}
         </div>
         <div className="modal-footer">
-          <button onClick={props.onClose} className="button">Close</button>
-          <button onClick={props.onConfirm} className="button">Confirm</button>
+          <button onClick={props.onConfirmTa} className="submit" id="ta">TAing</button>
+          <button onClick={props.onConfirmStudent} className="submit"id="student">Student</button>
+          <button onClick={props.onClose} className="cancel">&times;</button>
         </div>
       </div>
     </div>
   )
 }
 
-export default Modal
+export default Modal;

@@ -20,10 +20,10 @@ export const TAView = (props) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        isTA: true
+        isTa: true
       }),
     });
-    
+
     const responseData = await response.json();
     console.log(responseData);
     if(responseData.nextStudent == null) {
@@ -36,15 +36,15 @@ export const TAView = (props) => {
 
   return (
     <div className="view">
-      <div className="TAheader">
+      <div className="taHeader">
         {props.numberOfPeople > 0 ?
           <span className="yesPeople">
-            Hey TA! You’re doing great! The next person you should help is 
+            Hey TA! You’re doing great! The next person you should help is
             <span className="studentName">
               {props.nextStudent}
             </span>
             <span className="peopleDesc">
-              The number of people in queue are 
+              The number of people in queue are
             </span>
             <span className="peopleNum">
               {props.numberOfPeople}
@@ -56,7 +56,7 @@ export const TAView = (props) => {
           </span>
         }
       </div>
-  
+
       <div className="center">
         <button className="button" type="finished" onClick={finished}>
           Next Student!

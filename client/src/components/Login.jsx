@@ -6,15 +6,16 @@ import "./Button.css";
 import circles from "../assets/circles.png";
 import Modal from './Modal';
 import { TestModal } from './TestModal';
+import { useDisclosure } from '@chakra-ui/react';
 
 export const Login = (props) => {
   const [inputID, setInputID] = useState('');
   const [show, setShow] = useState(false);
-  // const [isTA, setIsTA] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // navigation route
   let navigate = useNavigate();
-  const routeChangeTA = () => {
+  const routeChangeTa = () => {
     let path = `/ta-courses`;
     navigate(path);
   }
@@ -41,7 +42,7 @@ export const Login = (props) => {
     // later this will need to be validated
     console.log(responseData);
     // props.setNetID(inputID);
-    // props.setIsTa(responseData.isTA);
+    // props.setIsTa(responseData.isTa);
     // props.setEstimatedWait(responseData.estimatedWait);
     // props.setNumberOfPeople(responseData.numberOfPeople);
     // error handling goes here
@@ -65,6 +66,7 @@ export const Login = (props) => {
       routeChangeStudent()
     } else {
       setShow(true);
+      // onOpen();
     }
   };
 
@@ -80,14 +82,23 @@ export const Login = (props) => {
       </label>
 
       {/* <button onClick={() => setShow(true)}>Show Modal</button> */}
-      <Modal title="Hi TA" onClose={() => setShow(false)} onConfirm={() => routeChangeTA()} show={show}>
+      <Modal
+        title="Hi TA!"
+        onClose={() => setShow(false)}
+        onConfirmTa={() => routeChangeTa()}
+        onConfirmStudent={() => routeChangeStudent()}
+        show={show}
+      >
         <p>Are you....?</p>
       </Modal>
       <button className="button" type="submit"
         onClick={getData}>
         Login up!
       </button>
-      <TestModal></TestModal>
+
+      <TestModal isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+        <p>Are you....?</p>
+      </TestModal>
     </div>
   );
 }

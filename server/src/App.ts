@@ -34,22 +34,22 @@ export interface IHash5 {
 }
 
 /* FAKE DB
- 							COURSE TABLE 
+ 							COURSE TABLE
 	----------------------------------------------
 	courseId 							courseName
 	----------------------------------------------
 	403										Software Engineer
-	455										Computer Vision 
+	455										Computer Vision
 
 							STUDENT TABLE
 	----------------------------------------------
-	NetID 				Name 					Password? 
+	NetID 				Name 					Password?
 	----------------------------------------------
-	izzyv 				Izzy					
+	izzyv 				Izzy
 	wenli					Wendy
 	pashap				Pasha
 	jaredt				Jared
-	triv					Tri	
+	triv					Tri
 	stu1					Student1
 	stu2					Student2
 	stu3					Student3
@@ -78,9 +78,9 @@ export interface IHash5 {
 	455							wenli
 	455 						izzyv
 
-	Map<courseID, course object> 
+	Map<courseID, course object>
 	Map<NetID, Set<courseID>> studentClassesMap
-	Map<NetID, Set<courseID>> taClassesMap 
+	Map<NetID, Set<courseID>> taClassesMap
  */
 
 
@@ -91,7 +91,7 @@ export interface IHash5 {
 	let course403 = ["stu", "stu", "ta", "ta", "none", "stu", "stu", "none", "none"];
 	let course455 = ["ta", "ta", "stu", "none", "stu", "none", "none", "stu", "stu"];
 
-	
+
 	let studentClassesMap: IHash = {};
 	let taClassesMap: IHash = {};
 	let courseMap: IHash2 = {};
@@ -149,7 +149,7 @@ app.post("/students", (req, res) => {
 			});
 		} else {
 			res.status(400).json({ message: "NetID does not exist" });
-		}	
+		}
 });
 
 app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
@@ -160,7 +160,7 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 		// check if is a TA with studentID and courseID
 		const courseID_: number = +courseID;
 		const studentID_: number = +studentID;
-	
+
     const currQ = courseMap[courseID_];
     let queueInfo: unknown;
 		let queue: DoublyLinkedList = courseMap[courseID_].queue;
@@ -202,7 +202,7 @@ app.patch("/queue", (req, res) => {
 
 // API for enqueue
 app.patch("/queue/enqueue", (req, res) => {
-	const { courseID, studentID, question, questionTime } = req.body; 
+	const { courseID, studentID, question, questionTime } = req.body;
 	const courseID_: number = +courseID;
 	const studentID_: number = +studentID;
 	const time_ = +questionTime;
@@ -217,9 +217,9 @@ app.patch("/queue/enqueue", (req, res) => {
 	res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
 });
 
-// API for stepIn 
+// API for stepIn
 app.patch("/student/stepIn", (req, res) => {
-	const { courseID, studentPosition } = req.body; 
+	const { courseID, studentPosition } = req.body;
 	const courseID_: number = +courseID;
 	const studentPosition_: number = +studentPosition;
 
@@ -231,7 +231,7 @@ app.patch("/student/stepIn", (req, res) => {
 
 // API for StepOut
 app.patch("/student/stepOut", (req, res) => {
-	const { courseID, studentPosition } = req.body; 
+	const { courseID, studentPosition } = req.body;
 	const courseID_: number = +courseID;
 	const studentPosition_: number = +studentPosition;
 

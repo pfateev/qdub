@@ -10,16 +10,16 @@ import {
     ModalCloseButton,
     useDisclosure,
     Text
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 
-export function TestModal() {
+export function TestModal({ isOpen, onOpen, onClose }) {
     const OverlayOne = () => (
         <ModalOverlay
             bg='blackAlpha.300'
             backdropFilter='blur(10px) hue-rotate(90deg)'
         />
     );
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    // const { isOpen, onOpen, onClose } = useDisclosure();
     const [overlay, setOverlay] = useState(<OverlayOne />)
 
     return (
@@ -37,7 +37,9 @@ export function TestModal() {
                     <ModalHeader>Modal Title</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore amet libero nostrum! Autem ea eos culpa consectetur. Perferendis aut rem qui facilis harum consectetur eveniet laboriosam nemo ex? Cupiditate, illo.</Text>
+                        <Text>
+                            safdsa
+                        </Text>
                     </ModalBody>
 
                     <ModalFooter>

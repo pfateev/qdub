@@ -12,7 +12,7 @@
   line-height: 21px;
 }
 
-.TAheader {
+.taHeader {
   grid-row: 1/2;
   display: grid;
   grid-template-rows: repeat(2, 0.8fr);
