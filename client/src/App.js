@@ -12,6 +12,9 @@ import Home from "./components/Home";
 const App = () => {
   const [netID, setNetID] = useState(null);
   const [isTA, setIsTA] = useState(false);
+  const [studentCourses, setStudentCourses] = useState([]);
+  const [taCourses, setTaCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(-1);
   const [nextStudent, setNextStudent] = useState(null);
   const [numberOfPeople, setNumberOfPeople] = useState();
   const [estimatedWait, setEstimatedWait] = useState(0);
@@ -25,9 +28,8 @@ const App = () => {
               <Login
                 setNetID={setNetID}
                 setIsTa={setIsTA}
-                setNextStudent={setNextStudent}
-                setNumberOfPeople={setNumberOfPeople}
-                setEstimatedWait={setEstimatedWait}
+                setStudentCourses={setStudentCourses}
+                setTaCourses={setTaCourses}
               />
             }
           />
@@ -36,6 +38,7 @@ const App = () => {
             element={
               <StudentView
                 netID={netID}
+                selectedCourse={selectedCourse}
                 isTA={isTA}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
@@ -57,7 +60,16 @@ const App = () => {
               />
             }
           />
-          <Route path="/student-courses" element={<StudentCourse />} />
+          <Route
+            path="/student-courses"
+            element={
+              <StudentCourse
+                netID={netID}
+                studentCourses={studentCourses}
+                setSelectedCourse={setSelectedCourse}
+              />
+            }
+          />
           <Route path="/ta-courses" element={<TACourse />} />
         </Routes>
       </Router>

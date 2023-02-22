@@ -5,14 +5,14 @@ import "./Logo.css";
 import "./TalkingDog.css";
 import dog from "../assets/dog.png";
 
-const StudentView = ({ netID, isTA }) => {
+const StudentView = ({netId, selectedCourse, isTA, numberOfPeople, estimatedWait}) => {
   const [queueSize, setQueueSize] = useState();
   const [waitTime, setWaitTime] = useState();
 
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:3001/queue/403/${isTA}`, {
+      const response = await fetch(`http://localhost:3001/queue/${selectedCourse}/${isTA}/${netId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -21,8 +21,6 @@ const StudentView = ({ netID, isTA }) => {
       const responseData = await response.json();
       setQueueSize(responseData.numberOfPeople);
       setWaitTime(responseData.estimatedWait);
-      // return true for cross-origin fetch
-      return true;
     };
 
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -34,10 +32,6 @@ const StudentView = ({ netID, isTA }) => {
     // Return a cleanup function that clears the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
-
-  // update queue info on timed intervals
-  // update();
-  // setInterval(update, 10000);
 
   return (
     <div className="view">

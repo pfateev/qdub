@@ -59,36 +59,51 @@ describe("Course tests - getter", () => {
 		expect(course.queue.isEmpty()).to.be.eq(true);
 	});
 
-	// it("status test", () => {
-	// 	course.enqueue(student1);
-	// 	course.enqueue(student2);
-	// 	course.queue.stepOut(0);
-	// 	expect(course.queue.get(0).getStatus.to.be.eq(true));
-	// 	course.queue.stepOut(1);
-	// 	expect(course.queue.get(0).getStatus.to.be.eq(false));
-	// 	course.queue.stepIn(1);
-	// 	expect(course.queue.get(0).getStatus.to.be.eq(true));
-	// });
 
-	// it("dequeue status test", () => {
-	// 	course.enqueue(student1);
-	// 	course.enqueue(student2);
-	// 	course.enqueue(student3);
-	// 	course.queue.stepOut(1);
-	// 	course.dequeue();
-	// 	expect(course.queue.get(0).id.to.be.eq(student3));
-	// });
+	it("step out & step in test", () => {
+		course.enqueue(student1);
+		course.enqueue(student2);
+		expect(course.queue.getSize()).to.be.eq(2);
+		expect(course.queue.stepOut(0)).to.be.eq(true);
 
-	// it("enqueue status test", () => {
-	// 	course.enqueue(student1);
-	// 	course.enqueue(student2);
-	// 	course.queue.stepOut(1);
-	// 	course.dequeue();
-	// 	course.enqueue(student3);
-	// 	expect(course.queue.get(0).id.to.be.eq(student3));
-	// });
+		expect(course.queue.get(0).getStatus()).to.be.false;
+		expect(course.queue.stepOut(1)).to.be.eq(true);
+		expect(course.queue.get(1).getStatus()).to.be.false;
+		course.queue.stepIn(1);
+		expect(course.queue.get(1).getStatus()).to.be.true;
+		expect(course.queue.get(0).getStatus()).to.be.false;
+	});
 
+	 it("status test", () => {
+	 	course.enqueue(student1);
+	 	course.enqueue(student2);
+	 	course.queue.stepOut(0);
+	 	expect(course.queue.get(0).getStatus()).to.be.false;
+	 	course.queue.stepOut(1);
+	 	expect(course.queue.get(0).getStatus()).to.be.false;
+		 course.queue.stepIn(0);
+	 	expect(course.queue.get(0).getStatus()).to.be.true;
+	 	course.queue.stepIn(1);
+	 	expect(course.queue.get(1).getStatus()).to.be.true;
+	 });
 
-	
+	 it("dequeue status test", () => {
+	 	course.enqueue(student1);
+	 	course.enqueue(student2);
+	 	course.enqueue(student3);
+	 	course.queue.stepOut(1);
+	 	course.dequeue();
+	 	expect(course.queue.get(0).id).to.be.eq(1);
+	 });
+
+	 it("enqueue status test", () => {
+	 	course.enqueue(student1);
+	 	course.enqueue(student2);
+	 	course.queue.stepOut(1);
+	 	course.dequeue();
+	 	course.enqueue(student3);
+	 	expect(course.queue.get(0).id).to.be.eq(1);
+	 });
+
 });
 

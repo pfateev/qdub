@@ -7,11 +7,13 @@ class Course {
       id : number;
       name: string; 
       queue: DoublyLinkedList;
+      status: boolean;
 
       constructor(id: number, name: string) {
             this.id = id; 
             this.name = name; 
             this.queue = new DoublyLinkedList();
+            this.status = true;
       }
 
       // updateQueue(deduct: number) {
@@ -39,15 +41,31 @@ class Course {
       // stepIn() {
 
       // }
-      
+      activate(): void {
+            this.status = true;
+      }
+
+      deactivate() : void {
+            this.status = false;
+      }
       //add a student
       enqueue(data: Student) {
-            this.queue.enqueue(data);
+            if(this.status) {
+                  this.queue.enqueue(data);
+            }
       }
 
       // //remove student from front
       dequeue() {
-            this.queue.dequeue();
+            if(this.status) this.queue.dequeue();
+      }
+
+      reset() {
+            this.queue = new DoublyLinkedList();
+      }
+
+      notify(message: string) {
+            this.queue.setMessage(message);
       }
       
       // //remove student from any position

@@ -9,12 +9,14 @@ class DoublyLinkedList
 
    private size: number;
    private timelen: number;
+   private message: string | null;
 
    constructor() {
        this.head = null;
        this.tail = null;
        this.size = 0;
        this.timelen = 0;
+       this.message = null;
    }
 
     public getSize(): number {
@@ -220,7 +222,7 @@ class DoublyLinkedList
 
     // Update the student.status
     public stepOut(pos: number): boolean {
-        if(pos < this.getSize() && pos > 0) {
+        if(pos < this.getSize() && pos >= 0) {
             let s = this.get(pos);
             if(s == null) return false;
 
@@ -265,6 +267,15 @@ class DoublyLinkedList
             }
             curr = curr.next;
         }
+    }
+
+    //Ta Message to students
+    public setMessage(message: string): void{
+        this.message = message;
+    }
+
+    public getMessage(): string | null {
+        return this.message;
     }
     //    We don't need these 
 //    public getFirst(): any
