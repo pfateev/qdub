@@ -81,7 +81,7 @@ export const Login = (props) => {
       <span className="description">
         Manual student&#x2F;TA enqueue-ing for prototype
       </span>
-      <FormControl isInvalid={!!error}>
+      <FormControl isInvalid={!!error} width='33%'>
         <FormLabel>NetID:</FormLabel>
         <Input type="text" value={inputID} placeholder="Enter your NetID" onChange={handleInputChange} />
         <FormErrorMessage>{error}</FormErrorMessage>
