@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from "../assets/logo.svg";
+import circles from "../assets/circles.png";
 import { useNavigate } from 'react-router-dom'
 import "./StudentCourse.css";
 import "./Button.css";
@@ -54,7 +54,7 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
 
   return (
     <div className="registration">
-      <img className="logo" src={logo} alt="top left circles" />
+      <img className="logo" src={circles} alt="top left circles" />
       <FormControl width='33%'>
         <FormLabel>
           <Heading>Enqueue</Heading>

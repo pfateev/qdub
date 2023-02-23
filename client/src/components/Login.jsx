@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import logo from "../assets/logo.svg";
 import { Route, useNavigate } from 'react-router-dom'
 import "./Login.css";
 import "./Button.css";
@@ -35,28 +34,12 @@ export const Login = (props) => {
         inputID: inputID
       })
     });
-    // const responseData = await submitForm(
-    //   JSON.stringify({ inputID: inputID }), "/students", "POST");
+
     const responseData = await response.json();
 
     // later this will need to be validated
     console.log(responseData);
-    // props.setNetID(inputID);
-    // props.setIsTa(responseData.isTa);
-    // props.setEstimatedWait(responseData.estimatedWait);
-    // props.setNumberOfPeople(responseData.numberOfPeople);
-    // error handling goes here
-    // if (responseData.isTA) {
-    //   if(responseData.nextStudent == null) {
-    //     props.setNextStudent("");
-    //   } else {
-    //     props.setNextStudent(responseData.nextStudent.name);
-    //   }
-    //   // routeChangeTA();
-    //   setShow(true);
-    // } else {
-    //   routeChangeStudent();
-    // }
+
     const { netID, taCourses, studentCourses } = responseData;
     const { setNetID, setStudentCourses, setTaCourses } = props;
     setStudentCourses(studentCourses);

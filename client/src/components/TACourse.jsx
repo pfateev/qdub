@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from "../assets/logo.svg";
+import circles from "../assets/circles.png";
 import {useNavigate} from 'react-router-dom'
 import "./TACourse.css";
 import "./Button.css";
@@ -49,7 +49,7 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
 
   return (
     <div className="registration">
-      <img className="logo" src={logo} alt="top left circles" />
+      <img className="logo" src={circles} alt="top left circles" />
       <FormControl width='33%'>
         <FormLabel>
           <Heading>Start a Queue</Heading>
