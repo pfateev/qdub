@@ -277,6 +277,20 @@ class DoublyLinkedList
     public getMessage(): string | null {
         return this.message;
     }
+
+		public alreadyInQueue(NetID: string): boolean {
+			let curNode = this.head;
+			let res = false;
+			while (curNode) {
+				if (curNode.value.id === NetID) {
+					res = true;
+					break; 
+				}
+				curNode = curNode?.next;
+			}
+			return res;
+		}
+		
     //    We don't need these 
 //    public getFirst(): any
 //    {

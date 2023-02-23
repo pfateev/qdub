@@ -202,13 +202,12 @@ app.patch("/queue", (req, res) => {
 app.patch("/queue/enqueue", (req, res) => {
 	const { courseID, studentID, question, questionTime } = req.body; 
 	const courseID_: number = +courseID;
-	const studentID_: number = +studentID;
 	const time_ = +questionTime;
 
 	let course = courseMap[courseID_]
 	const currQ = course.queue;
 
-	const student = new Student(studentID_, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID_] );
+	const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID] );
 	course.enqueue(student);
 	questionsMap[courseID_].push(question);
 
@@ -260,6 +259,8 @@ app.patch("/queue/setNotification", (req, res) => {
 	course.queue.setMessage(message);
 	res.status(200);
 });
+
+
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

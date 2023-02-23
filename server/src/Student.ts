@@ -1,5 +1,5 @@
 export class Student {
-      id: number;
+      id: string;
       pos: number;
       time: number;
       qtime: number;
@@ -7,7 +7,7 @@ export class Student {
       question: string;
       name: string;
 
-      constructor(id: number, pos: number,
+      constructor(id: string, pos: number,
             time: number, status: boolean,
             qtime: number, question: string,
             name: string) {
@@ -22,7 +22,7 @@ export class Student {
       }
 
       // getter methods:
-      public getId(): number {
+      public getId(): string {
             return this.id;
       }
 
