@@ -11,13 +11,15 @@ import Home from "./components/Home";
 
 const App = () => {
   const [netID, setNetID] = useState(null);
-  const [isTA, setIsTA] = useState(false);
+  const [isTa, setIsTa] = useState(false);
   const [studentCourses, setStudentCourses] = useState([]);
   const [taCourses, setTaCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(-1);
   const [nextStudent, setNextStudent] = useState(null);
   const [numberOfPeople, setNumberOfPeople] = useState();
   const [estimatedWait, setEstimatedWait] = useState(0);
+
+
   return (
     <ChakraProvider>
       <Router>
@@ -25,9 +27,15 @@ const App = () => {
           <Route
             path="/"
             element={
+              <Home/>
+            }
+          />
+          <Route
+            path="/login"
+            element={
               <Login
                 setNetID={setNetID}
-                setIsTa={setIsTA}
+                setIsTa={setIsTa}
                 setStudentCourses={setStudentCourses}
                 setTaCourses={setTaCourses}
               />
@@ -39,7 +47,7 @@ const App = () => {
               <StudentView
                 netID={netID}
                 selectedCourse={selectedCourse}
-                isTA={isTA}
+                isTa={isTa}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
               />
@@ -50,7 +58,7 @@ const App = () => {
             element={
               <TAView
                 netID={netID}
-                isTA={isTA}
+                isTa={isTa}
                 nextStudent={nextStudent}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
@@ -70,7 +78,16 @@ const App = () => {
               />
             }
           />
-          <Route path="/ta-courses" element={<TACourse />} />
+          <Route
+            path="/ta-courses"
+            element={
+              <TACourse
+                netID={netID}
+                taCourses={taCourses}
+                setSelectedCourse={setSelectedCourse}
+              />
+            }
+          />
         </Routes>
       </Router>
     </ChakraProvider>
