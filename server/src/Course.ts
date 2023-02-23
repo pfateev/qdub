@@ -13,7 +13,7 @@ class Course {
             this.id = id; 
             this.name = name; 
             this.queue = new DoublyLinkedList();
-            this.status = true;
+            this.status = false;
       }
 
       // updateQueue(deduct: number) {
