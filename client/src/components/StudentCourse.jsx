@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import "./StudentCourse.css";
 import "./Button.css";
 import "./Logo.css";
-import { Select, Input, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
+import { Select, Input, FormControl, FormLabel, Heading } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react'
 
 export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   const [question, setQuestion] = useState('');
   const [questionTime, setQuestionTime] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
+  const toast = useToast();
   // TODO input validation:
   // const isError = question === '';
 
@@ -18,6 +20,17 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   const routeChangeStudent = () => {
     let path = `/student-view`;
     navigate(path);
+  }
+
+  // toast for when queue not active
+  const Toast = () => {
+    toast({
+      title: 'Queue not yet active.',
+      description: "Please try again.",
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    });
   }
 
   // Enqueue student
@@ -38,6 +51,13 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
     });
 
     const responseData = await response.json();
+
+    // change this to if (not active)
+    // not sure how backend will validate this
+    if (selectedValue === 403) {
+      Toast();
+      return;
+    }
 
     //TODO: waiting on backend route to be finished
     console.log(responseData);
