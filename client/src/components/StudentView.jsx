@@ -56,7 +56,6 @@ const StudentView = ({netId, selectedCourse, isTA, numberOfPeople, estimatedWait
       </div>
 
       <div className="imageSet">
-        <span className="speechMsg">Please Wait!</span>
         <img className="dog" src={dog} alt="cute dog" />
       </div>
       <button className="button" onClick={() => setShow(true)}>Stepping out!</button>

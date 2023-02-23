@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import logo from "../assets/logo.svg";
 import { useNavigate } from 'react-router-dom'
 import "./Login.css";
 import "./Button.css";
