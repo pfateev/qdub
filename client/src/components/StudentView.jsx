@@ -4,10 +4,12 @@ import "./Button.css";
 import "./Logo.css";
 import "./TalkingDog.css";
 import dog from "../assets/dog.png";
+import Modal from './Modal';
 
-const StudentView = ({netId, selectedCourse, isTA, numberOfPeople, estimatedWait}) => {
+const StudentView = ({netId, selectedCourse, isTA, numberOfPeople, estimatedWait, props}) => {
   const [queueSize, setQueueSize] = useState();
   const [waitTime, setWaitTime] = useState();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
@@ -57,7 +59,18 @@ const StudentView = ({netId, selectedCourse, isTA, numberOfPeople, estimatedWait
         <span className="speechMsg">Please Wait!</span>
         <img className="dog" src={dog} alt="cute dog" />
       </div>
-      <button className="button" type="submit" >Leave Queue</button>
+      <button className="button" onClick={() => setShow(true)}>Stepping out!</button>
+
+      <Modal
+        title="You are currently out of the queue!"
+        isQueue={true}
+        isLogin={false}
+        onStepIn={() => setShow(false)}
+        show={show}
+      >
+        <p>Press "Step in!" to go back</p>
+      </Modal>
+
     </div>
   );
 };

@@ -84,6 +84,8 @@ export const Login = (props) => {
       {/* <button onClick={() => setShow(true)}>Show Modal</button> */}
       <Modal
         title="Hi TA!"
+        isQueue={false}
+        isLogin={true}
         onClose={() => setShow(false)}
         onConfirmTa={() => routeChangeTa()}
         onConfirmStudent={() => routeChangeStudent()}
@@ -96,9 +98,9 @@ export const Login = (props) => {
         Login up!
       </button>
 
-      <TestModal isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+      {/* <TestModal isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
         <p>Are you....?</p>
-      </TestModal>
+      </TestModal> */}
     </div>
   );
 }

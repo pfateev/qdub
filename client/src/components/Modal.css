@@ -20,8 +20,9 @@
 }
 
 .modal-content {
-  width: 80%;
+  width: 60%;
   padding: 20px;
+  color: #000c;
   background-color: #f0f4f3;
   transform: translateY(-200px);
   transition: all 0.3s ease-in-out;
@@ -71,7 +72,7 @@
   background-color: #5C59E3;
 }
 
-#student {
+#student, #stepIn {
  background-color: #918fe1;
 }
 
