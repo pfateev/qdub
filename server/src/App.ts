@@ -212,7 +212,8 @@ app.patch("/queue/enqueue", (req, res) => {
 	course.enqueue(student);
 	questionsMap[courseID_].push(question);
 
-	res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
+	// Return wait time and position on the queue
+	res.status(200).json({waitTime: student.qtime, spotNumber: student.pos}); 
 });
 
 // API for stepIn 
@@ -252,6 +253,13 @@ app.get("/queue/questions/:courseID", (req, res) => {
 });
 
 // API for setting notification
+app.patch("/queue/setNotification", (req, res) => {
+	const { courseID, message } = req.body; 
+	const courseID_: number = +courseID;
+	let course = courseMap[courseID_]
+	course.queue.setMessage(message);
+	res.status(200);
+});
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
