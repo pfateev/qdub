@@ -248,7 +248,7 @@ app.get("/queue/questions/:courseID", (req, res) => {
 	// check if is a TA with studentID and courseID
 	const courseID_: number = +courseID;
 
-	res.status(200).json(questionsMap[courseID_]);
+	res.status(200).json({questions: questionsMap[courseID_], message: courseMap[courseID_].queue.getMessage()});
 });
 
 // API for setting notification
