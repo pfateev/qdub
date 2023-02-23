@@ -10,7 +10,6 @@ import { TestModal } from './TestModal';
 export const Login = (props) => {
   const [inputID, setInputID] = useState('');
   const [show, setShow] = useState(false);
-  // const [isTA, setIsTA] = useState(false);
 
   // navigation route
   let navigate = useNavigate();
@@ -23,7 +22,6 @@ export const Login = (props) => {
     navigate(path);
   }
 
-  // MAIN onclick event
   const getData = async () => {
     const response = await fetch('http://localhost:3001/students', {
       method: 'POST',
@@ -34,38 +32,28 @@ export const Login = (props) => {
         inputID: inputID
       })
     });
-    // const responseData = await submitForm(
-    //   JSON.stringify({ inputID: inputID }), "/students", "POST");
-    const responseData = await response.json();
+    try {
+      if(response.ok){
+        const responseData = await response.json();
+        const { netID, taCourses, studentCourses } = responseData;
+        const { setNetID, setStudentCourses, setTaCourses } = props;
+        setStudentCourses(studentCourses);
+        setTaCourses(taCourses);
+        setNetID(netID);
+        if (taCourses.length === 0) {
+          routeChangeStudent()
+        } else {
+          setShow(true);
+        }
+      }
+    } catch (error) {
+      // how do we want to handle this for the user?
+      // banner that asks them to try again?
+      console.error(error);
+    }
 
     // later this will need to be validated
     console.log(responseData);
-    // props.setNetID(inputID);
-    // props.setIsTa(responseData.isTA);
-    // props.setEstimatedWait(responseData.estimatedWait);
-    // props.setNumberOfPeople(responseData.numberOfPeople);
-    // error handling goes here
-    // if (responseData.isTA) {
-    //   if(responseData.nextStudent == null) {
-    //     props.setNextStudent("");
-    //   } else {
-    //     props.setNextStudent(responseData.nextStudent.name);
-    //   }
-    //   // routeChangeTA();
-    //   setShow(true);
-    // } else {
-    //   routeChangeStudent();
-    // }
-    const { netID, taCourses, studentCourses } = responseData;
-    const { setNetID, setStudentCourses, setTaCourses } = props;
-    setStudentCourses(studentCourses);
-    setTaCourses(taCourses);
-    setNetID(netID);
-    if (taCourses.length === 0) {
-      routeChangeStudent()
-    } else {
-      setShow(true);
-    }
   };
 
   return (
