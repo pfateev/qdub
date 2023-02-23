@@ -50,6 +50,25 @@ export const Login = (props) => {
         inputID: inputID
       })
     });
+    try {
+      if(response.ok){
+        const responseData = await response.json();
+        const { netID, taCourses, studentCourses } = responseData;
+        const { setNetID, setStudentCourses, setTaCourses } = props;
+        setStudentCourses(studentCourses);
+        setTaCourses(taCourses);
+        setNetID(netID);
+        if (taCourses.length === 0) {
+          routeChangeStudent()
+        } else {
+          setShow(true);
+        }
+      }
+    } catch (error) {
+      // how do we want to handle this for the user?
+      // banner that asks them to try again?
+      console.error(error);
+    }
 
     // later this will need to be validated
     const responseData = await response.json();
