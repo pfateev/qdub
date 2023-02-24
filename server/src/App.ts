@@ -206,13 +206,15 @@ app.patch("/queue/enqueue", (req, res) => {
 
 	let course = courseMap[courseID_]
 	const currQ = course.queue;
+	if (course.status) {
+		const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID]);
+		course.enqueue(student);
+		questionsMap[courseID_].push(question);
 
-	const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID] );
-	course.enqueue(student);
-	questionsMap[courseID_].push(question);
+		res.status(200).json({ waitTime: student.qtime, spotNumber: student.pos, active: true});
+	}
 
-	// Return wait time and position on the queue
-	res.status(200).json({waitTime: student.qtime, spotNumber: student.pos}); 
+	res.status(200).json({ waitTime: null, spotNumber: null, active: false});
 });
 
 // API for stepIn 
