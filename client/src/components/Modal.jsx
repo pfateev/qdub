@@ -12,12 +12,22 @@ const Modal = props => {
           {props.children}
         </div>
         <div className="modal-footer">
-          <button onClick={props.onClose} className="button">Close</button>
-          <button onClick={props.onConfirm} className="button">Confirm</button>
+          {props.isLogin &&
+          <>
+            <button onClick={props.onConfirmTa} className="submit" id="ta">TAing</button>
+            <button onClick={props.onConfirmStudent} className="submit"id="student">Student</button>
+            <button onClick={props.onClose} className="cancel">&times;</button>
+          </>
+          }
+          {props.isQueue &&
+          <>
+            <button onClick={props.onStepIn} className="submit" id="stepIn">Step in!</button>
+          </>
+          }
         </div>
       </div>
     </div>
   )
 }
 
-export default Modal
+export default Modal;

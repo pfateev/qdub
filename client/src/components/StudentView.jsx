@@ -4,15 +4,17 @@ import "./Button.css";
 import "./Logo.css";
 import "./TalkingDog.css";
 import dog from "../assets/dog.png";
+import Modal from './Modal';
 
-const StudentView = ({ netID, isTA }) => {
+const StudentView = ({netId, selectedCourse, isTa, numberOfPeople, estimatedWait, props}) => {
   const [queueSize, setQueueSize] = useState();
   const [waitTime, setWaitTime] = useState();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:3001/queue/403/${isTA}`, {
+      const response = await fetch(`http://localhost:3001/queue/${selectedCourse}/${isTa}/${netId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -21,8 +23,6 @@ const StudentView = ({ netID, isTA }) => {
       const responseData = await response.json();
       setQueueSize(responseData.numberOfPeople);
       setWaitTime(responseData.estimatedWait);
-      // return true for cross-origin fetch
-      return true;
     };
 
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -34,10 +34,6 @@ const StudentView = ({ netID, isTA }) => {
     // Return a cleanup function that clears the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
-
-  // update queue info on timed intervals
-  // update();
-  // setInterval(update, 10000);
 
   return (
     <div className="view">
@@ -60,10 +56,20 @@ const StudentView = ({ netID, isTA }) => {
       </div>
 
       <div className="imageSet">
-        <span className="speechMsg">Please Wait!</span>
         <img className="dog" src={dog} alt="cute dog" />
       </div>
-      <button className="button" type="submit" >Leave Queue</button>
+      <button className="button" onClick={() => setShow(true)}>Stepping out!</button>
+
+      <Modal
+        title="You are currently out of the queue!"
+        isQueue={true}
+        isLogin={false}
+        onStepIn={() => setShow(false)}
+        show={show}
+      >
+        <p>Press "Step in!" to go back</p>
+      </Modal>
+
     </div>
   );
 };

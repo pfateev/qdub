@@ -10,11 +10,16 @@ import TACourse from "./components/TACourse";
 import Home from "./components/Home";
 
 const App = () => {
-  const [netID, setNetID] = useState(null);
-  const [isTA, setIsTA] = useState(false);
+  const [netId, setNetId] = useState(null);
+  const [isTa, setIsTa] = useState(false);
+  const [studentCourses, setStudentCourses] = useState([]);
+  const [taCourses, setTaCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(-1);
   const [nextStudent, setNextStudent] = useState(null);
   const [numberOfPeople, setNumberOfPeople] = useState();
   const [estimatedWait, setEstimatedWait] = useState(0);
+
+
   return (
     <ChakraProvider>
       <Router>
@@ -22,12 +27,17 @@ const App = () => {
           <Route
             path="/"
             element={
+              <Home/>
+            }
+          />
+          <Route
+            path="/login"
+            element={
               <Login
-                setNetID={setNetID}
-                setIsTa={setIsTA}
-                setNextStudent={setNextStudent}
-                setNumberOfPeople={setNumberOfPeople}
-                setEstimatedWait={setEstimatedWait}
+                setNetId={setNetId}
+                setIsTa={setIsTa}
+                setStudentCourses={setStudentCourses}
+                setTaCourses={setTaCourses}
               />
             }
           />
@@ -35,8 +45,9 @@ const App = () => {
             path="/student-view"
             element={
               <StudentView
-                netID={netID}
-                isTA={isTA}
+                netId={netId}
+                selectedCourse={selectedCourse}
+                isTa={isTa}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
               />
@@ -46,19 +57,38 @@ const App = () => {
             path="/ta-view"
             element={
               <TAView
-                netID={netID}
-                isTA={isTA}
+                netId={netId}
+                isTa={isTa}
                 nextStudent={nextStudent}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
+                selectedCourse={selectedCourse}
                 setNextStudent={setNextStudent}
                 setNumberOfPeople={setNumberOfPeople}
                 setEstimatedWait={setEstimatedWait}
               />
             }
           />
-          <Route path="/student-courses" element={<StudentCourse />} />
-          <Route path="/ta-courses" element={<TACourse />} />
+          <Route
+            path="/student-courses"
+            element={
+              <StudentCourse
+                netId={netId}
+                studentCourses={studentCourses}
+                setSelectedCourse={setSelectedCourse}
+              />
+            }
+          />
+          <Route
+            path="/ta-courses"
+            element={
+              <TACourse
+                netId={netId}
+                taCourses={taCourses}
+                setSelectedCourse={setSelectedCourse}
+              />
+            }
+          />
         </Routes>
       </Router>
     </ChakraProvider>

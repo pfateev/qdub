@@ -39,17 +39,17 @@ export interface IHash5 {
 	courseId 							courseName
 	----------------------------------------------
 	403										Software Engineer
-	455										Computer Vision 
+	455										Computer Vision
 
 							STUDENT TABLE
 	----------------------------------------------
-	NetID 				Name 					Password? 
+	NetID 				Name 					Password?
 	----------------------------------------------
-	izzyv 				Izzy					
+	izzyv 				Izzy
 	wenli					Wendy
 	pashap				Pasha
 	jaredt				Jared
-	triv					Tri	
+	triv					Tri
 	stu1					Student1
 	stu2					Student2
 	stu3					Student3
@@ -78,9 +78,9 @@ export interface IHash5 {
 	455							wenli
 	455 						izzyv
 
-	Map<courseID, course object> 
+	Map<courseID, course object>
 	Map<NetID, Set<courseID>> studentClassesMap
-	Map<NetID, Set<courseID>> taClassesMap 
+	Map<NetID, Set<courseID>> taClassesMap
  */
 
 
@@ -254,7 +254,7 @@ app.patch("/queue/enqueue", (req, res) => {
 	}
 });
 
-// API for stepIn 
+// API for stepIn
 app.patch("/student/stepIn", (req, res) => {
 	try {
 		const { courseID, studentPosition } = req.body;
@@ -292,6 +292,17 @@ app.patch("/student/stepOut", (req, res) => {
 			console.error('An unknown error occurred');
 		}
 	}
+});
+
+// API for Notify
+app.patch("/student/notify", (req, res) => {
+	const { courseID, message } = req.body;
+	const courseID_: number = +courseID;
+
+	let course = courseMap[courseID_]
+	course.notify(message);
+
+	res.status(200).json({status: true});
 });
 
 // API for display of all questions being asked
