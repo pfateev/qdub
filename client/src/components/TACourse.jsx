@@ -52,8 +52,8 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
   };
 
   // to put the courses in a list format to display in drop down
-  const options = taCourses.map(course =>
-    <option value={course}>
+  const options = taCourses.map((course) =>
+    <option value={course} key={course}>
       {course}
     </option>)
 

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from 'react';
 import "./TAView.css";
 import "./Button.css";
 // import shape from "./assets/shape.svg";
@@ -11,7 +11,37 @@ import "./Button.css";
  *    - Student has been helped, finished()
  */
 
-export const TAView = (props) => {
+export const TAView = (
+  { netId, isTa, nextStudent,
+    numberOfPeople, selectedCourse,
+    setNextStudent, setNumberOfPeople
+  }) => {
+  const [queueSize, setQueueSize] = useState();
+  const [waitTime, setWaitTime] = useState();
+
+  useEffect(() => {
+    // Define a function that makes the API call and updates the data state
+    const fetchData = async () => {
+      const response = await fetch(`http://localhost:3001/queue/${selectedCourse}/${isTa}/${netId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const responseData = await response.json();
+      setQueueSize(responseData.numberOfPeople);
+      setWaitTime(responseData.estimatedWait);
+    };
+
+    // Call the function immediately and then schedule it to be called every 10 seconds
+    fetchData();
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 500);
+
+    // Return a cleanup function that clears the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
 
   async function finished() {
     const response = await fetch('http://localhost:3001/queue', {
@@ -26,31 +56,31 @@ export const TAView = (props) => {
 
     const responseData = await response.json();
     console.log(responseData);
-    if(responseData.nextStudent == null) {
-      props.setNextStudent("");
+    if (responseData.nextStudent == null) {
+      setNextStudent("");
     } else {
-      props.setNextStudent(responseData.nextStudent.name);
+      setNextStudent(responseData.nextStudent.name);
     }
-    props.setNumberOfPeople(responseData.numberOfPeople);
+    setNumberOfPeople(responseData.numberOfPeople);
   };
 
   return (
     <div className="view">
       <div className="taHeader">
-        {props.numberOfPeople > 0 ?
+        {numberOfPeople > 0 ?
           <span className="yesPeople">
             Hey TA! You’re doing great! The next person you should help is
             <span className="studentName">
-              {props.nextStudent}
+              {nextStudent}
             </span>
             <span className="peopleDesc">
               The number of people in queue are
             </span>
             <span className="peopleNum">
-              {props.numberOfPeople}
+              {numberOfPeople}
             </span>
           </span>
-        :
+          :
           <span className="noPeople">
             Hey TA, great job! There are no more people in the queue 🥳
           </span>

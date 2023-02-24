@@ -8,7 +8,7 @@ import { TestModal } from './TestModal';
 import { useDisclosure } from '@chakra-ui/react';
 import { Input, FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react';
 
-export const Login = (props) => {
+export const Login = ({ setNetId, setStudentCourses, setTaCourses }) => {
   const [inputID, setInputID] = useState('');
   const [show, setShow] = useState(false);
   const [error, setError] = useState('');
@@ -54,10 +54,9 @@ export const Login = (props) => {
       if(response.ok){
         const responseData = await response.json();
         const { netID, taCourses, studentCourses } = responseData;
-        const { setNetID, setStudentCourses, setTaCourses } = props;
         setStudentCourses(studentCourses);
         setTaCourses(taCourses);
-        setNetID(netID);
+        setNetId(netID);
         if (taCourses.length === 0) {
           routeChangeStudent()
         } else {
@@ -70,27 +69,10 @@ export const Login = (props) => {
       console.error(error);
     }
 
-    // later this will need to be validated
-    const responseData = await response.json();
-    console.log(responseData);
-    // bad netid
-    if (responseData.message === 'NetID does not exist') {
-      setError('Invalid netID');
-      return;
-    }
-
-    // set data with back end response
-    const { netID, taCourses, studentCourses } = responseData;
-    const { setNetID, setStudentCourses, setTaCourses } = props;
-    setStudentCourses(studentCourses);
-    setTaCourses(taCourses);
-    setNetID(netID);
-    if (taCourses.length === 0) {
-      routeChangeStudent()
-    } else {
-      setShow(true);
-      // onOpen();
-    }
+    // if (responseData.message === 'NetID does not exist') {
+    //   setError('Invalid netID');
+    //   return;
+    // }
   };
 
   return (
