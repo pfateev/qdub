@@ -206,6 +206,11 @@ app.patch("/queue/enqueue", (req, res) => {
 
 	let course = courseMap[courseID_]
 	const currQ = course.queue;
+
+	if(currQ.alreadyInQueue(studentID)) {
+		res.status(400).json({message: "You've already queued up"});
+	}
+	
 	if (course.status) {
 		const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID]);
 		course.enqueue(student);
@@ -271,11 +276,10 @@ app.patch("/queue/activate", (req, res) => {
 		course.activate();
 	} else {
 		course.deactivate();
+		course.reset();
 	}
 	res.status(200);
 });
-
-
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
