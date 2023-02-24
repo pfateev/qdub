@@ -8,12 +8,14 @@ class Course {
       name: string; 
       queue: DoublyLinkedList;
       status: boolean;
+      message: string | null;
 
       constructor(id: number, name: string) {
             this.id = id; 
             this.name = name; 
             this.queue = new DoublyLinkedList();
             this.status = false;
+            this.message = null;
       }
 
       // updateQueue(deduct: number) {
@@ -74,7 +76,7 @@ class Course {
       }
 
       notify(message: string) {
-            this.queue.setMessage(message);
+            this.message = message;
       }
       
       // //remove student from any position

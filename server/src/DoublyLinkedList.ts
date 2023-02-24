@@ -9,14 +9,12 @@ class DoublyLinkedList
 
    private size: number;
    private timelen: number;
-   private message: string | null;
 
    constructor() {
        this.head = null;
        this.tail = null;
        this.size = 0;
        this.timelen = 0;
-       this.message = null;
    }
 
     public getSize(): number {
@@ -267,15 +265,6 @@ class DoublyLinkedList
             }
             curr = curr.next;
         }
-    }
-
-    //Ta Message to students
-    public setMessage(message: string): void{
-        this.message = message;
-    }
-
-    public getMessage(): string | null {
-        return this.message;
     }
 
 		public alreadyInQueue(NetID: string): boolean {
