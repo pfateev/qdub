@@ -49,15 +49,23 @@ class Course {
             this.status = false;
       }
       //add a student
-      enqueue(data: Student) {
+      enqueue(data: Student) : boolean {
             if(this.status) {
                   this.queue.enqueue(data);
+                  return true;
+            } else {
+                  return false;
             }
       }
 
       // //remove student from front
-      dequeue() {
-            if(this.status) this.queue.dequeue();
+      dequeue() : boolean {
+            if(this.status)  {
+                  this.queue.dequeue();
+                  return true;
+            } else {
+                  return false;
+            }
       }
 
       reset() {
