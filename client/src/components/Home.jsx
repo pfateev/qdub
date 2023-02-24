@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import "./Login.css";
-import "./Button.css";
+import "./GeneralStyle.css"
 import circles from "../assets/circles.png";
-import dog from "../assets/dog.png";
+import dog from "../assets/welcomeDog.png";
 
 export const Home = () => {
 
@@ -14,19 +13,19 @@ export const Home = () => {
   }
 
   return (
-    <div className="registration">
+    <div>
       <img className="logo" src={circles} alt="top left circles" />
-      <span className="title">Q'Dub</span>
-      <span className="description">
-        Welcome!
-      </span>
-
-      <img className="dog" src={dog} alt="cute dog" />
-
-      <button className="button" onClick={() => routeChange()}>
-        Start!
-      </button>
+      <div className="webpage">
+        <h1 className='title'>Q'Dub</h1>
+        <img className="dog" src={dog} alt="cute dog" />
+        <div>
+          <button className="button" onClick={() => routeChange()}>
+            Start!
+          </button>
+        </div>
+      </div>
     </div>
+
   );
 }
 export default Home;

@@ -1,7 +1,6 @@
 import * as React from "react";
-import "./TAView.css";
-import "./Button.css";
-// import shape from "./assets/shape.svg";
+import "./GeneralStyle.css"
+import dog from "../assets/goodDog.png";
 
 /**
  *  Info need to GET from backend:
@@ -35,33 +34,38 @@ export const TAView = (props) => {
   };
 
   return (
-    <div className="view">
-      <div className="taHeader">
-        {props.numberOfPeople > 0 ?
-          <span className="yesPeople">
-            Hey TA! You’re doing great! The next person you should help is
-            <span className="studentName">
-              {props.nextStudent}
+    <div>
+      {props.numberOfPeople > 0 ?
+        <div className="webpage" id="queueView">
+          <div className="header">
+            <span className="peopleAheadDesc">
+              You’re doing great!
+              The next person you should help is {props.nextStudent}
+              <span className="peopleAheadDesc">
+                {props.numberOfPeople} people in queue
+              </span>
             </span>
-            <span className="peopleDesc">
-              The number of people in queue are
-            </span>
-            <span className="peopleNum">
-              {props.numberOfPeople}
-            </span>
-          </span>
-        :
-          <span className="noPeople">
-            Hey TA, great job! There are no more people in the queue 🥳
-          </span>
-        }
-      </div>
-
-      <div className="center">
-        <button className="button" type="finished" onClick={finished}>
-          Next Student!
-        </button>
-      </div>
+          </div>
+          <button className="button" type="finished" onClick={finished}>
+            Next Student!
+          </button>
+        </div>
+      :
+        <div>
+          <div className="webpage" id="queueView">
+            <div className="header">
+              <span className="noPeople">
+                There are no more people in the queue 🥳
+              </span>
+            </div>
+              <img className="dog" src={dog} alt="cute dog" />
+              {/* reroute/api */}
+              <button className="button" type="finished" onClick={finished}>
+                End Queue!
+              </button>
+          </div>
+        </div>
+      }
     </div>
   );
 };

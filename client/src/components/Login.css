@@ -36,21 +36,6 @@
   display: flex;
 }
 
-.title {
-  letter-spacing: 1px;
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 21px;
-}
-
-.description {
-  text-align: center;
-  letter-spacing: 1px;
-  color: #000c;
-  margin-bottom: 18px;
-  margin-left: 3px;
-}
-
 .checkBox {
   margin-top: 2em;
   color: #000;

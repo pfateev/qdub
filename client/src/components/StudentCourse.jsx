@@ -2,16 +2,26 @@ import React, { useState } from 'react';
 import circles from "../assets/circles.png";
 import { useNavigate } from 'react-router-dom'
 import "./StudentCourse.css";
-import "./Button.css";
-import "./Logo.css";
-import { Select, Input, FormControl, FormLabel, Heading } from '@chakra-ui/react';
-import { useToast } from '@chakra-ui/react'
+import "./GeneralStyle.css"
+import {
+  Select,
+  Input,
+  FormControl,
+  useToast,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper, } from '@chakra-ui/react';
 
 export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   const [question, setQuestion] = useState('');
-  const [questionTime, setQuestionTime] = useState('');
+  const [questionTime, setQuestionTime] = useState('1');
   const [selectedValue, setSelectedValue] = useState('');
   const toast = useToast();
+  const format = (val) => val + `min`
+  const parse = (val) => val.replace(/min/, '')
+
   // TODO input validation:
   // const isError = question === '';
 
@@ -73,26 +83,52 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
     </option>)
 
   return (
-    <div className="registration">
+    <div>
       <img className="logo" src={circles} alt="top left circles" />
-      <FormControl width='33%'>
-        <FormLabel>
-          <Heading>Enqueue</Heading>
-        </FormLabel>
-        <Select value={selectedValue} placeholder='Choose a course:' onChange={e => setSelectedValue(parseInt(e.target.value))}>
-          {options}
-        </Select>
-        <Input
-          type='text'
-          placeholder='What do you need help with?'
-          onChange={e => setQuestion(e.target.value)}
+      <div className="webpage">
+        <h1 className="title">Queue</h1>
+        <p className="description">
+          Select a course you want to queue up for!
+        </p>
+        <FormControl
+          fontFamily='Sans-Serif'
+          width='33%'
+          marginBottom='10%'
         >
-        </Input>
-      </FormControl>
-      <button className="button" type="submit"
-        onClick={enqueue}>
-        Queue up!
-      </button>
+          <Select
+            value={selectedValue}
+            placeholder='Choose a course:'
+            onChange={e => setSelectedValue(parseInt(e.target.value))}
+          >
+            {options}
+          </Select>
+          <Input
+            type='text'
+            placeholder='What do you need help with?'
+            onChange={e => setQuestion(e.target.value)}
+          >
+          </Input>
+          <NumberInput
+            min={1}
+            max={20}
+            onChange={(valueString) => setQuestionTime(parse(valueString))}
+            value={format(questionTime)}
+            size='md'
+            maxW={24}
+            allowMouseWheel
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+        <button className="button" type="submit"
+          onClick={enqueue}>
+          Queue up!
+        </button>
+      </div>
     </div>
   );
 }

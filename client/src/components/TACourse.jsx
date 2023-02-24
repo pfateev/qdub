@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import circles from "../assets/circles.png";
 import {useNavigate} from 'react-router-dom'
-import "./TACourse.css";
-import "./Button.css";
-import "./Logo.css";
+import "./GeneralStyle.css"
 import { Select, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { Input } from '@chakra-ui/react'
@@ -58,8 +56,9 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
     </option>)
 
   return (
-    <div className="registration">
+    <div>
       <img className="logo" src={circles} alt="top left circles" />
+<<<<<<< Updated upstream
       <FormControl width='33%'>
         <FormLabel>
           <Heading>Start a Queue</Heading>
@@ -87,6 +86,34 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
           </TabPanel>
         </TabPanels>
       </Tabs>
+=======
+      <div className="webpage">
+        <h1 className="title">Office Hour</h1>
+        <div>
+          <h2 className='subtitle'>Active Queue</h2>
+          <p className="description">
+            Please select a course!
+          </p>
+          <FormControl
+            fontFamily='Sans-Serif'
+            width='33%'
+            marginBottom='10%'
+          >
+            <Select value={selectedValue} placeholder='Choose a course:' onChange={e => setSelectedValue(parseInt(e.target.value))}>
+              {options}
+            </Select>
+          </FormControl>
+          <button className="button" type="submit"
+            onClick={startQueue}>
+            Start!
+          </button>
+          </div>
+      </div>
+
+      <div>
+        {/* tab for announcement */}
+      </div>
+>>>>>>> Stashed changes
     </div>
   );
 }

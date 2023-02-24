@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import "./StudentView.css";
-import "./Button.css";
-import "./Logo.css";
+import "./GeneralStyle.css"
 import "./TalkingDog.css";
-import dog from "../assets/dog.png";
+import dog from "../assets/waitDog.png";
 import Modal from './Modal';
 
 const StudentView = ({netId, selectedCourse, isTA, numberOfPeople, estimatedWait, props}) => {
@@ -36,22 +35,13 @@ const StudentView = ({netId, selectedCourse, isTA, numberOfPeople, estimatedWait
   }, []);
 
   return (
-    <div className="view">
+    <div className="webpage" id="queueView">
       <div className="header">
-        {/* <img className="logo" src={logo} alt="top left circles" /> */}
         <span className="peopleAheadDesc">
-          The number of people ahead of you
+          {queueSize} people ahead of you
         </span>
-        <div>
-          <span className="peopleAheadNum">
-            {queueSize}
-          </span>
-        </div>
         <span className="estimate">
-          We estimate a wait time of
-        </span>
-        <span className="waitTime">
-          {waitTime} minutes
+          We estimate a wait time of {waitTime} minutes
         </span>
       </div>
 
