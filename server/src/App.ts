@@ -204,17 +204,17 @@ app.patch("/queue", (req, res) => {
 app.patch("/queue/enqueue", (req, res) => {
 	const { courseID, studentID, question, questionTime } = req.body;
 	const courseID_: number = +courseID;
-	const studentID_: number = +studentID;
 	const time_ = +questionTime;
 
 	let course = courseMap[courseID_]
 	const currQ = course.queue;
 
-	const student = new Student(studentID_, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID_] );
+	const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID] );
 	course.enqueue(student);
 	questionsMap[courseID_].push(question);
 
-	res.status(200).json({nextStudent: currQ.get(0), numberOfPeople: currQ.getSize()});
+	// Return wait time and position on the queue
+	res.status(200).json({waitTime: student.qtime, spotNumber: student.pos}); 
 });
 
 // API for stepIn
@@ -250,10 +250,32 @@ app.get("/queue/questions/:courseID", (req, res) => {
 	// check if is a TA with studentID and courseID
 	const courseID_: number = +courseID;
 
-	res.status(200).json(questionsMap[courseID_]);
+	res.status(200).json({questions: questionsMap[courseID_], message: courseMap[courseID_].queue.getMessage()});
 });
 
 // API for setting notification
+app.patch("/queue/setNotification", (req, res) => {
+	const { courseID, message } = req.body; 
+	const courseID_: number = +courseID;
+	let course = courseMap[courseID_]
+	course.queue.setMessage(message);
+	res.status(200);
+});
+
+// API for active and deactive the queue
+app.patch("/queue/activate", (req, res) => {
+	const { courseID } = req.body; 
+	const courseID_: number = +courseID;
+	let course = courseMap[courseID_]
+	if (course.status) {
+		course.activate();
+	} else {
+		course.deactivate();
+	}
+	res.status(200);
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

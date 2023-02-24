@@ -13,7 +13,7 @@ class Course {
             this.id = id; 
             this.name = name; 
             this.queue = new DoublyLinkedList();
-            this.status = true;
+            this.status = false;
       }
 
       // updateQueue(deduct: number) {
@@ -47,6 +47,7 @@ class Course {
 
       deactivate() : void {
             this.status = false;
+						this.queue = new DoublyLinkedList();
       }
       //add a student
       enqueue(data: Student) : boolean {
