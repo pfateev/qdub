@@ -31,6 +31,7 @@ describe("Course tests - getter", () => {
 				student2 = new Student(studentId2, pos2, time, status, qtime2, question, name2);
 				student3 = new Student(studentId3, pos3, time, status, qtime3, question, name3);
 				course = new Course("403", "Software Engineer");
+				course.activate();
 	});
 
 	it("enqueue test", () => {
@@ -104,6 +105,16 @@ describe("Course tests - getter", () => {
 	 	course.enqueue(student3);
 	 	expect(course.queue.get(0).id).to.be.eq(1);
 	 });
+
+	 it("enqueue twice test", () => {
+		expect(course.enqueue(student1)).to.be.true;
+		expect(course.enqueue(student2)).to.be.true;
+		expect(course.queue.alreadyInQueue(studentId1)).to.be.true;
+		expect(course.queue.alreadyInQueue(studentId2)).to.be.true;
+		expect(course.dequeue(student1)).to.be.true;
+		expect(course.queue.alreadyInQueue(studentId1)).to.be.false;
+		expect(course.queue.alreadyInQueue(studentId2)).to.be.true;
+	});
 
 });
 
