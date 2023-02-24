@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Route, useNavigate } from 'react-router-dom'
-import "./Login.css";
-import "./Button.css";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
+import "./GeneralStyle.css"
 import circles from "../assets/circles.png";
 import Modal from './Modal';
-import { TestModal } from './TestModal';
-import { useDisclosure } from '@chakra-ui/react';
-import { Input, FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react';
+import { Input, FormControl, FormErrorMessage } from '@chakra-ui/react';
 
 export const Login = (props) => {
   const [inputID, setInputID] = useState('');
   const [show, setShow] = useState(false);
   const [error, setError] = useState('');
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // navigation routes
   let navigate = useNavigate();
@@ -29,7 +25,7 @@ export const Login = (props) => {
   const handleInputChange = (event) => {
     setInputID(event.target.value);
     // clear the error message when the input changes
-    setError(''); 
+    setError('');
   };
 
   // MAIN onclick event
@@ -75,7 +71,7 @@ export const Login = (props) => {
     console.log(responseData);
     // bad netid
     if (responseData.message === 'NetID does not exist') {
-      setError('Invalid netID');
+      setError('Invalid NetID');
       return;
     }
 
@@ -89,37 +85,49 @@ export const Login = (props) => {
       routeChangeStudent()
     } else {
       setShow(true);
-      // onOpen();
     }
   };
 
   return (
-    <div className="registration">
+    <div>
       <img className="logo" src={circles} alt="top left circles" />
-      <span className="title">Queue prototype</span>
-      <span className="description">
-        Manual student&#x2F;TA enqueue-ing for prototype
-      </span>
-      <FormControl isInvalid={!!error} width='33%'>
-        <FormLabel>NetID:</FormLabel>
-        <Input type="text" value={inputID} placeholder="Enter your NetID" onChange={handleInputChange} />
-        <FormErrorMessage>{error}</FormErrorMessage>
-      </FormControl>
-      <Modal
-        title="Hi TA!"
-        isQueue={false}
-        isLogin={true}
-        onClose={() => setShow(false)}
-        onConfirmTa={() => routeChangeTa()}
-        onConfirmStudent={() => routeChangeStudent()}
-        show={show}
-      >
-        <p>Are you....?</p>
-      </Modal>
-      <button className="button" type="submit"
-        onClick={getData}>
-        Login up!
-      </button>
+      <div className="webpage">
+        <h1 className="title">Login</h1>
+        <p className="description">
+          Please enter you NetID below to sign up!
+        </p>
+        <FormControl
+          fontFamily='Sans-Serif'
+          isInvalid={!!error}
+          width='33%'
+          marginBottom='10%'
+        >
+          <Input
+            focusBorderColor='#918fe1'
+            background='white'
+            type='text'
+            value={inputID}
+            placeholder='Enter your NetID'
+            onChange={handleInputChange}
+          />
+          <FormErrorMessage>{error}</FormErrorMessage>
+        </FormControl>
+        <Modal
+          title="Hi TA!"
+          isQueue={false}
+          isLogin={true}
+          onClose={() => setShow(false)}
+          onConfirmTa={() => routeChangeTa()}
+          onConfirmStudent={() => routeChangeStudent()}
+          show={show}
+        >
+          <p>Are you signing in as...?</p>
+        </Modal>
+        <button className="button" type="submit"
+          onClick={getData}>
+          Submit!
+        </button>
+      </div>
     </div>
   );
 }

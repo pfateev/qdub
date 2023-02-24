@@ -1,3 +1,6 @@
+/* General Styling for the Q'Dub */
+
+/* general button */
 .button {
   color: #fff;
   text-align: center;
@@ -11,10 +14,9 @@
   box-sizing: border-box;
   flex-direction: row;
 
-  font-family: Roboto, Arial;
+  font-family: Sans-Serif;
   font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 33px;
+  font-weight: bold;
   display: flex;
 
   flex-basis: 100%;
@@ -22,7 +24,7 @@
   align-items: center;
 
   min-height: 3rem;
-  min-width: 200px;
+  min-width: 10rem;
   padding: calc(.875rem - 1px) calc(1.5rem - 1px);
 
   text-decoration: none;
@@ -35,8 +37,6 @@
   width: 20%;
   height: auto;
   flex-basis: 7%;
-  margin-top: 10%;
-  margin-bottom: 20px;
   z-index: 1;
 }
 
@@ -54,4 +54,52 @@
   background-color: #716fda;
   box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
   transform: translateY(0);
+}
+
+/* general webpage */
+.webpage {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f4f3;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: Sans-Serif;
+  font-size: 10px;
+  display: flex;
+  padding-top: 8%;
+  padding-bottom: 3%;
+}
+
+.title {
+  letter-spacing: 1px;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #918fe1;
+  font-family: Sans-Serif;
+}
+
+.description {
+  text-align: center;
+  font-size: 1.5rem;
+  color: rgba(56, 56, 56, 0.8);
+  margin-top: 10%;
+  margin-bottom: 4%;
+  font-family: Sans-Serif;
+}
+
+/* logo/circle */
+.logo {
+  max-width: 20%;
+  height: auto;
+  z-index: 2;
+  position: absolute;
+}
+
+/* dog */
+.dog {
+  max-height: 30%;
+  width: auto;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }

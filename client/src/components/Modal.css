@@ -20,7 +20,9 @@
 }
 
 .modal-content {
-  width: 60%;
+  width: 50%;
+  height: auto;
+  min-height: 40%;
   padding: 20px;
   color: #000c;
   background-color: #f0f4f3;
@@ -34,30 +36,28 @@
 }
 
 .modal-header, .modal-footer {
-  padding: 10px;
+  padding: 2rem;
+  text-align: center;
 }
 
 .modal-title {
   margin: 0;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  color: #918fe1;
   font-weight: bold;
-  text-align: center;
 }
 
 .modal-body {
-  padding: 10px;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  padding: 1rem;
   text-align: center;
-}
-
-.modal-footer{
-  text-align: center;
+  font-size: 1.5rem;
+  color: rgba(56, 56, 56, 0.8);
+  font-family: Sans-Serif;
 }
 
 .submit {
   display: inline-block;
-  width: 20%;
+  min-width: 20%;
   border-radius: 20px;
   text-align: center;
   color: #fff;
@@ -66,6 +66,7 @@
   font-weight: bold;
   padding: 10px;
   padding-bottom: 10px;
+  margin: 0.5rem;
 }
 
 #ta {
