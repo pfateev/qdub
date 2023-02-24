@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import circles from "../assets/circles.png";
 import {useNavigate} from 'react-router-dom'
 import "./TACourse.css";
-import "./Button.css";
-import "./Logo.css";
+// import "./Button.css";
+// import "./Logo.css";
 import { Select, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { Input } from '@chakra-ui/react'
