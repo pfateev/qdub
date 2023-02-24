@@ -241,6 +241,17 @@ app.patch("/student/stepOut", (req, res) => {
 	res.status(200).json({status: true});
 });
 
+// API for Notify
+app.patch("/student/notify", (req, res) => {
+	const { courseID, message } = req.body;
+	const courseID_: number = +courseID;
+
+	let course = courseMap[courseID_]
+	course.notify(message);
+
+	res.status(200).json({status: true});
+});
+
 // API for display of all questions being asked
 app.get("/queue/questions/:courseID", (req, res) => {
 	// Retrieve information about the queue

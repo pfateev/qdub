@@ -7,25 +7,43 @@ import "./Logo.css";
 import { Select, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { Input } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 
 export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
   const [selectedValue, setSelectedValue] = useState('');
   const [value, setValue] = useState('');
   console.log(value);
   //sumbmission notification
-  function handleSubmit(event) {
-    // console.log('A name was submitted: ' + this.state.value);
-    event.preventDefault();
-    alert('this is your value: ' + value);
-    setValue('');
-  }
   // navigation route
   let navigate = useNavigate();
   const routeChange = () => {
     let path = `/ta-view`;
     navigate(path);
   }
+  //Send notification 
+  const notify = async () => {
+    // console.log('A name was submitted: ' + this.state.value);
+    console.log('this is your value: ' + value);
 
+    const response = await fetch('http://localhost:3001/student/notify', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        courseID: selectedValue,
+        message: value,
+      })
+    });
+
+    const responseData = await response.json();
+    if(responseData.status == true) {
+      alert("message sent");
+    }
+    //TODO: waiting on backend route to be finished
+    console.log(responseData);
+
+  }
   // Start Queue
   const startQueue = async () => {
     //TODO replace url later
@@ -46,7 +64,6 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
       console.log(responseData);
 
       setSelectedCourse(selectedValue);
-      routeChange();
 
       // console.log(responseData);
   };
@@ -81,9 +98,11 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
             </button>
           </TabPanel>
           <TabPanel>
-            <form onSubmit={handleSubmit}>
-              <Input placeholder='Message' size='md' onChange={(e)=> setValue(e.currentTarget.value)} />
-            </form>
+            <Input placeholder='Message' size='md' onChange={(e)=> setValue(e.currentTarget.value)} />
+            <button className="button" type="submit"
+              onClick={notify}>
+              Notify!
+            </button>
           </TabPanel>
         </TabPanels>
       </Tabs>
