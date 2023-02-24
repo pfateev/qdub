@@ -47,6 +47,7 @@ class Course {
 
       deactivate() : void {
             this.status = false;
+						this.queue = new DoublyLinkedList();
       }
       //add a student
       enqueue(data: Student) : boolean {

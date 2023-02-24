@@ -260,6 +260,19 @@ app.patch("/queue/setNotification", (req, res) => {
 	res.status(200);
 });
 
+// API for active and deactive the queue
+app.patch("/queue/activate", (req, res) => {
+	const { courseID } = req.body; 
+	const courseID_: number = +courseID;
+	let course = courseMap[courseID_]
+	if (course.status) {
+		course.activate();
+	} else {
+		course.deactivate();
+	}
+	res.status(200);
+});
+
 
 
 app.listen(PORT, () => {
