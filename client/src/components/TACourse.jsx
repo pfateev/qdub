@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import circles from "../assets/circles.png";
 import {useNavigate} from 'react-router-dom'
-import "./TACourse.css";
-// import "./Button.css";
-// import "./Logo.css";
-import { Select, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-import { Input } from '@chakra-ui/react'
+import "./GeneralStyle.css"
+import { Select,
+         Tabs,
+         TabList,
+         TabPanels,
+         Tab,
+         TabPanel,
+          Input } from '@chakra-ui/react'
 
 export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
   const [selectedValue, setSelectedValue] = useState('');
@@ -14,7 +16,6 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
   console.log(value);
   //sumbmission notification
   function handleSubmit(event) {
-    // console.log('A name was submitted: ' + this.state.value);
     event.preventDefault();
     alert('this is your value: ' + value);
     setValue('');
@@ -47,8 +48,6 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
 
       setSelectedCourse(selectedValue);
       routeChange();
-
-      // console.log(responseData);
   };
 
   // to put the courses in a list format to display in drop down
@@ -60,33 +59,55 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
   return (
     <div>
       <img className="logo" src={circles} alt="top left circles" />
-      <FormControl width='33%'>
-        <FormLabel>
-          <Heading>Start a Queue</Heading>
-        </FormLabel>
-        <Select value={selectedValue} placeholder='Choose a course:' onChange={e => setSelectedValue(parseInt(e.target.value))}>
-          {options}
-        </Select>
-      </FormControl>
-      <Tabs isFitted variant='enclosed'>
-        <TabList mb='1em'>
-          <Tab>Activate</Tab>
-          <Tab>Notify</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <button className="button" type="submit"
-              onClick={startQueue}>
-              Start!
-            </button>
-          </TabPanel>
-          <TabPanel>
-            <form onSubmit={handleSubmit}>
-              <Input placeholder='Message' size='md' onChange={(e)=> setValue(e.currentTarget.value)} />
-            </form>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      <div className="webpage">
+        <Tabs isFitted variant='enclosed'>
+          <TabList mb='1rem'>
+            <Tab>Activate</Tab>
+            <Tab>Notify</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <h1 className="title">Start a Queue</h1>
+              <Select
+                background='white'
+                value={selectedValue}
+                placeholder='Choose a course:'
+                onChange={e => setSelectedValue(parseInt(e.target.value))}
+              >
+                {options}
+              </Select>
+              <button className="button" type="submit" onClick={startQueue}>
+                Start!
+              </button>
+            </TabPanel>
+
+            <TabPanel>
+              <h1 className="title">Make Anouncement</h1>
+              <Select
+                background='white'
+                value={selectedValue}
+                placeholder='Choose a course:'
+                onChange={e => setSelectedValue(parseInt(e.target.value))}
+              >
+                {options}
+              </Select>
+              <form onSubmit={handleSubmit}>
+                <Input
+                  type='text'
+                  placeholder='Message'
+                  background='white'
+                  size='md'
+                  onChange={(e)=> setValue(e.currentTarget.value)}
+                />
+              </form>
+              {/* change onclick fucntion to send msg*/}
+              <button className="button" type="submit" onClick={(startQueue)}>
+                Send!
+              </button>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </div>
     </div>
   );
 }

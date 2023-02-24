@@ -1,93 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import circles from "../assets/circles.png";
-import {useNavigate} from 'react-router-dom'
-import "./TACourse.css";
-// import "./Button.css";
-// import "./Logo.css";
-import { Select, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-import { Input } from '@chakra-ui/react'
+import * as React from "react";
+import "./GeneralStyle.css"
+import "./QueueView.css"
+import dog from "../assets/goodDog.png";
 
-export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
-  const [selectedValue, setSelectedValue] = useState('');
-  const [value, setValue] = useState('');
-  console.log(value);
-  //sumbmission notification
-  function handleSubmit(event) {
-    // console.log('A name was submitted: ' + this.state.value);
-    event.preventDefault();
-    alert('this is your value: ' + value);
-    setValue('');
-  }
-  // navigation route
-  let navigate = useNavigate();
-  const routeChange = () => {
-    let path = `/ta-view`;
-    navigate(path);
-  }
+/**
+ *  Info need to GET from backend:
+ *    - next student name
+ *    - update # of people in the queue
+ *  Info need to SEND to backend
+ *    - Student has been helped, finished()
+ */
 
-  // Start Queue
-  const startQueue = async () => {
-    //TODO replace url later
-    const response = await fetch('http://localhost:3001/queue/enqueue', {
+export const TAView = (props) => {
+  async function finished() {
+    const response = await fetch('http://localhost:3001/queue', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        courseID: selectedValue,
-        studentID: netID,
-      })
+        isTa: true
+      }),
     });
 
-      const responseData = await response.json();
-
-      //TODO: waiting on backend route to be finished
-      console.log(responseData);
-
-      setSelectedCourse(selectedValue);
-      routeChange();
-
-      // console.log(responseData);
+    const responseData = await response.json();
+    console.log(responseData);
+    if(responseData.nextStudent == null) {
+      props.setNextStudent("");
+    } else {
+      props.setNextStudent(responseData.nextStudent.name);
+    }
+    props.setNumberOfPeople(responseData.numberOfPeople);
   };
 
-  // to put the courses in a list format to display in drop down
-  const options = taCourses.map(course =>
-    <option value={course}>
-      {course}
-    </option>)
-
   return (
-    <div className="registration">
-      <img className="logo" src={circles} alt="top left circles" />
-      <FormControl width='33%'>
-        <FormLabel>
-          <Heading>Start a Queue</Heading>
-        </FormLabel>
-        <Select value={selectedValue} placeholder='Choose a course:' onChange={e => setSelectedValue(parseInt(e.target.value))}>
-          {options}
-        </Select>
-      </FormControl>
-      <Tabs isFitted variant='enclosed'>
-        <TabList mb='1em'>
-          <Tab>Activate</Tab>
-          <Tab>Notify</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <button className="button" type="submit"
-              onClick={startQueue}>
-              Start!
-            </button>
-          </TabPanel>
-          <TabPanel>
-            <form onSubmit={handleSubmit}>
-              <Input placeholder='Message' size='md' onChange={(e)=> setValue(e.currentTarget.value)} />
-            </form>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+    <div>
+      {props.numberOfPeople > 0 ?
+        <div className="webpage" id="queueView">
+          <div className="header">
+            <span className="peopleAheadDesc">
+              You’re doing great!
+              The next person you should help is {props.nextStudent}
+              <span className="peopleAheadDesc">
+                {props.numberOfPeople} people in queue
+              </span>
+             </span>
+             </div>
+          <button className="button" type="finished" onClick={finished}>
+            Next Student!
+          </button>
+        </div>
+      :
+        <div>
+          <div className="webpage" id="queueView">
+            <div className="header">
+              <span className="noPeople">
+                There are no more people in the queue 🥳
+              </span>
+            </div>
+              <img className="dog" src={dog} alt="cute dog" />
+              {/* reroute/api */}
+              <button className="button" type="finished" onClick={finished}>
+                End Queue!
+              </button>
+          </div>
+        </div>
+      }
     </div>
   );
 }
-export default TACourse;
+export default TAView;

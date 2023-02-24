@@ -1,20 +1,19 @@
-import "./StudentView";
 import "./GeneralStyle.css"
 import circles from "../assets/circles.png";
-import dog from "../assets/dog.png";
+import dog from "../assets/questionDog.png";
 
 export const StudentHelp = () => {
 
   return (
-    <div className="registration">
+    <div>
       <img className="logo" src={circles} alt="top left circles" />
-      <span className="title">You're getting helped!</span>
-      <span className="description">
-        Your question:
-        {/* add the their question */}
-      </span>
-
-      <img className="dog" src={dog} alt="cute dog" />
+        <div className="webpage">
+        <h1 className="title">Your Turn!</h1>
+        <img className="dog" src={dog} alt="cute dog" />
+        <p className="description">
+          {/* add the their question */}
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import "./StudentView.css";
+import "./QueueView.css"
 import "./GeneralStyle.css"
-import "./TalkingDog.css";
 import dog from "../assets/waitDog.png";
 import Modal from './Modal';
 
-const StudentView = ({netId, selectedCourse, isTA, numberOfPeople, estimatedWait, props}) => {
+const StudentView = ({netId, selectedCourse, isTA}) => {
   const [queueSize, setQueueSize] = useState();
   const [waitTime, setWaitTime] = useState();
   const [show, setShow] = useState(false);
@@ -51,7 +50,7 @@ const StudentView = ({netId, selectedCourse, isTA, numberOfPeople, estimatedWait
       <button className="button" onClick={() => setShow(true)}>Stepping out!</button>
 
       <Modal
-        title="You are currently out of the queue!"
+        title="You are out of queue!"
         isQueue={true}
         isLogin={false}
         onStepIn={() => setShow(false)}

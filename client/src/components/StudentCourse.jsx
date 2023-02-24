@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import circles from "../assets/circles.png";
 import { useNavigate } from 'react-router-dom'
-import "./StudentCourse.css";
 import "./GeneralStyle.css"
 import {
   Select,
@@ -98,17 +97,20 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
           <Select
             value={selectedValue}
             placeholder='Choose a course:'
+            background='white'
             onChange={e => setSelectedValue(parseInt(e.target.value))}
           >
             {options}
           </Select>
           <Input
             type='text'
+            background='white'
+            focusBorderColor='#918fe1'
             placeholder='What do you need help with?'
             onChange={e => setQuestion(e.target.value)}
-          >
-          </Input>
+          />
           <NumberInput
+            background='white'
             min={1}
             max={20}
             onChange={(valueString) => setQuestionTime(parse(valueString))}
