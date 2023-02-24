@@ -5,10 +5,20 @@ import "./TACourse.css";
 import "./Button.css";
 import "./Logo.css";
 import { Select, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import { Input } from '@chakra-ui/react'
 
 export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
   const [selectedValue, setSelectedValue] = useState('');
-
+  const [value, setValue] = useState('');
+  console.log(value);
+  //sumbmission notification
+  function handleSubmit(event) {
+    // console.log('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+    alert('this is your value: ' + value);
+    setValue('');
+  }
   // navigation route
   let navigate = useNavigate();
   const routeChange = () => {
@@ -58,10 +68,25 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
           {options}
         </Select>
       </FormControl>
-      <button className="button" type="submit"
-        onClick={startQueue}>
-        Start!
-      </button>
+      <Tabs isFitted variant='enclosed'>
+        <TabList mb='1em'>
+          <Tab>Activate</Tab>
+          <Tab>Notify</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <button className="button" type="submit"
+              onClick={startQueue}>
+              Start!
+            </button>
+          </TabPanel>
+          <TabPanel>
+            <form onSubmit={handleSubmit}>
+              <Input placeholder='Message' size='md' onChange={(e)=> setValue(e.currentTarget.value)} />
+            </form>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </div>
   );
 }
