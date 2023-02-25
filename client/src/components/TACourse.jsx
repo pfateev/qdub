@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import circles from "../assets/circles.png";
-import { useNavigate } from 'react-router-dom'
-import "./TACourse.css";
-import "./Button.css";
-import "./Logo.css";
-import { Select, FormControl, FormLabel, Heading, Button } from '@chakra-ui/react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-import { Input } from '@chakra-ui/react'
-import { useToast } from '@chakra-ui/react'
+import {useNavigate} from 'react-router-dom'
+import "./GeneralStyle.css"
+import { Select,
+         Tabs,
+         TabList,
+         TabPanels,
+         Tab,
+         TabPanel,
+          Input } from '@chakra-ui/react'
 
 export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
   const [selectedValue, setSelectedValue] = useState('');
   const [value, setValue] = useState('');
   console.log(value);
   //sumbmission notification
+  function handleSubmit(event) {
+    event.preventDefault();
+    alert('this is your value: ' + value);
+    setValue('');
+  }
   // navigation route
   let navigate = useNavigate();
   const routeChange = () => {
@@ -87,7 +93,7 @@ export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
   //   </option>)
 
   return (
-    <div className="registration">
+    <div>
       <img className="logo" src={circles} alt="top left circles" />
       <FormControl width='33%'>
         <FormLabel>

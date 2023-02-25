@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import StudentCourse from "./components/StudentCourse";
 import TACourse from "./components/TACourse";
 import Home from "./components/Home";
+import StudentHelp from "./components/StudentHelp";
 
 const App = () => {
   const [netId, setNetId] = useState(null);
@@ -51,6 +52,12 @@ const App = () => {
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
               />
+            }
+          />
+          <Route
+            path="/student-help"
+            element={
+              <StudentHelp/>
             }
           />
           <Route
