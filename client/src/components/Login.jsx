@@ -47,6 +47,9 @@ export const Login = (props) => {
       })
     });
     try {
+      /* i dont think this try/catch has the intended functionality 
+        for some reason response.ok is true even when bad request (invalid netID)
+      */
       if(response.ok){
         const responseData = await response.json();
         const { netID, taCourses, studentCourses } = responseData;
@@ -63,13 +66,15 @@ export const Login = (props) => {
     } catch (error) {
       // how do we want to handle this for the user?
       // banner that asks them to try again?
-      console.error(error);
+      console.log("test");
+      console.log(error);
     }
 
     // later this will need to be validated
     const responseData = await response.json();
     console.log(responseData);
-    // bad netid
+  
+    // for when invalid netid
     if (responseData.message === 'NetID does not exist') {
       setError('Invalid NetID');
       return;
