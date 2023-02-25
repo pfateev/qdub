@@ -12,14 +12,14 @@ import { Select,
 
 export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
   const [selectedValue, setSelectedValue] = useState('');
-  const [value, setValue] = useState('');
-  console.log(value);
+  const [message, setMessage] = useState('');
+  console.log(message);
   //sumbmission notification
-  function handleSubmit(event) {
-    event.preventDefault();
-    alert('this is your value: ' + value);
-    setValue('');
-  }
+  // function handleSubmit(event) {
+  //   event.preventDefault();
+  //   alert('this is your value: ' + value);
+  //   setValue('');
+  // }
   // navigation route
   let navigate = useNavigate();
   const routeChange = () => {
@@ -29,7 +29,7 @@ export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
   //Send notification
   const notify = async () => {
     // console.log('A name was submitted: ' + this.state.value);
-    console.log('this is your value: ' + value);
+    console.log('this is your value: ' + message);
 
     const response = await fetch('http://localhost:3001/student/notify', {
       method: 'PATCH',
@@ -38,7 +38,7 @@ export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
       },
       body: JSON.stringify({
         courseID: selectedValue,
-        message: value,
+        message: message,
       })
     });
 
@@ -129,7 +129,7 @@ export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
                 placeholder='Message'
                 background='white'
                 size='md'
-                onChange={(e)=> setValue(e.currentTarget.value)} />
+                onChange={(e)=> setMessage(e.currentTarget.value)} />
               <button className="button" type="submit"
                 onClick={notify}>
                 Notify!

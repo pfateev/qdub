@@ -245,7 +245,7 @@ app.patch("/queue/enqueue", (req, res) => {
 			res.status(200).json({ waitTime: student.qtime, spotNumber: student.pos, active: true });
 		}
 
-		res.status(200).json({ waitTime: null, spotNumber: null, active: false });
+		res.status(200).json({ waitTime: null, spotNumber: null, active: false, message: currQ.getMessage() });
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.error('An error occurred: ', error.message);
