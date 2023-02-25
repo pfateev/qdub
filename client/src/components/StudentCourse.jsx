@@ -33,7 +33,7 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   }
 
   // toast for when queue not active
-  const Toast = () => {
+  const InactiveQueueToast = () => {
     toast({
       title: 'Queue not yet active.',
       description: "Please try again.",
@@ -64,7 +64,10 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
         const responseData = await response.json();
         console.log(responseData);
         if (!responseData.active) {
-          Toast();
+          InactiveQueueToast();
+          if(response.message !== null){
+            // TODO: NEW TOAST HERE ?
+          }
           return;
         }
         setSelectedCourse(selectedValue);
