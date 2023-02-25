@@ -14,7 +14,7 @@ import dog from "../assets/goodDog.png";
 export const TAView = (
   { netId, isTa, nextStudent,
     numberOfPeople, selectedCourse,
-    setNextStudent, setNumberOfPeople
+    setNextStudent, setNumberOfPeople,
   }) => {
   // const [queueSize, setQueueSize] = useState();
   // const [waitTime, setWaitTime] = useState();
@@ -67,14 +67,14 @@ export const TAView = (
 
   return (
     <div>
-      {props.numberOfPeople > 0 ?
+      {numberOfPeople > 0 ?
         <div className="webpage" id="queueView">
           <div className="header">
             <span className="peopleAheadDesc">
               You’re doing great!
-              The next person you should help is {props.nextStudent}
+              The next person you should help is {nextStudent}
               <span className="peopleAheadDesc">
-                {props.numberOfPeople} people in queue
+                {numberOfPeople} people in queue
               </span>
              </span>
              </div>

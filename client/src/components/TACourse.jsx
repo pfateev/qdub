@@ -26,7 +26,7 @@ export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
     let path = `/ta-view`;
     navigate(path);
   }
-  //Send notification 
+  //Send notification
   const notify = async () => {
     // console.log('A name was submitted: ' + this.state.value);
     console.log('this is your value: ' + value);
@@ -87,43 +87,57 @@ export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
       </option>
     );
   });
-  // const options = taCourses.map((course) =>
-  //   <option value={course} key={course}>
-  //     {course}
-  //   </option>)
 
   return (
     <div>
       <img className="logo" src={circles} alt="top left circles" />
-      <FormControl width='33%'>
-        <FormLabel>
-          <Heading>Start a Queue</Heading>
-        </FormLabel>
-        <Select value={selectedValue} placeholder='Choose a course:' onChange={e => setSelectedValue(parseInt(e.target.value))}>
-          {options}
-        </Select>
-      </FormControl>
-      <Tabs isFitted variant='enclosed'>
-        <TabList mb='1em'>
-          <Tab>Activate</Tab>
-          <Tab>Notify</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <button className="button" type="submit"
-              onClick={startQueue}>
-              Start!
-            </button>
-          </TabPanel>
-          <TabPanel>
-            <Input placeholder='Message' size='md' onChange={(e) => setValue(e.currentTarget.value)} />
-            <button className="button" type="submit"
-              onClick={notify}>
-              Notify!
-            </button>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      <div className="webpage">
+        <Tabs isFitted variant='enclosed'>
+          <TabList mb='1rem'>
+            <Tab>Activate</Tab>
+            <Tab>Notify</Tab>
+          </TabList>
+
+          <TabPanels>
+            <TabPanel>
+              <h1 className="title">Start a Queue</h1>
+              <Select
+                background='white'
+                value={selectedValue}
+                placeholder='Choose a course:'
+                onChange={e => setSelectedValue(parseInt(e.target.value))}
+              >
+                {options}
+              </Select>
+              <button className="button" type="submit" onClick={startQueue}>
+                Start!
+              </button>
+            </TabPanel>
+
+            <TabPanel>
+              <h1 className="title">Make Anouncement</h1>
+              <Select
+                background='white'
+                value={selectedValue}
+                placeholder='Choose a course:'
+                onChange={e => setSelectedValue(parseInt(e.target.value))}
+              >
+                {options}
+              </Select>
+              <Input
+                type='text'
+                placeholder='Message'
+                background='white'
+                size='md'
+                onChange={(e)=> setValue(e.currentTarget.value)} />
+              <button className="button" type="submit"
+                onClick={notify}>
+                Notify!
+              </button>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </div>
     </div>
   );
 }

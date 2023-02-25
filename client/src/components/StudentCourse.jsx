@@ -84,7 +84,7 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
     }
 
     //TODO: waiting on backend route to be finished
-    console.log(responseData);
+    // console.log(responseData);
 
     setSelectedCourse(selectedValue);
     routeChangeStudent();
