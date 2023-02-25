@@ -175,7 +175,7 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 			queueInfo = <TAQueueInfo>queueInfo;
 			queueInfo =
 			{
-				studentName: queue.isEmpty() ? "" : queue.get(0)?.getName(),
+				studentName: queue.get(0)?.getName(),
 				numberOfPeople: queue.getSize(),
 				estimatedWait: queue.getWaitTime()
 			};
@@ -186,6 +186,7 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 				estimatedWait: queue.getWaitTime()
 			};;
 		}
+		console.log(queueInfo);
 		res.status(200).json(queueInfo);
 	} catch (error: unknown) {
 		if (error instanceof Error) {
