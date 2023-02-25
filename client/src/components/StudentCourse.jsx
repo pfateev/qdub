@@ -11,7 +11,8 @@ import {
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
-  NumberDecrementStepper, } from '@chakra-ui/react';
+  NumberDecrementStepper,
+} from '@chakra-ui/react';
 
 export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   const [question, setQuestion] = useState('');
@@ -62,32 +63,16 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
       if (response.ok) {
         const responseData = await response.json();
         console.log(responseData);
-        // setSelectedCourse(selectedValue);
-        // routeChangeStudent();
+        if (!responseData.active) {
+          Toast();
+          return;
+        }
+        setSelectedCourse(selectedValue);
+        routeChangeStudent();
       }
     } catch (error) {
       console.error(error);
     }
-
-    // change this to if (not active)
-    // not sure how backend will validate this
-    // if (selectedValue) {
-    //   Toast();
-    //   return;
-    // }
-
-    // change this to if (not active)
-    // not sure how backend will validate this
-    if (selectedValue === 403) {
-      Toast();
-      return;
-    }
-
-    //TODO: waiting on backend route to be finished
-    // console.log(responseData);
-
-    setSelectedCourse(selectedValue);
-    routeChangeStudent();
   };
 
   // to put the courses in a list format to display in drop down
