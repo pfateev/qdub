@@ -49,28 +49,43 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
         questionTime: 5
       })
     });
-
-    const responseData = await response.json();
+    try {
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+        // setSelectedCourse(selectedValue);
+        // routeChangeStudent();
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
     // change this to if (not active)
     // not sure how backend will validate this
-    if (selectedValue === 403) {
-      Toast();
-      return;
-    }
+    // if (selectedValue) {
+    //   Toast();
+    //   return;
+    // }
 
-    //TODO: waiting on backend route to be finished
-    console.log(responseData);
-
-    setSelectedCourse(selectedValue);
-    routeChangeStudent();
+    
   };
 
   // to put the courses in a list format to display in drop down
-  const options = studentCourses.map((course) =>
-    <option value={course} key={course}>
-      {course}
-    </option>)
+  // to put the courses in a list format to display in drop down
+  const options = [];
+  // const parsedCourses = JSON.parse(taCourses);
+  Object.keys(studentCourses).forEach(key => {
+    // console.log(`${key}: ${obj[key]}`);
+    options.push(
+      <option value={key} key={key}>
+        {"CSE" + key + " – " + studentCourses[key]}
+      </option>
+    );
+  });
+  // const options = studentCourses.map((course) =>
+  //   <option value={course} key={course}>
+  //     {course}
+  //   </option>)
 
   return (
     <div className="registration">

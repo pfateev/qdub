@@ -144,7 +144,7 @@ app.post("/students", (req, res) => {
 			res.status(200).json({
 				netID: inputID,
 				studentCourses: studentCourseNames,
-				TACourses: taCourseNames,
+				taCourses: taCourseNames,
 			});
 		} else {
 			res.status(400).json({ message: "NetID does not exist" });
@@ -175,7 +175,7 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 			queueInfo = <TAQueueInfo>queueInfo;
 			queueInfo =
 			{
-				studentName: studentInfo[studentID_],
+				studentName: queue.isEmpty() ? "" : queue.get(0)?.getName(),
 				numberOfPeople: queue.getSize(),
 				estimatedWait: queue.getWaitTime()
 			};
@@ -348,13 +348,13 @@ app.patch("/queue/activate", (req, res) => {
 		const { courseID } = req.body;
 		const courseID_: number = +courseID;
 		let course = courseMap[courseID_]
-		if (course.status) {
+		if (!course.status) {
 			course.activate();
 		} else {
 			course.deactivate();
 			course.reset();
 		}
-		res.status(200);
+		res.status(200).json({courseActive: course.getStatus()});
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.error('An error occurred: ', error.message);

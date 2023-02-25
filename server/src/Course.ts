@@ -15,7 +15,9 @@ class Course {
             this.queue = new DoublyLinkedList();
             this.status = false;
       }
-
+      getStatus(): boolean {
+            return this.status;
+      }
       // updateQueue(deduct: number) {
       //       // this.queue..forEach(element => {
       //       //       element.setTime(element.getTime - deduct);

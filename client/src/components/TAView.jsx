@@ -16,8 +16,8 @@ export const TAView = (
     numberOfPeople, selectedCourse,
     setNextStudent, setNumberOfPeople
   }) => {
-  const [queueSize, setQueueSize] = useState();
-  const [waitTime, setWaitTime] = useState();
+  // const [queueSize, setQueueSize] = useState();
+  // const [waitTime, setWaitTime] = useState();
 
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
@@ -29,8 +29,9 @@ export const TAView = (
         }
       });
       const responseData = await response.json();
-      setQueueSize(responseData.numberOfPeople);
-      setWaitTime(responseData.estimatedWait);
+      console.log(responseData);
+      setNumberOfPeople(responseData.numberOfPeople);
+      // setNextStudent(responseData.);
     };
 
     // Call the function immediately and then schedule it to be called every 10 seconds

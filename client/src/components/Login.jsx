@@ -8,7 +8,7 @@ import { TestModal } from './TestModal';
 import { useDisclosure } from '@chakra-ui/react';
 import { Input, FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react';
 
-export const Login = ({ setNetId, setStudentCourses, setTaCourses }) => {
+export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) => {
   const [inputID, setInputID] = useState('');
   const [show, setShow] = useState(false);
   const [error, setError] = useState('');
@@ -17,10 +17,12 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses }) => {
   // navigation routes
   let navigate = useNavigate();
   const routeChangeTa = () => {
+    setIsTa(true)
     let path = `/ta-courses`;
     navigate(path);
   }
   const routeChangeStudent = () => {
+
     let path = `/student-courses`;
     navigate(path);
   }
@@ -53,11 +55,12 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses }) => {
     try {
       if(response.ok){
         const responseData = await response.json();
+        console.log(responseData);
         const { netID, taCourses, studentCourses } = responseData;
         setStudentCourses(studentCourses);
         setTaCourses(taCourses);
         setNetId(netID);
-        if (taCourses.length === 0) {
+        if (taCourses.size === 0) {
           routeChangeStudent()
         } else {
           setShow(true);
