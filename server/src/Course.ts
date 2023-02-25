@@ -78,6 +78,10 @@ class Course {
       notify(message: string) {
             this.message = message;
       }
+
+      getMessage() {
+            return this.message;
+      }
       
       // //remove student from any position
       // exit() {

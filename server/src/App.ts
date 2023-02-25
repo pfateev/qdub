@@ -315,7 +315,7 @@ app.get("/queue/questions/:courseID", (req, res) => {
 		// check if is a TA with studentID and courseID
 		const courseID_: number = +courseID;
 
-		res.status(200).json({ questions: questionsMap[courseID_], message: courseMap[courseID_].queue.getMessage() });
+		res.status(200).json({ questions: questionsMap[courseID_], message: courseMap[courseID_].getMessage() });
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.error('An error occurred: ', error.message);
@@ -331,7 +331,7 @@ app.patch("/queue/setNotification", (req, res) => {
 		const { courseID, message } = req.body;
 		const courseID_: number = +courseID;
 		let course = courseMap[courseID_]
-		course.queue.setMessage(message);
+		course.notify(message);
 		res.status(200);
 	} catch (error: unknown) {
 		if (error instanceof Error) {
