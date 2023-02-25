@@ -10,7 +10,7 @@ import { Select,
          TabPanel,
           Input } from '@chakra-ui/react'
 
-export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
+export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
   const [selectedValue, setSelectedValue] = useState('');
   const [message, setMessage] = useState('');
   console.log(message);
@@ -60,7 +60,7 @@ export const TACourse = ({ netID, taCourses, setSelectedCourse }) => {
       },
       body: JSON.stringify({
         courseID: selectedValue,
-        studentID: netID,
+        studentID: netId,
       })
     });
     try {
