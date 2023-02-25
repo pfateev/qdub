@@ -14,7 +14,7 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react';
 
-export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
+export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
   const [question, setQuestion] = useState('');
   const [questionTime, setQuestionTime] = useState('1');
   const [selectedValue, setSelectedValue] = useState('');
@@ -53,7 +53,7 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
       },
       body: JSON.stringify({
         courseID: selectedValue,
-        studentID: netID,
+        studentID: netId,
         question: question,
         // TODO: this default value needs to turned into a proper variable
         questionTime: 5
