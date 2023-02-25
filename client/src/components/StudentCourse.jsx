@@ -76,9 +76,7 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   };
 
   // to put the courses in a list format to display in drop down
-  // to put the courses in a list format to display in drop down
   const options = [];
-  // const parsedCourses = JSON.parse(taCourses);
   Object.keys(studentCourses).forEach(key => {
     // console.log(`${key}: ${obj[key]}`);
     options.push(
@@ -87,10 +85,6 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
       </option>
     );
   });
-  // const options = studentCourses.map((course) =>
-  //   <option value={course} key={course}>
-  //     {course}
-  //   </option>)
 
   return (
     <div>
