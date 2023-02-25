@@ -58,8 +58,23 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
         questionTime: 5
       })
     });
+    try {
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+        // setSelectedCourse(selectedValue);
+        // routeChangeStudent();
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
-    const responseData = await response.json();
+    // change this to if (not active)
+    // not sure how backend will validate this
+    // if (selectedValue) {
+    //   Toast();
+    //   return;
+    // }
 
     // change this to if (not active)
     // not sure how backend will validate this
@@ -76,10 +91,21 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   };
 
   // to put the courses in a list format to display in drop down
-  const options = studentCourses.map((course) =>
-    <option value={course} key={course}>
-      {course}
-    </option>)
+  // to put the courses in a list format to display in drop down
+  const options = [];
+  // const parsedCourses = JSON.parse(taCourses);
+  Object.keys(studentCourses).forEach(key => {
+    // console.log(`${key}: ${obj[key]}`);
+    options.push(
+      <option value={key} key={key}>
+        {"CSE" + key + " – " + studentCourses[key]}
+      </option>
+    );
+  });
+  // const options = studentCourses.map((course) =>
+  //   <option value={course} key={course}>
+  //     {course}
+  //   </option>)
 
   return (
     <div>

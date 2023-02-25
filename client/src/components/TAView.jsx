@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from 'react';
 import "./GeneralStyle.css"
 import "./QueueView.css"
 import dog from "../assets/goodDog.png";
@@ -11,7 +11,39 @@ import dog from "../assets/goodDog.png";
  *    - Student has been helped, finished()
  */
 
-export const TAView = (props) => {
+export const TAView = (
+  { netId, isTa, nextStudent,
+    numberOfPeople, selectedCourse,
+    setNextStudent, setNumberOfPeople
+  }) => {
+  // const [queueSize, setQueueSize] = useState();
+  // const [waitTime, setWaitTime] = useState();
+
+  useEffect(() => {
+    // Define a function that makes the API call and updates the data state
+    const fetchData = async () => {
+      const response = await fetch(`http://localhost:3001/queue/${selectedCourse}/${isTa}/${netId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const responseData = await response.json();
+      console.log(responseData);
+      setNumberOfPeople(responseData.numberOfPeople);
+      // setNextStudent(responseData.);
+    };
+
+    // Call the function immediately and then schedule it to be called every 10 seconds
+    fetchData();
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 500);
+
+    // Return a cleanup function that clears the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
+
   async function finished() {
     const response = await fetch('http://localhost:3001/queue', {
       method: 'PATCH',
@@ -25,12 +57,12 @@ export const TAView = (props) => {
 
     const responseData = await response.json();
     console.log(responseData);
-    if(responseData.nextStudent == null) {
-      props.setNextStudent("");
+    if (responseData.nextStudent == null) {
+      setNextStudent("");
     } else {
-      props.setNextStudent(responseData.nextStudent.name);
+      setNextStudent(responseData.nextStudent.name);
     }
-    props.setNumberOfPeople(responseData.numberOfPeople);
+    setNumberOfPeople(responseData.numberOfPeople);
   };
 
   return (

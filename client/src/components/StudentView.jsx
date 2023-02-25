@@ -4,7 +4,7 @@ import "./GeneralStyle.css"
 import dog from "../assets/waitDog.png";
 import Modal from './Modal';
 
-const StudentView = ({netId, selectedCourse, isTA}) => {
+const StudentView = ({netId, selectedCourse, isTa, numberOfPeople, estimatedWait, props}) => {
   const [queueSize, setQueueSize] = useState();
   const [waitTime, setWaitTime] = useState();
   const [show, setShow] = useState(false);
@@ -12,7 +12,7 @@ const StudentView = ({netId, selectedCourse, isTA}) => {
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:3001/queue/${selectedCourse}/${isTA}/${netId}`, {
+      const response = await fetch(`http://localhost:3001/queue/${selectedCourse}/${isTa}/${netId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
