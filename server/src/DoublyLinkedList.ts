@@ -291,6 +291,19 @@ class DoublyLinkedList
 			return res;
 		}
 		
+		// Remove a node at with given index
+		public removeAtIndex(index: number): boolean {
+			if (index < 0 || index >= this.size) {
+				return false;
+			}
+			const student = this.get(index);
+			if(student){
+				this.remove(student);
+			}
+			return true;
+
+		}
+		
     //    We don't need these 
 //    public getFirst(): any
 //    {
