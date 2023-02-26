@@ -8,11 +8,13 @@ import { Select,
          TabPanels,
          Tab,
          TabPanel,
+         useToast,
           Input } from '@chakra-ui/react'
 
 export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
   const [selectedValue, setSelectedValue] = useState('');
   const [message, setMessage] = useState('');
+  const toast = useToast();
   console.log(message);
   //sumbmission notification
   // function handleSubmit(event) {
@@ -25,6 +27,16 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
   const routeChange = () => {
     let path = `/ta-view`;
     navigate(path);
+  }
+
+  const verficationToast = () => {
+    toast({
+      title: 'Success',
+      description: "Message was sent",
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    });
   }
   //Send notification
   const notify = async () => {
@@ -43,8 +55,8 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
     });
 
     const responseData = await response.json();
-    if (responseData.status == true) {
-      alert("message sent");
+    if (responseData.status ===true) {
+      verficationToast();
     }
     //TODO: waiting on backend route to be finished
     console.log(responseData);

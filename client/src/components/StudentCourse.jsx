@@ -43,6 +43,40 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
     });
   }
 
+  // // toast for message
+  // const messageToast = async () => {
+  //   // const CID  = +selectedValue;
+  //   // console.log(CID);
+  //   // const s = 'http://localhost:3001//queue/questions/:courseID' + CID;
+  //   const response = await fetch('http://localhost:3001//queue/questions/:courseID', {
+  //     method: 'PATCH',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       courseID: selectedValue,
+  //     })
+  //   });
+  //   try {
+  //     if (response.ok) {
+  //       const responseData = await response.json();
+  //       console.log("reached here");
+  //       console.log(responseData);
+  //       const mes = responseData.message;
+  //       toast({
+  //         title: 'Message from TA',
+  //         description: {mes},
+  //         status: 'error',
+  //         duration: 9000,
+  //         isClosable: true,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+  
+
   // Enqueue student
   const enqueue = async () => {
     // console.log({course: selectedValue, question: question});
@@ -66,7 +100,8 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
         if (!responseData.active) {
           InactiveQueueToast();
           if(response.message !== null){
-            // TODO: NEW TOAST HERE ?
+            // TODO: 
+            // messageToast();
           }
           return;
         }
