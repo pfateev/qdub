@@ -222,6 +222,9 @@ class DoublyLinkedList
 
     // Update the student.status
     public stepOut(pos: number): boolean {
+				if (pos === 0 && this.getSize() === 1) {
+					return false;
+				}
         if(pos < this.getSize() && pos >= 0) {
             let s = this.get(pos);
             if(s == null) return false;

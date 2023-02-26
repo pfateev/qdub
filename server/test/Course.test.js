@@ -73,6 +73,12 @@ describe("Course tests - getter", () => {
 		course.queue.stepIn(1);
 		expect(course.queue.get(1).getStatus()).to.be.true;
 		expect(course.queue.get(0).getStatus()).to.be.false;
+
+		// testing for stepOut when queue size is 1
+		course.dequeue();
+		expect(course.queue.get(0)).to.be.eq(student2);
+		expect(course.queue.stepOut(0)).to.be.eq(false);
+		
 	});
 
 	it("status test", () => {
