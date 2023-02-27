@@ -31,7 +31,7 @@ export const TAView = (
       const responseData = await response.json();
       console.log(responseData);
       setNumberOfPeople(responseData.numberOfPeople);
-      // setNextStudent(responseData.);
+      setNextStudent(responseData.studentName);
     };
 
     // Call the function immediately and then schedule it to be called every 10 seconds
