@@ -59,7 +59,8 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
         setStudentCourses(studentCourses);
         setTaCourses(taCourses);
         setNetId(netID);
-        if (taCourses.size === 0) {
+        // console.log(taCourses);
+        if (Object.keys(taCourses).length === 0) {
           routeChangeStudent()
         } else {
           setShow(true);
