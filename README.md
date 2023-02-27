@@ -82,7 +82,7 @@ server - Contains the backend files and server for the project
 - Clone repo
 - Make sure you are on branch `main` and the Docker GUI is running
 - In root directory run the following command:
-  - `docker-compose up --build`
+  - `docker-compose up -d --build`
   - This will essentially interpret our Docker files and execute them as explained in our docker-compose.yaml file. Within the docker-compose.yaml file we have instructions for how docker should build the images for the front end, back end, database and network that connects them together.
 - That's it.
 
