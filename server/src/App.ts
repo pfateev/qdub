@@ -265,7 +265,7 @@ app.patch("/student/stepIn", (req, res) => {
 		let course = courseMap[courseID_]
 		course.queue.stepIn(studentPosition_);
 
-		res.status(200).json();
+		res.status(200).send("Stepped in successfully!");
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.error('An error occurred: ', error.message);
