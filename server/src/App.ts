@@ -283,9 +283,11 @@ app.patch("/student/stepOut", (req, res) => {
 		const studentPosition_: number = +studentPosition;
 
 		let course = courseMap[courseID_]
-		course.queue.stepOut(studentPosition_);
-
-		res.status(200).json();
+		if (course.queue.stepOut(studentPosition_)){
+			res.status(200).json("Step out successfully!");
+		} else {
+			res.status(400).json("Can't step out! You're the first person on the queue");
+		}
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.error('An error occurred: ', error.message);
