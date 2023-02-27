@@ -4,9 +4,15 @@ import "./GeneralStyle.css"
 import dog from "../assets/waitDog.png";
 import Modal from './Modal';
 
-const StudentView = ({netId, selectedCourse, isTa, numberOfPeople, estimatedWait, props}) => {
-  const [queueSize, setQueueSize] = useState();
-  const [waitTime, setWaitTime] = useState();
+const StudentView = (
+  { netId,
+    selectedCourse,
+    isTa,
+    numberOfPeople,
+    estimatedWait,
+    setEstimatedWait,
+    setNumberOfPeople }) => {
+
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -19,10 +25,11 @@ const StudentView = ({netId, selectedCourse, isTa, numberOfPeople, estimatedWait
         }
       });
       const responseData = await response.json();
-      setQueueSize(responseData.numberOfPeople);
-      setWaitTime(responseData.estimatedWait);
+      setNumberOfPeople(responseData.numberOfPeople);
+      setEstimatedWait(responseData.estimatedWait);
     };
-
+    //TODO: Add api call to /queue/questions/:courseID for a list of current questions
+    // check if head of queue and reroute to student-help
     // Call the function immediately and then schedule it to be called every 10 seconds
     fetchData();
     const intervalId = setInterval(() => {
@@ -32,15 +39,19 @@ const StudentView = ({netId, selectedCourse, isTa, numberOfPeople, estimatedWait
     // Return a cleanup function that clears the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
-
+  // TODO: step out function
+  // make API call to /student/stepOut
+  // if ok: setShow(true)
+  // otherwise
+  // Error Toast 
   return (
     <div className="webpage" id="queueView">
       <div className="header">
         <span className="peopleAheadDesc">
-          {queueSize} people ahead of you
+          {numberOfPeople} people ahead of you
         </span>
         <span className="estimate">
-          We estimate a wait time of {waitTime} minutes
+          We estimate a wait time of {estimatedWait} minutes
         </span>
       </div>
 

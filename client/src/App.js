@@ -51,6 +51,8 @@ const App = () => {
                 isTa={isTa}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
+                setEstimatedWait={setEstimatedWait}
+                setNumberOfPeople={setNumberOfPeople}
               />
             }
           />
