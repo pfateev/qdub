@@ -58,7 +58,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
           title: 'Message from TA',
           description: responseData.message,
           status: 'info',
-          duration: 9000,
+          duration: null,
           isClosable: true,
         });
       }
@@ -90,7 +90,8 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
         console.log(responseData);
         if (!responseData.active) {
           InactiveQueueToast();
-          if(response.message !== null){
+          console.log(responseData.message);
+          if(responseData.message !== null){
             // TODO: 
             messageToast();
           }
