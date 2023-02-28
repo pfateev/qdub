@@ -51,7 +51,8 @@ export const TAView = (
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        isTa: true
+        isTa: true,
+        courseID: selectedCourse
       }),
     });
 
