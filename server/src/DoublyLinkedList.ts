@@ -306,6 +306,24 @@ class DoublyLinkedList
 			return true;
 
 		}
+
+    //Checks if the queue contains that data
+    public find(netID: String): Student | null {
+        if(this.isEmpty())
+        {
+            return null;
+        }
+        let tmp = this.head;
+        while(tmp != null)
+        {
+            if(tmp.value.getId() === netID)
+            {
+                return tmp.value;
+            }
+            tmp = tmp.next;
+        }
+        return null;
+    }
 		
     //    We don't need these 
 //    public getFirst(): any

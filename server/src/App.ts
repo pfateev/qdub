@@ -182,10 +182,14 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 		} else {
 			//console.log("IN THE ELSE");
 			queueInfo = <QueueInfo>queueInfo;
-			queueInfo = {
-				numberOfPeople: queue.getSize(),
-				estimatedWait: queue.getWaitTime()
-			};
+			let s  = queue.find(studentID);
+			if(s != null) {
+				queueInfo = {
+					numberOfPeople: s.getPos(),
+					estimatedWait: s.getQTime()
+				};
+			}
+			
 		}
 		console.log(queueInfo);
 		res.status(200).json(queueInfo);
