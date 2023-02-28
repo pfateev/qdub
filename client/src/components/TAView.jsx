@@ -68,6 +68,21 @@ export const TAView = (
     setNumberOfPeople(responseData.numberOfPeople);
   };
 
+  async function deactivate() {
+    const response = await fetch('http://localhost:3001/queue/activate', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        courseID: selectedCourse
+      }),
+    });
+
+    const responseData = await response.json();
+    console.log(responseData);
+  };
+
   return (
     <div>
       {numberOfPeople > 0 ?
@@ -95,7 +110,7 @@ export const TAView = (
             </div>
               <img className="dog" src={dog} alt="cute dog" />
               {/* reroute/api */}
-              <button className="button" type="finished" onClick={finished}>
+              <button className="button" type="finished" onClick={deactivate}>
                 End Queue!
               </button>
           </div>

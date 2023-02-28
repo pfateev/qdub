@@ -205,7 +205,7 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 
 app.patch("/queue", (req, res) => {
 	try {
-		const { isTA, courseID } = req.body; // do not verify TA for now
+		const { isTa, courseID } = req.body; // do not verify TA for now
 		const id: number = +courseID;
 		let course = courseMap[id]
 		const currQ = course.queue;
@@ -215,7 +215,7 @@ app.patch("/queue", (req, res) => {
 
 		course.dequeue();
 		// console.log(course.queue);
-		if (isTA) {
+		if (isTa) {
 			res.status(200).json({ nextStudent: currQ.get(0), numberOfPeople: currQ.getSize() });
 		} else {
 			res.status(400).json({ message: "You must be a TA" });
