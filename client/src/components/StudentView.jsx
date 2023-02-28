@@ -25,10 +25,10 @@ const StudentView = (
         }
       });
       const responseData = await response.json();
+      console.log(responseData);
       setNumberOfPeople(responseData.numberOfPeople);
       setEstimatedWait(responseData.estimatedWait);
     };
-    //TODO: Add api call to /queue/questions/:courseID for a list of current questions
     // check if head of queue and reroute to student-help
     // Call the function immediately and then schedule it to be called every 10 seconds
     fetchData();
@@ -39,6 +39,29 @@ const StudentView = (
     // Return a cleanup function that clears the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    // Define a function that makes the API call and updates the data state
+    const fetchQuestions = async () => {
+      const response = await fetch(`http://localhost:3001/queue/questions/${selectedCourse}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const responseData = await response.json();
+      // responseData.questions holds question array
+    };
+    // Call the function immediately and then schedule it to be called every 10 seconds
+    fetchQuestions();
+    const intervalId = setInterval(() => {
+      fetchQuestions();
+    }, 750);
+
+    // Return a cleanup function that clears the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
+
   // TODO: step out function
   // make API call to /student/stepOut
   // if ok: setShow(true)
