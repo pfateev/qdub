@@ -54,9 +54,7 @@ const StudentView = (
       console.log(isTa);
       setNumberOfPeople(responseData.numberOfPeople);
       setEstimatedWait(responseData.estimatedWait);
-      if (responseData.numberOfPeople < 2) {
-        routeChange();
-      }
+      
     };
     // check if head of queue and reroute to student-help
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -91,6 +89,12 @@ const StudentView = (
     // Return a cleanup function that clears the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    if (numberOfPeople < 1) {
+      routeChange();
+    }
+  }, numberOfPeople);
 
   // TODO: step out function
   // make API call to /student/stepOut
