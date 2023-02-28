@@ -30,7 +30,7 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
     let path = `/ta-view`;
     navigate(path);
   }
-
+  
   const verificationToast = () => {
     toast({
       title: 'Success',
