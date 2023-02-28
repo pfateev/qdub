@@ -96,7 +96,7 @@ const StudentView = (
     if (numberOfPeople < 1) {
       routeChange();
     }
-  }, numberOfPeople);
+  }, [numberOfPeople]);
 
   // TODO: step out function
   // make API call to /student/stepOut
