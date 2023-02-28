@@ -170,8 +170,8 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 
 		const currQ = courseMap[courseID_];
 		let queueInfo: unknown;
-		let queue: DoublyLinkedList = courseMap[courseID_].queue;
-		if (isTA) {
+		let queue: DoublyLinkedList = courseMap[courseID_].queue; 
+		if (isTA === "true") {
 			queueInfo = <TAQueueInfo>queueInfo;
 			queueInfo =
 			{
@@ -180,12 +180,12 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 				estimatedWait: queue.getWaitTime()
 			};
 		} else {
-			console.log("IN THE ELSE");
+			//console.log("IN THE ELSE");
 			queueInfo = <QueueInfo>queueInfo;
 			queueInfo = {
 				numberOfPeople: queue.getSize(),
 				estimatedWait: queue.getWaitTime()
-			};;
+			};
 		}
 		console.log(queueInfo);
 		res.status(200).json(queueInfo);
