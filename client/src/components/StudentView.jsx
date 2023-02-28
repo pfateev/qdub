@@ -192,7 +192,7 @@ const StudentView = (
         </AccordionItem>
       </Accordion>
 
-      <button className="button" onClick={() => setShow(true)}>Stepping out!</button>
+      <button className="button" onClick={stepOut}>Stepping out!</button>
 
       <Modal
         title="You are out of queue!"
