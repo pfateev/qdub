@@ -66,7 +66,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
       console.error(error);
     }
   }
-  
+
 
   // Enqueue student
   const enqueue = async () => {
@@ -92,7 +92,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
           InactiveQueueToast();
           console.log(responseData.message);
           if(responseData.message !== null){
-            // TODO: 
+            // TODO:
             messageToast();
           }
           return;

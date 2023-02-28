@@ -49,7 +49,7 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
       })
     });
     try {
-      /* i dont think this try/catch has the intended functionality 
+      /* i dont think this try/catch has the intended functionality
         for some reason response.ok is true even when bad request (invalid netID)
       */
       if(response.ok){
