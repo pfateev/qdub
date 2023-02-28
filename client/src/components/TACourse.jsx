@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
 import circles from "../assets/circles.png";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import "./GeneralStyle.css"
-import { Select,
-         Tabs,
-         TabList,
-         TabPanels,
-         Tab,
-         TabPanel,
-          Input } from '@chakra-ui/react'
+import {
+  Select,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  useToast,
+  Input
+} from '@chakra-ui/react'
 
-export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
+export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
   const [selectedValue, setSelectedValue] = useState('');
-  const [value, setValue] = useState('');
-  console.log(value);
+  const [message, setMessage] = useState('');
+  const toast = useToast();
+  console.log(message);
   //sumbmission notification
-  function handleSubmit(event) {
-    event.preventDefault();
-    alert('this is your value: ' + value);
-    setValue('');
-  }
+  // function handleSubmit(event) {
+  //   event.preventDefault();
+  //   alert('this is your value: ' + value);
+  //   setValue('');
+  // }
   // navigation route
   let navigate = useNavigate();
   const routeChange = () => {
@@ -27,34 +31,74 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
     navigate(path);
   }
 
-  // Start Queue
-  const startQueue = async () => {
-    //TODO replace url later
-    const response = await fetch('http://localhost:3001/queue/enqueue', {
+  const verificationToast = () => {
+    toast({
+      title: 'Success',
+      description: "Message was sent",
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    });
+  }
+  //Send notification
+  const notify = async () => {
+    // console.log('A name was submitted: ' + this.state.value);
+    console.log('this is your value: ' + message);
+
+    const response = await fetch('http://localhost:3001/student/notify', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         courseID: selectedValue,
-        studentID: netID,
+        message: message,
       })
     });
 
-      const responseData = await response.json();
+    const responseData = await response.json();
+    if (responseData.status === true) {
+      verificationToast();
+    }
 
-      //TODO: waiting on backend route to be finished
-      console.log(responseData);
+  }
+  // Start Queue
+  const startQueue = async () => {
+    //TODO replace url later
+    const response = await fetch('http://localhost:3001/queue/activate', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        courseID: selectedValue,
+        studentID: netId,
+      })
+    });
+    try {
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+        setSelectedCourse(selectedValue);
+        routeChange();
+      }
 
-      setSelectedCourse(selectedValue);
-      routeChange();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // to put the courses in a list format to display in drop down
-  const options = taCourses.map(course =>
-    <option value={course}>
-      {course}
-    </option>)
+  const options = [];
+  // const parsedCourses = JSON.parse(taCourses);
+  Object.keys(taCourses).forEach(key => {
+    // console.log(`${key}: ${obj[key]}`);
+    options.push(
+      <option value={key} key={key}>
+        {"CSE" + key + " – " + taCourses[key]}
+      </option>
+    );
+  });
 
   return (
     <div>
@@ -65,6 +109,7 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
             <Tab>Activate</Tab>
             <Tab>Notify</Tab>
           </TabList>
+
           <TabPanels>
             <TabPanel>
               <h1 className="title">Start a Queue</h1>
@@ -91,18 +136,15 @@ export const TACourse = ( { netID, taCourses, setSelectedCourse } ) => {
               >
                 {options}
               </Select>
-              <form onSubmit={handleSubmit}>
-                <Input
-                  type='text'
-                  placeholder='Message'
-                  background='white'
-                  size='md'
-                  onChange={(e)=> setValue(e.currentTarget.value)}
-                />
-              </form>
-              {/* change onclick fucntion to send msg*/}
-              <button className="button" type="submit" onClick={(startQueue)}>
-                Send!
+              <Input
+                type='text'
+                placeholder='Message'
+                background='white'
+                size='md'
+                onChange={(e) => setMessage(e.currentTarget.value)} />
+              <button className="button" type="submit"
+                onClick={notify}>
+                Notify!
               </button>
             </TabPanel>
           </TabPanels>

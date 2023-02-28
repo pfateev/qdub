@@ -5,7 +5,7 @@ import circles from "../assets/circles.png";
 import Modal from './Modal';
 import { Input, FormControl, FormErrorMessage } from '@chakra-ui/react';
 
-export const Login = (props) => {
+export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) => {
   const [inputID, setInputID] = useState('');
   const [show, setShow] = useState(false);
   const [error, setError] = useState('');
@@ -13,10 +13,12 @@ export const Login = (props) => {
   // navigation routes
   let navigate = useNavigate();
   const routeChangeTa = () => {
+    setIsTa(true)
     let path = `/ta-courses`;
     navigate(path);
   }
   const routeChangeStudent = () => {
+
     let path = `/student-courses`;
     navigate(path);
   }
@@ -47,17 +49,18 @@ export const Login = (props) => {
       })
     });
     try {
-      /* i dont think this try/catch has the intended functionality 
+      /* i dont think this try/catch has the intended functionality
         for some reason response.ok is true even when bad request (invalid netID)
       */
       if(response.ok){
         const responseData = await response.json();
+        console.log(responseData);
         const { netID, taCourses, studentCourses } = responseData;
-        const { setNetID, setStudentCourses, setTaCourses } = props;
         setStudentCourses(studentCourses);
         setTaCourses(taCourses);
-        setNetID(netID);
-        if (taCourses.length === 0) {
+        setNetId(netID);
+        // console.log(taCourses);
+        if (Object.keys(taCourses).length === 0) {
           routeChangeStudent()
         } else {
           setShow(true);
@@ -70,27 +73,10 @@ export const Login = (props) => {
       console.log(error);
     }
 
-    // later this will need to be validated
-    const responseData = await response.json();
-    console.log(responseData);
-  
-    // for when invalid netid
-    if (responseData.message === 'NetID does not exist') {
-      setError('Invalid NetID');
-      return;
-    }
-
-    // set data with back end response
-    const { netID, taCourses, studentCourses } = responseData;
-    const { setNetID, setStudentCourses, setTaCourses } = props;
-    setStudentCourses(studentCourses);
-    setTaCourses(taCourses);
-    setNetID(netID);
-    if (taCourses.length === 0) {
-      routeChangeStudent()
-    } else {
-      setShow(true);
-    }
+    // if (responseData.message === 'NetID does not exist') {
+    //   setError('Invalid netID');
+    //   return;
+    // }
   };
 
   return (

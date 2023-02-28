@@ -11,9 +11,10 @@ import {
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
-  NumberDecrementStepper, } from '@chakra-ui/react';
+  NumberDecrementStepper,
+} from '@chakra-ui/react';
 
-export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
+export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
   const [question, setQuestion] = useState('');
   const [questionTime, setQuestionTime] = useState('1');
   const [selectedValue, setSelectedValue] = useState('');
@@ -32,7 +33,7 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
   }
 
   // toast for when queue not active
-  const Toast = () => {
+  const InactiveQueueToast = () => {
     toast({
       title: 'Queue not yet active.',
       description: "Please try again.",
@@ -41,6 +42,31 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
       isClosable: true,
     });
   }
+
+  // toast for message
+  const messageToast = async () => {
+    const response = await fetch(`http://localhost:3001/queue/questions/${selectedValue}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    try {
+      if (response.ok) {
+        const responseData = await response.json();
+        toast({
+          title: 'Message from TA',
+          description: responseData.message,
+          status: 'info',
+          duration: null,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
   // Enqueue student
   const enqueue = async () => {
@@ -52,34 +78,43 @@ export const StudentCourse = ({ netID, studentCourses, setSelectedCourse }) => {
       },
       body: JSON.stringify({
         courseID: selectedValue,
-        studentID: netID,
+        studentID: netId,
         question: question,
         // TODO: this default value needs to turned into a proper variable
         questionTime: 5
       })
     });
-
-    const responseData = await response.json();
-
-    // change this to if (not active)
-    // not sure how backend will validate this
-    if (selectedValue === 403) {
-      Toast();
-      return;
+    try {
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+        if (!responseData.active) {
+          InactiveQueueToast();
+          console.log(responseData.message);
+          if(responseData.message !== null){
+            // TODO:
+            messageToast();
+          }
+          return;
+        }
+        setSelectedCourse(selectedValue);
+        routeChangeStudent();
+      }
+    } catch (error) {
+      console.error(error);
     }
-
-    //TODO: waiting on backend route to be finished
-    console.log(responseData);
-
-    setSelectedCourse(selectedValue);
-    routeChangeStudent();
   };
 
   // to put the courses in a list format to display in drop down
-  const options = studentCourses.map((course) =>
-    <option value={course} key={course}>
-      {course}
-    </option>)
+  const options = [];
+  Object.keys(studentCourses).forEach(key => {
+    // console.log(`${key}: ${obj[key]}`);
+    options.push(
+      <option value={key} key={key}>
+        {"CSE" + key + " – " + studentCourses[key]}
+      </option>
+    );
+  });
 
   return (
     <div>

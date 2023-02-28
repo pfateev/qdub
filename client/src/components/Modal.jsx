@@ -1,6 +1,6 @@
 import React from "react";
 import "./Modal.css";
-import "./GeneralStyle.css"
+import "./GeneralStyle.css";
 
 const Modal = props => {
   return(

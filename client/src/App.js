@@ -11,7 +11,7 @@ import Home from "./components/Home";
 import StudentHelp from "./components/StudentHelp";
 
 const App = () => {
-  const [netID, setNetID] = useState(null);
+  const [netId, setNetId] = useState(null);
   const [isTa, setIsTa] = useState(false);
   const [studentCourses, setStudentCourses] = useState([]);
   const [taCourses, setTaCourses] = useState([]);
@@ -19,6 +19,7 @@ const App = () => {
   const [nextStudent, setNextStudent] = useState(null);
   const [numberOfPeople, setNumberOfPeople] = useState();
   const [estimatedWait, setEstimatedWait] = useState(0);
+  const [questions, setQuestions] = useState();
 
 
   return (
@@ -35,7 +36,7 @@ const App = () => {
             path="/login"
             element={
               <Login
-                setNetID={setNetID}
+                setNetId={setNetId}
                 setIsTa={setIsTa}
                 setStudentCourses={setStudentCourses}
                 setTaCourses={setTaCourses}
@@ -46,11 +47,13 @@ const App = () => {
             path="/student-view"
             element={
               <StudentView
-                netID={netID}
+                netId={netId}
                 selectedCourse={selectedCourse}
                 isTa={isTa}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
+                setEstimatedWait={setEstimatedWait}
+                setNumberOfPeople={setNumberOfPeople}
               />
             }
           />
@@ -64,11 +67,12 @@ const App = () => {
             path="/ta-view"
             element={
               <TAView
-                netID={netID}
+                netId={netId}
                 isTa={isTa}
                 nextStudent={nextStudent}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
+                selectedCourse={selectedCourse}
                 setNextStudent={setNextStudent}
                 setNumberOfPeople={setNumberOfPeople}
                 setEstimatedWait={setEstimatedWait}
@@ -79,7 +83,7 @@ const App = () => {
             path="/student-courses"
             element={
               <StudentCourse
-                netID={netID}
+                netId={netId}
                 studentCourses={studentCourses}
                 setSelectedCourse={setSelectedCourse}
               />
@@ -89,7 +93,7 @@ const App = () => {
             path="/ta-courses"
             element={
               <TACourse
-                netID={netID}
+                netId={netId}
                 taCourses={taCourses}
                 setSelectedCourse={setSelectedCourse}
               />

@@ -222,6 +222,9 @@ class DoublyLinkedList
 
     // Update the student.status
     public stepOut(pos: number): boolean {
+				if (pos === 0 && this.getSize() === 1) {
+					return false;
+				}
         if(pos < this.getSize() && pos >= 0) {
             let s = this.get(pos);
             if(s == null) return false;
@@ -277,6 +280,33 @@ class DoublyLinkedList
     public getMessage(): string | null {
         return this.message;
     }
+
+		public alreadyInQueue(NetID: string): boolean {
+			let curNode = this.head;
+			let res = false;
+			while (curNode) {
+				if (curNode.value.id === NetID) {
+					res = true;
+					break; 
+				}
+				curNode = curNode?.next;
+			}
+			return res;
+		}
+		
+		// Remove a node at with given index
+		public removeAtIndex(index: number): boolean {
+			if (index < 0 || index >= this.size) {
+				return false;
+			}
+			const student = this.get(index);
+			if(student){
+				this.remove(student);
+			}
+			return true;
+
+		}
+		
     //    We don't need these 
 //    public getFirst(): any
 //    {

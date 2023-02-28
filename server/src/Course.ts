@@ -13,9 +13,11 @@ class Course {
             this.id = id; 
             this.name = name; 
             this.queue = new DoublyLinkedList();
-            this.status = true;
+            this.status = false;
       }
-
+      getStatus(): boolean {
+            return this.status;
+      }
       // updateQueue(deduct: number) {
       //       // this.queue..forEach(element => {
       //       //       element.setTime(element.getTime - deduct);
@@ -47,6 +49,7 @@ class Course {
 
       deactivate() : void {
             this.status = false;
+						this.queue = new DoublyLinkedList();
       }
       //add a student
       enqueue(data: Student) : boolean {
