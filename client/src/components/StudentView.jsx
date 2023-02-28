@@ -33,6 +33,8 @@ const StudentView = (
 
   const [show, setShow] = useState(false);
   const [questionList, setQuestionList] = useState([]);
+	const [queueStatus, setQueueStatus] = useState([]);
+	const toast = useToast();
 
   let navigate = useNavigate();
   const routeChange = () => {
@@ -101,6 +103,38 @@ const StudentView = (
   // if ok: setShow(true)
   // otherwise
   // Error Toast
+
+
+	const stepOut = async () => {
+		const response = await fetch('http://localhost:3001/student/stepOut', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        courseID: selectedCourse,
+        studentPosition: numberOfPeople,
+      })
+    });
+
+		try {
+      if (response.ok) {
+				setShow(true);
+			} else {
+        const responseData = await response.json();
+        console.log(responseData);
+				toast({
+					title: 'Unable to step out',
+          description: responseData.message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+				});
+      }
+    } catch (error) {
+      console.error(error);
+    }
+	};
 
   const questions = [];
   // questionList.forEach(element => {
