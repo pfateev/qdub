@@ -3,6 +3,7 @@ import "./QueueView.css"
 import "./GeneralStyle.css"
 import dog from "../assets/waitDog.png";
 import Modal from './Modal';
+import { useNavigate } from 'react-router-dom';
 import {
   Accordion,
   AccordionItem,
@@ -33,6 +34,12 @@ const StudentView = (
   const [show, setShow] = useState(false);
   const [questionList, setQuestionList] = useState([]);
 
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/student-help`;
+    navigate(path);
+  }
+
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
     const fetchData = async () => {
@@ -47,6 +54,7 @@ const StudentView = (
       console.log(isTa);
       setNumberOfPeople(responseData.numberOfPeople);
       setEstimatedWait(responseData.estimatedWait);
+      
     };
     // check if head of queue and reroute to student-help
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -81,6 +89,12 @@ const StudentView = (
     // Return a cleanup function that clears the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    if (numberOfPeople < 1) {
+      routeChange();
+    }
+  }, numberOfPeople);
 
   // TODO: step out function
   // make API call to /student/stepOut

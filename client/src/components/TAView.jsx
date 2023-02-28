@@ -116,10 +116,14 @@ export const TAView = (
           <div className="header">
             <span className="peopleAheadDesc">
               You’re doing great!
-              The next person you should help is {nextStudent}
-              <span className="peopleAheadDesc">
-                {numberOfPeople} people in queue
-              </span>
+              <br />
+              The next person you should help is 
+              <br /><br />
+              {nextStudent}
+              <br /><br />
+              Number of people in queue:
+              <br /><br />
+              {numberOfPeople} 
             </span>
           </div>
           <button className="button" type="finished" onClick={finished}>
