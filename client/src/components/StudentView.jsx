@@ -3,6 +3,23 @@ import "./QueueView.css"
 import "./GeneralStyle.css"
 import dog from "../assets/waitDog.png";
 import Modal from './Modal';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  Box,
+  useToast
+} from '@chakra-ui/react'
 
 const StudentView = (
   { netId,
@@ -14,6 +31,7 @@ const StudentView = (
     setNumberOfPeople }) => {
 
   const [show, setShow] = useState(false);
+  const [questionList, setQuestionList] = useState([]);
 
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
@@ -52,6 +70,8 @@ const StudentView = (
       });
       const responseData = await response.json();
       // responseData.questions holds question array
+      console.log(responseData);
+      setQuestionList(responseData);
     };
     // Call the function immediately and then schedule it to be called every 10 seconds
     fetchQuestions();
@@ -68,6 +88,19 @@ const StudentView = (
   // if ok: setShow(true)
   // otherwise
   // Error Toast
+
+  const questions = [];
+  // questionList.forEach(element => {
+  //   // console.log(`${key}: ${obj[key]}`);
+  //   questions.push(
+  //     <Tr>
+  //       <Td>placeholder name</Td>
+  //       <Td>{element}</Td>
+  //     </Tr>
+  //   );
+  // });
+  // console.log(questions)
+
   return (
     <div className="webpage" id="queueView">
       <div className="header">
@@ -82,6 +115,36 @@ const StudentView = (
       <div className="imageSet">
         <img className="dog" src={dog} alt="cute dog" />
       </div>
+
+      <Accordion allowToggle>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex='1' textAlign='center'>
+                View All Questions
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+          <TableContainer>
+              <Table variant='simple'>
+                <TableCaption>List of questions from students currently waiting in queue</TableCaption>
+                <Thead>
+                  <Tr>
+                    <Th>Name</Th>
+                    <Th>Question</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {questions}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+
       <button className="button" onClick={() => setShow(true)}>Stepping out!</button>
 
       <Modal
