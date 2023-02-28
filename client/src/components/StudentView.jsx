@@ -26,6 +26,7 @@ const StudentView = (
       });
       const responseData = await response.json();
       console.log(responseData);
+      console.log(isTa);
       setNumberOfPeople(responseData.numberOfPeople);
       setEstimatedWait(responseData.estimatedWait);
     };

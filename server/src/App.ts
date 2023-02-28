@@ -161,7 +161,7 @@ app.post("/students", (req, res) => {
 app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 	try {
 		// Retrieve information about the queue
-		console.log(req.body);
+		console.log(req.params);
 		const { courseID, isTA, studentID } = req.params;
 
 		// check if is a TA with studentID and courseID
@@ -180,6 +180,7 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 				estimatedWait: queue.getWaitTime()
 			};
 		} else {
+			console.log("IN THE ELSE");
 			queueInfo = <QueueInfo>queueInfo;
 			queueInfo = {
 				numberOfPeople: queue.getSize(),
