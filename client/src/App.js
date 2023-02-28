@@ -19,7 +19,7 @@ const App = () => {
   const [nextStudent, setNextStudent] = useState(null);
   const [numberOfPeople, setNumberOfPeople] = useState();
   const [estimatedWait, setEstimatedWait] = useState(0);
-  // const [questions, setQuestions] = useState();
+  const [currQuestion, setCurrQuestion] = useState();
 
 
   return (
@@ -60,7 +60,9 @@ const App = () => {
           <Route
             path="/student-help"
             element={
-              <StudentHelp/>
+              <StudentHelp
+                currQuestion={currQuestion}
+              />
             }
           />
           <Route
@@ -86,6 +88,7 @@ const App = () => {
                 netId={netId}
                 studentCourses={studentCourses}
                 setSelectedCourse={setSelectedCourse}
+                setCurrQuestion={setCurrQuestion}
               />
             }
           />

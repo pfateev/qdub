@@ -14,8 +14,8 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react';
 
-export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
-  const [question, setQuestion] = useState('');
+export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCurrQuestion }) => {
+  // const [question, setQuestion] = useState('');
   const [questionTime, setQuestionTime] = useState('1');
   const [selectedValue, setSelectedValue] = useState('');
   const toast = useToast();
@@ -67,6 +67,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
     }
   }
 
+
   // Enqueue student
   const enqueue = async () => {
     // console.log({course: selectedValue, question: question});
@@ -78,7 +79,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
       body: JSON.stringify({
         courseID: selectedValue,
         studentID: netId,
-        question: question,
+        // question: question,
         // TODO: this default value needs to turned into a proper variable
         questionTime: 5
       })
@@ -97,6 +98,8 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
           return;
         }
         setSelectedCourse(selectedValue);
+        // console.log({question});
+        // setCurrQuestion(question);
         routeChangeStudent();
       }
     } catch (error) {
@@ -141,7 +144,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
             background='white'
             focusBorderColor='#918fe1'
             placeholder='What do you need help with?'
-            onChange={e => setQuestion(e.target.value)}
+            onChange={e => setCurrQuestion(e.target.value)}
           />
           <NumberInput
             background='white'
