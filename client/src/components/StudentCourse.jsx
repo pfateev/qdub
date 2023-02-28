@@ -67,7 +67,6 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse }) => {
     }
   }
 
-
   // Enqueue student
   const enqueue = async () => {
     // console.log({course: selectedValue, question: question});

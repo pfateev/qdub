@@ -84,6 +84,7 @@ export interface IHash5 {
  */
 
 
+
 let courseId = [403, 455];
 let courseName = ["Software Engineer", "Computer Vison"];
 let students = ["izzyv", "wenli", "pashap", "jaredt", "triv", "stu1", "stu2", "stu3", "stu4"];
@@ -171,21 +172,26 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 		const currQ = courseMap[courseID_];
 		let queueInfo: unknown;
 		let queue: DoublyLinkedList = courseMap[courseID_].queue;
-		if (isTA) {
+		if (isTA === "true") {
 			queueInfo = <TAQueueInfo>queueInfo;
 			queueInfo =
 			{
 				studentName: queue.get(0)?.getName(),
+				question: queue.get(0)?.getQuestion(),
 				numberOfPeople: queue.getSize(),
 				estimatedWait: queue.getWaitTime()
 			};
 		} else {
-			console.log("IN THE ELSE");
+			//console.log("IN THE ELSE");
 			queueInfo = <QueueInfo>queueInfo;
-			queueInfo = {
-				numberOfPeople: queue.getSize(),
-				estimatedWait: queue.getWaitTime()
-			};;
+			let s = queue.find(studentID);
+			if (s != null) {
+				queueInfo = {
+					numberOfPeople: s.getPos(),
+					estimatedWait: s.getQTime()
+				};
+			}
+
 		}
 		console.log(queueInfo);
 		res.status(200).json(queueInfo);
@@ -200,7 +206,7 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 
 app.patch("/queue", (req, res) => {
 	try {
-		const { isTA, courseID } = req.body; // do not verify TA for now
+		const { isTa, courseID } = req.body; // do not verify TA for now
 		const id: number = +courseID;
 		let course = courseMap[id]
 		const currQ = course.queue;
@@ -210,8 +216,13 @@ app.patch("/queue", (req, res) => {
 
 		course.dequeue();
 		// console.log(course.queue);
-		if (isTA) {
-			res.status(200).json({ nextStudent: currQ.get(0), numberOfPeople: currQ.getSize() });
+		if (isTa) {
+			res.status(200).json(
+				{
+					nextStudent: currQ.get(0),
+					numberOfPeople: currQ.getSize(),
+					question: currQ.get(0)?.getQuestion
+				});
 		} else {
 			res.status(400).json({ message: "You must be a TA" });
 		}
@@ -284,7 +295,7 @@ app.patch("/student/stepOut", (req, res) => {
 		const studentPosition_: number = +studentPosition;
 
 		let course = courseMap[courseID_]
-		if (course.queue.stepOut(studentPosition_)){
+		if (course.queue.stepOut(studentPosition_)) {
 			res.status(200).json("Step out successfully!");
 		} else {
 			res.status(400).json("Can't step out! You're the first person on the queue");
@@ -306,7 +317,7 @@ app.patch("/student/notify", (req, res) => {
 	let course = courseMap[courseID_]
 	course.notify(message);
 
-	res.status(200).json({status: true});
+	res.status(200).json({ status: true });
 });
 
 // API for display of all questions being asked
@@ -358,7 +369,7 @@ app.patch("/queue/activate", (req, res) => {
 			course.deactivate();
 			course.reset();
 		}
-		res.status(200).json({courseActive: course.getStatus()});
+		res.status(200).json({ courseActive: course.getStatus() });
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.error('An error occurred: ', error.message);
