@@ -3,11 +3,35 @@ import "./QueueView.css"
 import "./GeneralStyle.css"
 import dog from "../assets/waitDog.png";
 import Modal from './Modal';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  Box,
+  useToast
+} from '@chakra-ui/react'
 
-const StudentView = ({netId, selectedCourse, isTa, numberOfPeople, estimatedWait, props}) => {
-  const [queueSize, setQueueSize] = useState();
-  const [waitTime, setWaitTime] = useState();
+const StudentView = (
+  { netId,
+    selectedCourse,
+    isTa,
+    numberOfPeople,
+    estimatedWait,
+    setEstimatedWait,
+    setNumberOfPeople }) => {
+
   const [show, setShow] = useState(false);
+  const [questionList, setQuestionList] = useState([]);
 
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
@@ -19,10 +43,12 @@ const StudentView = ({netId, selectedCourse, isTa, numberOfPeople, estimatedWait
         }
       });
       const responseData = await response.json();
-      setQueueSize(responseData.numberOfPeople);
-      setWaitTime(responseData.estimatedWait);
+      console.log(responseData);
+      console.log(isTa);
+      setNumberOfPeople(responseData.numberOfPeople);
+      setEstimatedWait(responseData.estimatedWait);
     };
-
+    // check if head of queue and reroute to student-help
     // Call the function immediately and then schedule it to be called every 10 seconds
     fetchData();
     const intervalId = setInterval(() => {
@@ -33,20 +59,92 @@ const StudentView = ({netId, selectedCourse, isTa, numberOfPeople, estimatedWait
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    // Define a function that makes the API call and updates the data state
+    const fetchQuestions = async () => {
+      const response = await fetch(`http://localhost:3001/queue/questions/${selectedCourse}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const responseData = await response.json();
+      // responseData.questions holds question array
+      console.log(responseData);
+      setQuestionList(responseData);
+    };
+    // Call the function immediately and then schedule it to be called every 10 seconds
+    fetchQuestions();
+    const intervalId = setInterval(() => {
+      fetchQuestions();
+    }, 750);
+
+    // Return a cleanup function that clears the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // TODO: step out function
+  // make API call to /student/stepOut
+  // if ok: setShow(true)
+  // otherwise
+  // Error Toast
+
+  const questions = [];
+  // questionList.forEach(element => {
+  //   // console.log(`${key}: ${obj[key]}`);
+  //   questions.push(
+  //     <Tr>
+  //       <Td>placeholder name</Td>
+  //       <Td>{element}</Td>
+  //     </Tr>
+  //   );
+  // });
+  // console.log(questions)
+
   return (
     <div className="webpage" id="queueView">
       <div className="header">
         <span className="peopleAheadDesc">
-          {queueSize} people ahead of you
+          {numberOfPeople} people ahead of you
         </span>
         <span className="estimate">
-          We estimate a wait time of {waitTime} minutes
+          We estimate a wait time of {estimatedWait} minutes
         </span>
       </div>
 
       <div className="imageSet">
         <img className="dog" src={dog} alt="cute dog" />
       </div>
+
+      <Accordion allowToggle>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex='1' textAlign='center'>
+                View All Questions
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+          <TableContainer>
+              <Table variant='simple'>
+                <TableCaption>List of questions from students currently waiting in queue</TableCaption>
+                <Thead>
+                  <Tr>
+                    <Th>Name</Th>
+                    <Th>Question</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {questions}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+
       <button className="button" onClick={() => setShow(true)}>Stepping out!</button>
 
       <Modal

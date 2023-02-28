@@ -84,6 +84,7 @@ export interface IHash5 {
  */
 
 
+
 let courseId = [403, 455];
 let courseName = ["Software Engineer", "Computer Vison"];
 let students = ["izzyv", "wenli", "pashap", "jaredt", "triv", "stu1", "stu2", "stu3", "stu4"];
@@ -161,7 +162,7 @@ app.post("/students", (req, res) => {
 app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 	try {
 		// Retrieve information about the queue
-		console.log(req.body);
+		console.log(req.params);
 		const { courseID, isTA, studentID } = req.params;
 
 		// check if is a TA with studentID and courseID
@@ -170,8 +171,8 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 
 		const currQ = courseMap[courseID_];
 		let queueInfo: unknown;
-		let queue: DoublyLinkedList = courseMap[courseID_].queue;
-		if (isTA) {
+		let queue: DoublyLinkedList = courseMap[courseID_].queue; 
+		if (isTA === "true") {
 			queueInfo = <TAQueueInfo>queueInfo;
 			queueInfo =
 			{
@@ -180,11 +181,16 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 				estimatedWait: queue.getWaitTime()
 			};
 		} else {
+			//console.log("IN THE ELSE");
 			queueInfo = <QueueInfo>queueInfo;
-			queueInfo = {
-				numberOfPeople: queue.getSize(),
-				estimatedWait: queue.getWaitTime()
-			};;
+			let s  = queue.find(studentID);
+			if(s != null) {
+				queueInfo = {
+					numberOfPeople: s.getPos(),
+					estimatedWait: s.getQTime()
+				};
+			}
+			
 		}
 		console.log(queueInfo);
 		res.status(200).json(queueInfo);
@@ -265,7 +271,7 @@ app.patch("/student/stepIn", (req, res) => {
 		let course = courseMap[courseID_]
 		course.queue.stepIn(studentPosition_);
 
-		res.status(200).json();
+		res.status(200).send("Stepped in successfully!");
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.error('An error occurred: ', error.message);
@@ -283,9 +289,11 @@ app.patch("/student/stepOut", (req, res) => {
 		const studentPosition_: number = +studentPosition;
 
 		let course = courseMap[courseID_]
-		course.queue.stepOut(studentPosition_);
-
-		res.status(200).json();
+		if (course.queue.stepOut(studentPosition_)){
+			res.status(200).json("Step out successfully!");
+		} else {
+			res.status(400).json("Can't step out! You're the first person on the queue");
+		}
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.error('An error occurred: ', error.message);

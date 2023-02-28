@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import circles from "../assets/circles.png";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import "./GeneralStyle.css"
-import { Select,
-         Tabs,
-         TabList,
-         TabPanels,
-         Tab,
-         TabPanel,
-         useToast,
-          Input } from '@chakra-ui/react'
+import {
+  Select,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  useToast,
+  Input
+} from '@chakra-ui/react'
 
 export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
   const [selectedValue, setSelectedValue] = useState('');
@@ -28,8 +30,8 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
     let path = `/ta-view`;
     navigate(path);
   }
-
-  const verficationToast = () => {
+  
+  const verificationToast = () => {
     toast({
       title: 'Success',
       description: "Message was sent",
@@ -55,11 +57,9 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
     });
 
     const responseData = await response.json();
-    if (responseData.status ===true) {
-      verficationToast();
+    if (responseData.status === true) {
+      verificationToast();
     }
-    //TODO: waiting on backend route to be finished
-    console.log(responseData);
 
   }
   // Start Queue
@@ -141,7 +141,7 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                 placeholder='Message'
                 background='white'
                 size='md'
-                onChange={(e)=> setMessage(e.currentTarget.value)} />
+                onChange={(e) => setMessage(e.currentTarget.value)} />
               <button className="button" type="submit"
                 onClick={notify}>
                 Notify!

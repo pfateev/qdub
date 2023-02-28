@@ -4,6 +4,7 @@ import dog from "../assets/questionDog.png";
 
 export const StudentHelp = () => {
 
+  // TODO: make API call before loading
   return (
     <div>
       <img className="logo" src={circles} alt="top left circles" />

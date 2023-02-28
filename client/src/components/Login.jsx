@@ -49,7 +49,7 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
       })
     });
     try {
-      /* i dont think this try/catch has the intended functionality 
+      /* i dont think this try/catch has the intended functionality
         for some reason response.ok is true even when bad request (invalid netID)
       */
       if(response.ok){
@@ -59,7 +59,8 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
         setStudentCourses(studentCourses);
         setTaCourses(taCourses);
         setNetId(netID);
-        if (taCourses.size === 0) {
+        // console.log(taCourses);
+        if (Object.keys(taCourses).length === 0) {
           routeChangeStudent()
         } else {
           setShow(true);

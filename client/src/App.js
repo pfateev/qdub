@@ -19,6 +19,7 @@ const App = () => {
   const [nextStudent, setNextStudent] = useState(null);
   const [numberOfPeople, setNumberOfPeople] = useState();
   const [estimatedWait, setEstimatedWait] = useState(0);
+  const [questions, setQuestions] = useState();
 
 
   return (
@@ -51,6 +52,8 @@ const App = () => {
                 isTa={isTa}
                 numberOfPeople={numberOfPeople}
                 estimatedWait={estimatedWait}
+                setEstimatedWait={setEstimatedWait}
+                setNumberOfPeople={setNumberOfPeople}
               />
             }
           />
