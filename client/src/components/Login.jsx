@@ -85,20 +85,21 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
       <div className="webpage">
         <h1 className="title">Login</h1>
         <p className="description">
-          Please enter you NetID below to sign up!
+          Enter you NetID below to sign up:
         </p>
         <FormControl
           fontFamily='Sans-Serif'
           isInvalid={!!error}
-          width='33%'
+          width='25%'
           marginBottom='10%'
         >
           <Input
+            mt = '1rem'
             focusBorderColor='#918fe1'
             background='white'
             type='text'
             value={inputID}
-            placeholder='Enter your NetID'
+            placeholder='NetID'
             onChange={handleInputChange}
           />
           <FormErrorMessage>{error}</FormErrorMessage>
@@ -116,7 +117,7 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
         </Modal>
         <button className="button" type="submit"
           onClick={getData}>
-          Submit!
+          Submit
         </button>
       </div>
     </div>
