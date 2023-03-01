@@ -83,7 +83,7 @@ export const TAView = (
 
     const responseData = await response.json();
     console.log(responseData);
-
+    
     // TODO: need student question from server
     if (responseData.nextStudent == null) {
       setNextStudent("");

@@ -13,3 +13,8 @@ export interface QueueInfo {
 export interface TAQueueInfo extends QueueInfo {
 	studentName: string | undefined;
 }
+
+export type StudentQuestion = {
+	name: string,
+	question: string
+}
