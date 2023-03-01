@@ -14,8 +14,9 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react';
 
-export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCurrQuestion }) => {
-  // const [question, setQuestion] = useState('');
+export const StudentCourse = ({
+  netId, studentCourses, currQuestion,
+  setSelectedCourse, setCurrQuestion }) => {
   const [questionTime, setQuestionTime] = useState('1');
   const [selectedValue, setSelectedValue] = useState('');
   const toast = useToast();
@@ -79,7 +80,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
       body: JSON.stringify({
         courseID: selectedValue,
         studentID: netId,
-        // question: question,
+        question: currQuestion,
         // TODO: this default value needs to turned into a proper variable
         questionTime: 5
       })
@@ -91,7 +92,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
         if (!responseData.active) {
           InactiveQueueToast();
           console.log(responseData.message);
-          if(responseData.message !== null){
+          if (responseData.message !== null) {
             // TODO:
             messageToast();
           }

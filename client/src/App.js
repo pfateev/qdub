@@ -87,6 +87,7 @@ const App = () => {
               <StudentCourse
                 netId={netId}
                 studentCourses={studentCourses}
+                currQuestion={currQuestion}
                 setSelectedCourse={setSelectedCourse}
                 setCurrQuestion={setCurrQuestion}
               />
