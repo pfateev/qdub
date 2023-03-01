@@ -80,6 +80,7 @@ const StudentView = (
       });
       const responseData = await response.json();
       // responseData.questions holds question array
+      console.log(responseData.questions);
       setQuestionList(responseData.questions);
     };
     // Call the function immediately and then schedule it to be called every 10 seconds

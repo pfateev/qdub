@@ -3,7 +3,7 @@ import express from 'express';
 var cors = require('cors');
 import Course from './Course';
 import Student from './Student';
-import { StudentInfo, QueueInfo, TAQueueInfo } from './RouteReturnTypes';
+import { StudentInfo, QueueInfo, TAQueueInfo, StudentQuestion } from './RouteReturnTypes';
 import DoublyLinkedList from './DoublyLinkedList';
 
 const PORT = process.env.PORT || 3001;
@@ -30,7 +30,7 @@ export interface IHash4 {
 }
 
 export interface IHash5 {
-	[details: number]: Array<[string, string]>;
+	[details: number]: Array<StudentQuestion>;
 }
 
 /* FAKE DB
@@ -111,7 +111,7 @@ for (let i = 0; i < students.length; ++i) {
 for (let i = 0; i < courseId.length; i++) {
 	const course = new Course(courseId[i], courseName[i]);
 	courseMap[courseId[i]] = course;
-	questionsMap[courseId[i]] = new Array<[string, string]>;
+	questionsMap[courseId[i]] = new Array<StudentQuestion>;
 }
 
 // Build studentClassesMap and taClassesMap
@@ -252,8 +252,8 @@ app.patch("/queue/enqueue", (req, res) => {
 		if (course.status) {
 			const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question_, studentInfo[studentID]);
 			course.enqueue(student);
-			questionsMap[courseID_].push([studentID, question_]);
-			//console.log(questionsMap[courseID_]);
+			const studentQuestion : StudentQuestion = {name: student.getName(), question: question};
+			questionsMap[courseID_].push(studentQuestion);
 
 			res.status(200).json({ waitTime: student.qtime, spotNumber: student.pos, active: true });
 		}
