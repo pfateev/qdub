@@ -2,7 +2,7 @@ import "./GeneralStyle.css"
 import circles from "../assets/circles.png";
 import dog from "../assets/questionDog.png";
 
-export const StudentHelp = () => {
+export const StudentHelp = ({ currQuestion }) => {
 
   // TODO: make API call before loading
   return (
@@ -12,7 +12,7 @@ export const StudentHelp = () => {
         <h1 className="title">Your Turn!</h1>
         <img className="dog" src={dog} alt="cute dog" />
         <p className="description">
-          {/* add the their question */}
+          {currQuestion}
         </p>
       </div>
     </div>
