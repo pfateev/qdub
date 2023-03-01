@@ -191,7 +191,6 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 					estimatedWait: s.getQTime()
 				};
 			}
-
 		}
 		console.log(queueInfo);
 		res.status(200).json(queueInfo);
