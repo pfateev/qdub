@@ -138,15 +138,15 @@ const StudentView = (
 	};
 
   const questions = [];
-  // questionList.forEach(element => {
-  //   // console.log(`${key}: ${obj[key]}`);
-  //   questions.push(
-  //     <Tr>
-  //       <Td>placeholder name</Td>
-  //       <Td>{element}</Td>
-  //     </Tr>
-  //   );
-  // });
+  questionList.forEach(element => {
+    // console.log(`${key}: ${obj[key]}`);
+    questions.push(
+      <Tr key={element.name}>
+        <Td>{element.name}</Td>
+        <Td>{element.question}</Td>
+      </Tr>
+    );
+  });
   // console.log(questions)
 
   return (
