@@ -18,31 +18,7 @@ class Course {
       getStatus(): boolean {
             return this.status;
       }
-      // updateQueue(deduct: number) {
-      //       // this.queue..forEach(element => {
-      //       //       element.setTime(element.getTime - deduct);
-      //       // });
-      // }
-      
-      // //update each student time
-      // updateTime() {
-
-      // }
-
-      // //update the position of each student
-      // updatePos() {
-            
-      // }
-
-      // // Update the student.status
-      // stepOut() {
-
-      // }
-      
-      // // Update the student.status
-      // stepIn() {
-
-      // }
+     
       activate(): void {
             this.status = true;
       }
@@ -79,10 +55,6 @@ class Course {
             this.queue.setMessage(message);
       }
       
-      // //remove student from any position
-      // exit() {
-            
-      // }
 
 }
 
