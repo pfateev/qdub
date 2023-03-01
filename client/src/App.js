@@ -89,6 +89,7 @@ const App = () => {
                 studentCourses={studentCourses}
                 setSelectedCourse={setSelectedCourse}
                 setCurrQuestion={setCurrQuestion}
+								currQuestion = {currQuestion}
               />
             }
           />

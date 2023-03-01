@@ -14,7 +14,7 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react';
 
-export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCurrQuestion }) => {
+export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCurrQuestion, currQuestion }) => {
   // const [question, setQuestion] = useState('');
   const [questionTime, setQuestionTime] = useState('1');
   const [selectedValue, setSelectedValue] = useState('');
@@ -79,7 +79,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
       body: JSON.stringify({
         courseID: selectedValue,
         studentID: netId,
-        // question: question,
+        question: currQuestion,
         // TODO: this default value needs to turned into a proper variable
         questionTime: 5
       })
@@ -98,8 +98,8 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           return;
         }
         setSelectedCourse(selectedValue);
-        // console.log({question});
-        // setCurrQuestion(question);
+        // console.log({currQuestion});
+        setCurrQuestion(currQuestion);
         routeChangeStudent();
       }
     } catch (error) {

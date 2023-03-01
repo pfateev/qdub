@@ -30,7 +30,7 @@ export interface IHash4 {
 }
 
 export interface IHash5 {
-	[details: number]: Array<string>;
+	[details: number]: Array<[string, string]>;
 }
 
 /* FAKE DB
@@ -111,7 +111,7 @@ for (let i = 0; i < students.length; ++i) {
 for (let i = 0; i < courseId.length; i++) {
 	const course = new Course(courseId[i], courseName[i]);
 	courseMap[courseId[i]] = course;
-	questionsMap[courseId[i]] = new Array<string>;
+	questionsMap[courseId[i]] = new Array<[string, string]>;
 }
 
 // Build studentClassesMap and taClassesMap
@@ -243,15 +243,17 @@ app.patch("/queue/enqueue", (req, res) => {
 
 		let course = courseMap[courseID_]
 		const currQ = course.queue;
+		const question_: string = question;
 
 		if (currQ.alreadyInQueue(studentID)) {
 			res.status(400).json({ message: "You've already queued up" });
 		}
 
 		if (course.status) {
-			const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question, studentInfo[studentID]);
+			const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question_, studentInfo[studentID]);
 			course.enqueue(student);
-			questionsMap[courseID_].push(question);
+			questionsMap[courseID_].push([studentID, question_]);
+			//console.log(questionsMap[courseID_]);
 
 			res.status(200).json({ waitTime: student.qtime, spotNumber: student.pos, active: true });
 		}
