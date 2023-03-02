@@ -33,6 +33,10 @@ export interface IHash5 {
 	[details: number]: Array<StudentQuestion>;
 }
 
+export interface IHash6 {
+	[details: number]: Array<string>;
+}
+
 /* FAKE DB
 								COURSE TABLE 
 	----------------------------------------------
@@ -93,11 +97,12 @@ let course403 = ["stu", "stu", "ta", "ta", "none", "stu", "stu", "none", "none"]
 let course455 = ["ta", "ta", "stu", "none", "stu", "none", "none", "stu", "stu"];
 
 
-let studentClassesMap: IHash = {};
-let taClassesMap: IHash = {};
-let courseMap: IHash2 = {};
-let studentInfo: IHash3 = {};
-let questionsMap: IHash5 = {};
+let studentClassesMap: IHash = {};			// Map student id to an array of classes that they are taking
+let taClassesMap: IHash = {};						// Map student id to an array of classes that they ta
+let courseMap: IHash2 = {};							// Map course id to Course object
+let studentInfo: IHash3 = {};						// Map student's id to student's name
+let questionsMap: IHash5 = {};					// Map courseID to an array of [studentID, question]
+let dequeuedMap: IHash6 ={}; 						// Map courseID to an array of NetIds of students that have been dequeued
 const questionTime = 10;
 
 // Build studentInfo map
@@ -212,9 +217,15 @@ app.patch("/queue", (req, res) => {
 
 		// currQ.dequeue();
 		console.log("PATCH");
-
+		if (currQ.get(0) !== null){
+			let student: Student = currQ.get(0)!;
+			if (!dequeuedMap[id]) {
+				dequeuedMap[id] = new Array<string>;
+			}
+			dequeuedMap[id].push(student.getId());
+		}
 		course.dequeue();
-		// console.log(course.queue);
+		console.log('dequeue map = ', dequeuedMap[id]);
 		if (isTa) {
 			res.status(200).json(
 				{
