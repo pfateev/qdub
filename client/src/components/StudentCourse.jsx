@@ -12,18 +12,29 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 
 export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCurrQuestion, currQuestion }) => {
-  // const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState('');
   const [questionTime, setQuestionTime] = useState('1');
   const [selectedValue, setSelectedValue] = useState('');
+  const [error, setError] = useState('');
   const toast = useToast();
   const format = (val) => val + `min`
   const parse = (val) => val.replace(/min/, '')
 
-  // TODO input validation:
-  // const isError = question === '';
+  // for checking input & input validation
+  const handleInputChangeQ = (event) => {
+    setQuestion(event.target.value);
+    // clear the error message when the input changes
+    setError('');
+  };
+  const handleInputChangeC = (event) => {
+    setSelectedValue(event.target.value);
+    // clear the error message when the input changes
+    setError('');
+  };
 
   // navigation route
   let navigate = useNavigate();
@@ -70,7 +81,17 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
 
   // Enqueue student
   const enqueue = async () => {
-    // console.log({course: selectedValue, question: question});
+    // validations
+    if (selectedValue === '') {
+      setError('Please select a class.');
+      return;
+    }
+    if (question === '') {
+      setError('Please describe the problem your having.');
+      return;
+    }
+
+    // call back end
     const response = await fetch('http://localhost:3001/queue/enqueue', {
       method: 'PATCH',
       headers: {
@@ -79,7 +100,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
       body: JSON.stringify({
         courseID: selectedValue,
         studentID: netId,
-        question: currQuestion,
+        question: question,
         // TODO: this default value needs to turned into a proper variable
         questionTime: 5
       })
@@ -98,7 +119,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           return;
         }
         setSelectedCourse(selectedValue);
-        // console.log({currQuestion});
+        currQuestion = question;
         setCurrQuestion(currQuestion);
         routeChangeStudent();
       }
@@ -130,22 +151,25 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           fontFamily='Sans-Serif'
           width='33%'
           marginBottom='10%'
+          isInvalid={!!error}
         >
           <Select
             value={selectedValue}
             placeholder='Choose a course:'
             background='white'
-            onChange={e => setSelectedValue(parseInt(e.target.value))}
+            onChange={handleInputChangeC}
           >
             {options}
           </Select>
           <Input
+            value={question}
             type='text'
             background='white'
             focusBorderColor='#918fe1'
             placeholder='What do you need help with?'
-            onChange={e => setCurrQuestion(e.target.value)}
+            onChange={handleInputChangeQ}
           />
+          <FormErrorMessage>{error}</FormErrorMessage>
           <NumberInput
             background='white'
             min={1}
