@@ -17,11 +17,11 @@ import {
 
 export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCurrQuestion, currQuestion }) => {
   const [question, setQuestion] = useState('');
-  const [questionTime, setQuestionTime] = useState('1');
+  const [questionTime, setQuestionTime] = useState('5');
   const [selectedValue, setSelectedValue] = useState('');
   const [error, setError] = useState('');
   const toast = useToast();
-  const format = (val) => val + `min`
+  const format = (val) => val + ` min`
   const parse = (val) => val.replace(/min/, '')
 
   // for checking input & input validation
@@ -102,7 +102,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
         studentID: netId,
         question: question,
         // TODO: this default value needs to turned into a proper variable
-        questionTime: 5
+        questionTime: questionTime
       })
     });
     try {
@@ -143,18 +143,22 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
     <div>
       <img className="logo" src={circles} alt="top left circles" />
       <div className="webpage">
-        <h1 className="title">Queue</h1>
+        <h1 className="title" style={{ marginBottom: '5%' }}>Queue</h1>
         <p className="description">
-          Select a course you want to queue up for!
+          Select a course, enter question(s) you have,<br/>
+          and estimate duration:
         </p>
         <FormControl
+          mt = '1rem'
           fontFamily='Sans-Serif'
           width='33%'
-          marginBottom='10%'
+          marginBottom='5%'
           isInvalid={!!error}
+          align='center'
         >
           <Select
             value={selectedValue}
+            marginBottom='0.5rem'
             placeholder='Choose a course:'
             background='white'
             onChange={handleInputChangeC}
@@ -164,6 +168,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           <Input
             value={question}
             type='text'
+            marginBottom='0.5rem'
             background='white'
             focusBorderColor='#918fe1'
             placeholder='What do you need help with?'
@@ -172,12 +177,11 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           <FormErrorMessage>{error}</FormErrorMessage>
           <NumberInput
             background='white'
-            min={1}
-            max={20}
+            step={5} defaultValue={15} min={10} max={20}
             onChange={(valueString) => setQuestionTime(parse(valueString))}
             value={format(questionTime)}
             size='md'
-            maxW={24}
+            maxW={36}
             allowMouseWheel
           >
             <NumberInputField />
@@ -189,7 +193,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
         </FormControl>
         <button className="button" type="submit"
           onClick={enqueue}>
-          Queue up!
+          Queue up
         </button>
       </div>
     </div>
