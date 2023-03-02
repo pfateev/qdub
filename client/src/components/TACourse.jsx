@@ -10,7 +10,7 @@ import {
   Tab,
   TabPanel,
   useToast,
-  Input
+  Textarea
 } from '@chakra-ui/react'
 
 export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
@@ -30,7 +30,7 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
     let path = `/ta-view`;
     navigate(path);
   }
-  
+
   const verificationToast = () => {
     toast({
       title: 'Success',
@@ -104,16 +104,48 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
     <div>
       <img className="logo" src={circles} alt="top left circles" />
       <div className="webpage">
-        <Tabs isFitted variant='enclosed'>
-          <TabList mb='1rem'>
-            <Tab>Activate</Tab>
-            <Tab>Notify</Tab>
+        <Tabs align='center' variant='enclosed'>
+          <TabList border='none' color='RGBA(0, 0, 0, 0.26)'>
+            <Tab
+              fontFamily='Sans-Serif'
+              fontWeight='bold'
+              fontSize='1.125rem'
+              _selected={{ color: '#918fe1', borderBottom: 'none', borderColor: '#918fe1'}}
+              _hover={{ color: '#918fe1', borderBottom: 'none', borderColor: '#716fda' }}
+              borderBottom='none'
+              borderColor='RGBA(0, 0, 0, 0.16)'
+              borderTopRadius='15px'
+              borderWidth='2px'
+              mr='1px'
+            >
+              Activate
+            </Tab>
+            <Tab
+              fontFamily='Sans-Serif'
+              fontWeight='bold'
+              fontSize='1.125rem'
+              _selected={{ color: '#918fe1', borderBottom: 'none', borderColor: '#918fe1' }}
+              _hover={{ color: '#918fe1', borderBottom: 'none', borderColor: '#716fda' }}
+              borderBottom='none' borderColor='RGBA(0, 0, 0, 0.16)'
+              borderTopRadius='15px'
+              borderWidth='2px'
+              ml='1px'
+            >
+              Notify
+            </Tab>
           </TabList>
 
           <TabPanels>
             <TabPanel>
-              <h1 className="title">Start a Queue</h1>
+              <h1 className="title">Start Queue</h1>
+              <p className="description">
+                Choose the course that you are hosting office hour for:
+              </p>
               <Select
+                mt = '1rem'
+                marginBottom='20%'
+                width='75%'
+                focusBorderColor='#918fe1'
                 background='white'
                 value={selectedValue}
                 placeholder='Choose a course:'
@@ -122,13 +154,20 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                 {options}
               </Select>
               <button className="button" type="submit" onClick={startQueue}>
-                Start!
+                Start
               </button>
             </TabPanel>
 
             <TabPanel>
-              <h1 className="title">Make Anouncement</h1>
+              <h1 className="title">Make Notification</h1>
+              <p className="description">
+                Choose a course to send a notification to student that are waiting:
+              </p>
               <Select
+                mt = '1rem'
+                marginBottom='0.5rem'
+                width='75%'
+                focusBorderColor='#918fe1'
                 background='white'
                 value={selectedValue}
                 placeholder='Choose a course:'
@@ -136,15 +175,19 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
               >
                 {options}
               </Select>
-              <Input
+              <Textarea
+                focusBorderColor='#918fe1'
+                marginBottom='8%'
+                width='75%'
+                minH='7rem'
                 type='text'
                 placeholder='Message'
                 background='white'
-                size='md'
-                onChange={(e) => setMessage(e.currentTarget.value)} />
+                onChange={(e) => setMessage(e.currentTarget.value)}
+              />
               <button className="button" type="submit"
                 onClick={notify}>
-                Notify!
+                Notify
               </button>
             </TabPanel>
           </TabPanels>
