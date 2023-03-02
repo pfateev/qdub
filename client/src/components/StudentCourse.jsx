@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import "./GeneralStyle.css"
 import {
   Select,
-  Input,
+  Textarea,
   FormControl,
   useToast,
   NumberInput,
@@ -165,7 +165,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           >
             {options}
           </Select>
-          <Input
+          <Textarea
             value={question}
             type='text'
             marginBottom='0.5rem'
