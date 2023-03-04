@@ -17,6 +17,7 @@ import {
   TableContainer,
   Box
 } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 /**
  *  Info need to GET from backend:
@@ -34,8 +35,14 @@ export const TAView = (
   const [currQuestion, setCurrQuestion] = useState();
   const [questionList, setQuestionList] = useState([]);
 
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/login`;
+    navigate(path);
+  }
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
+
     const fetchData = async () => {
       const response = await fetch(`http://localhost:3001/queue/${selectedCourse}/${isTa}/${netId}`, {
         method: 'GET',
@@ -83,6 +90,8 @@ export const TAView = (
     return () => clearInterval(intervalId);
   }, []);
 
+
+
   async function finished() {
     const response = await fetch('http://localhost:3001/queue', {
       method: 'PATCH',
@@ -121,6 +130,7 @@ export const TAView = (
 
     const responseData = await response.json();
     console.log(responseData);
+    routeChange();
   };
 
   const questions = [];
