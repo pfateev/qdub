@@ -138,21 +138,22 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
           <TabPanels>
             <TabPanel>
               <h1 className="title">Start Queue</h1>
-              <p className="description">
-                Choose the course that you are hosting office hour for:
-              </p>
-              <Select
-                mt = '1rem'
-                marginBottom='20%'
-                width='75%'
-                focusBorderColor='#918fe1'
-                background='white'
-                value={selectedValue}
-                placeholder='Choose a course:'
-                onChange={e => setSelectedValue(parseInt(e.target.value))}
-              >
-                {options}
-              </Select>
+              <div style={{ 'maxWidth': '75%' }}>
+                <p className="description" style={{ 'text-align': 'left' }}>
+                  Hosting office hour for:
+                </p>
+                <Select
+                  mt = '1rem'
+                  marginBottom='20%'
+                  focusBorderColor='#918fe1'
+                  background='white'
+                  value={selectedValue}
+                  placeholder='Choose a course:'
+                  onChange={e => setSelectedValue(parseInt(e.target.value))}
+                >
+                  {options}
+                </Select>
+              </div>
               <button className="button" type="submit" onClick={startQueue}>
                 Start
               </button>
@@ -160,31 +161,34 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
 
             <TabPanel>
               <h1 className="title">Make Notification</h1>
-              <p className="description">
-                Choose a course to send a notification to student that are waiting:
-              </p>
-              <Select
-                mt = '1rem'
-                marginBottom='0.5rem'
-                width='75%'
-                focusBorderColor='#918fe1'
-                background='white'
-                value={selectedValue}
-                placeholder='Choose a course:'
-                onChange={e => setSelectedValue(parseInt(e.target.value))}
-              >
-                {options}
-              </Select>
-              <Textarea
-                focusBorderColor='#918fe1'
-                marginBottom='8%'
-                width='75%'
-                minH='7rem'
-                type='text'
-                placeholder='Message'
-                background='white'
-                onChange={(e) => setMessage(e.currentTarget.value)}
-              />
+              <div style={{ 'maxWidth': '75%' }}>
+                <p className="description" style={{ 'text-align': 'left' }}>
+                  Notify:
+                </p>
+                <Select
+                  marginBottom='1rem'
+                  focusBorderColor='#918fe1'
+                  background='white'
+                  value={selectedValue}
+                  placeholder='Choose a course:'
+                  onChange={e => setSelectedValue(parseInt(e.target.value))}
+                >
+                  {options}
+                </Select>
+                <p className="description" style={{ 'text-align': 'left' }}>
+                  Write a message:
+                </p>
+                <Textarea
+                  focusBorderColor='#918fe1'
+                  marginBottom='8%'
+                  minH='7rem'
+                  type='text'
+                  placeholder='Examples: &#13;&#10; "I&apos;m running 5 min late!" &#13;&#10; "Office hour has been moved to Tuesday."'
+                  background='white'
+                  onChange={(e) => setMessage(e.currentTarget.value)}
+                />
+              </div>
+
               <button className="button" type="submit"
                 onClick={notify}>
                 Notify

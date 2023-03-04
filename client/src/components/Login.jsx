@@ -79,7 +79,7 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
       <div className="webpage">
         <h1 className="title">Login</h1>
         <p className="description">
-          Enter you NetID below to sign up:
+          Enter you NetID to get started!
         </p>
         <FormControl
           fontFamily='Sans-Serif'
@@ -107,7 +107,7 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
           onConfirmStudent={() => routeChangeStudent()}
           show={show}
         >
-          <p>Are you signing in as...?</p>
+          <p>Are you signing in as?</p>
         </Modal>
         <button className="button" type="submit"
           onClick={getData}>
