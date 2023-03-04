@@ -8,12 +8,15 @@ class Course {
       name: string; 
       queue: DoublyLinkedList;
       status: boolean;
+      message: string | null;
+
 
       constructor(id: number, name: string) {
             this.id = id; 
             this.name = name; 
             this.queue = new DoublyLinkedList();
             this.status = false;
+            this.message = null;
       }
       getStatus(): boolean {
             return this.status;
@@ -50,10 +53,15 @@ class Course {
       reset() {
             this.queue = new DoublyLinkedList();
       }
-
+      //Set the message for the course
       notify(message: string) {
-            this.queue.setMessage(message);
+            this.message = message;
       }
+      //Gets the message fro the course
+      getMessage() {
+            return this.message;
+      }
+      
       
 
 }
