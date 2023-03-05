@@ -143,39 +143,50 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
     <div>
       <img className="logo" src={circles} alt="top left circles" />
       <div className="webpage">
-        <h1 className="title" style={{ marginBottom: '5%' }}>Queue</h1>
-        <p className="description">
+        <h1 className="title" style={{ marginBottom: '4%' }}>Queue</h1>
+        {/* <div style={{ 'maxWidth': '80%', marginBottom: '4%' }}> */}
+        {/* <p className="description" style={{ 'text-align': 'left' }}>
           Select a course, enter question(s) you have,<br/>
           and estimate duration:
-        </p>
+        </p> */}
         <FormControl
-          mt = '1rem'
           fontFamily='Sans-Serif'
-          width='33%'
-          marginBottom='5%'
+          width='30%'
+          marginBottom='4%'
           isInvalid={!!error}
-          align='center'
+          // align='center'
         >
+          <p className="description" style={{ 'text-align': 'left' }}>
+            Queue up for:
+          </p>
           <Select
             value={selectedValue}
-            marginBottom='0.5rem'
+            marginBottom='1rem'
             placeholder='Choose a course:'
             background='white'
             onChange={handleInputChangeC}
           >
             {options}
           </Select>
+          <p className="description" style={{ 'text-align': 'left' }}>
+            Questions you have:
+          </p>
           <Textarea
             value={question}
             type='text'
-            marginBottom='0.5rem'
+            minH='6rem'
+            marginBottom='1rem'
             background='white'
             focusBorderColor='#918fe1'
-            placeholder='What do you need help with?'
+            placeholder='Examples: &#13;&#10; "I&apos;m not sure what question 2 is asking" &#13;&#10; "I have a private question"'
             onChange={handleInputChangeQ}
           />
-          <FormErrorMessage>{error}</FormErrorMessage>
+
+          <p className="description" style={{ 'text-align': 'left' }}>
+            Estimated time needed:
+          </p>
           <NumberInput
+            align='left'
             background='white'
             step={5} defaultValue={15} min={10} max={20}
             onChange={(valueString) => setQuestionTime(parse(valueString))}
@@ -191,6 +202,8 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
             </NumberInputStepper>
           </NumberInput>
         </FormControl>
+        {/* </div> */}
+        <FormErrorMessage>{error}</FormErrorMessage>
         <button className="button" type="submit"
           onClick={enqueue}>
           Queue up
