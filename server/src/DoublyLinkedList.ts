@@ -62,8 +62,7 @@ class DoublyLinkedList
 
 
     // Enqueues a student
-    // @params
-    // value: Type student. Stores infromation about the question and positon of this query
+    // @param value: Type student. Stores infromation about the question and positon of this query
     public enqueue(value: Student){
         value.setQTime(this.getWaitTime());
         let newNode = new DoublyLinkedListNode(value);
@@ -83,8 +82,7 @@ class DoublyLinkedList
 	}
 
     // Removes a query from queue
-    // @params
-    // value: Type Student. Holds information about the query that must be removed.
+    // @param value of type Student. Holds information about the query that must be removed.
     // @returns true if student was removed and false otherwise
     public remove(value: Student) :boolean {
         if(this.isEmpty()) {
@@ -143,8 +141,7 @@ class DoublyLinkedList
 	}
 
     // finds the position of the given student
-    // @params
-    // value: Type Student. The query we are trying to find
+    // @param value: Type Student. The query we are trying to find
     // returns: the index of the student. Returns -1 if no such student found.
     public indexOf(value: Student): number{
         if(this.isEmpty()){
@@ -181,8 +178,7 @@ class DoublyLinkedList
     } 
 
     // Update the student.status
-    // @param 
-    // - pos : the position of the student we want to step out
+    // @param pos : the position of the student we want to step out
     // @returns true if the status was set successfully at pos and false otherwise
     public stepOut(pos: number): boolean {
 				if (pos === 0 && this.getSize() === 1) {
@@ -200,8 +196,7 @@ class DoublyLinkedList
     }
 
     // Update the student.status
-    // @param 
-    // - pos : the position of the student we want to step in
+    // @param pos : the position of the student we want to step in
     // @returns true if the status was set successfully at pos and false otherwise
     public stepIn(pos: number): boolean {
         if(pos < this.getSize() && pos >= 0) {
@@ -241,8 +236,7 @@ class DoublyLinkedList
     }
 
     // Checks to see if the student associated with the NETID is in the queue
-    // @params: 
-    // - NetID: netid of the student we are looking for in the queue
+    // @param NetID: netid of the student we are looking for in the queue
     // @returns true if found and false otherwise
     public alreadyInQueue(NetID: string): boolean {
         let curNode = this.head;
@@ -361,4 +355,3 @@ class DoublyLinkedList
 }
 
 export default DoublyLinkedList;
-
