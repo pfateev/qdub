@@ -34,7 +34,7 @@ export const TAView = (
   }) => {
   const [currQuestion, setCurrQuestion] = useState();
   const [questionList, setQuestionList] = useState([]);
-  
+
   let navigate = useNavigate();
   const routeChange = () => {
     let path = `/login`;
