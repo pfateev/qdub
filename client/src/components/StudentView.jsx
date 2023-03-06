@@ -16,7 +16,6 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Box,
   useToast
@@ -56,7 +55,8 @@ const StudentView = (
       console.log(isTa);
       setNumberOfPeople(responseData.numberOfPeople);
       setEstimatedWait(responseData.estimatedWait);
-      
+
+
     };
     // check if head of queue and reroute to student-help
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -80,6 +80,8 @@ const StudentView = (
       });
       const responseData = await response.json();
       // responseData.questions holds question array
+      console.log(responseData.questions);
+
       setQuestionList(responseData.questions);
     };
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -137,46 +139,43 @@ const StudentView = (
 	};
 
   const questions = [];
-  // questionList.forEach(element => {
-  //   // console.log(`${key}: ${obj[key]}`);
-  //   questions.push(
-  //     <Tr>
-  //       <Td>placeholder name</Td>
-  //       <Td>{element}</Td>
-  //     </Tr>
-  //   );
-  // });
+  questionList.forEach(element => {
+    // console.log(`${key}: ${obj[key]}`);
+    questions.push(
+      <Tr key={element.name} size='sm' fontFamily='Sans-Serif' fontWeight='regular' color='rgba(56, 56, 56, 0.8)'>
+        <Td fontWeight='regular'>{element.name}</Td>
+        <Td fontWeight='regular'>{element.question}</Td>
+      </Tr>
+    );
+  });
   // console.log(questions)
 
   return (
     <div className="webpage" id="queueView">
       <div className="header">
-        <span className="peopleAheadDesc">
+        <p className="peopleAheadDesc" style={{ 'marginBottom': '2rem' }}>
           {numberOfPeople} people ahead of you
-        </span>
-        <span className="estimate">
+        </p>
+        <p className="estimate">
           We estimate a wait time of {estimatedWait} minutes
-        </span>
+        </p>
       </div>
 
       <div className="imageSet">
         <img className="dog" src={dog} alt="cute dog" />
       </div>
 
-      <Accordion allowToggle>
+      <Accordion fontFamily='Sans-Serif' allowToggle mt='5%' mb='5%' borderTopWidth='1px' borderBottomWidth='1px' borderColor='RGBA(0, 0, 0, 0.16)'>
         <AccordionItem>
-          <h2>
             <AccordionButton>
-              <Box as="span" flex='1' textAlign='center'>
+              <Box as="span" flex='1' textAlign='center' color='rgba(56, 56, 56, 0.8)' fontWeight='bold'>
                 View All Questions
               </Box>
               <AccordionIcon />
             </AccordionButton>
-          </h2>
           <AccordionPanel pb={4}>
           <TableContainer>
-              <Table variant='simple'>
-                <TableCaption>List of questions from students currently waiting in queue</TableCaption>
+              <Table variant='simple' size='sm'>
                 <Thead>
                   <Tr>
                     <Th>Name</Th>
@@ -191,8 +190,8 @@ const StudentView = (
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
+      <button className="button" onClick={stepOut}>Stepping out</button>
 
-      <button className="button" onClick={stepOut}>Stepping out!</button>
 
       <Modal
         title="You are out of queue!"
@@ -201,7 +200,7 @@ const StudentView = (
         onStepIn={() => setShow(false)}
         show={show}
       >
-        <p>Press "Step in!" to go back</p>
+        <p>Press "Step in" to go back</p>
       </Modal>
 
     </div>

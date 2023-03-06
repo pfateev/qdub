@@ -99,8 +99,13 @@ describe("Course tests - getter", () => {
 		course.enqueue(student2);
 		course.enqueue(student3);
 		course.queue.stepOut(1);
-		course.dequeue();
-		expect(course.queue.get(0).id).to.be.eq(1);
+		expect(course.queue.get(1).status).to.be.eq(false);
+		console.log(course.queue.get(1));
+		//course.dequeue();
+		expect(course.dequeue()).to.be.true;
+		console.log(course.queue.get(0));
+		console.log(course.queue.get(1));
+		expect(course.queue.get(0).id).to.be.eq(2);
 	});
 
 	it("enqueue status test", () => {
@@ -130,6 +135,17 @@ describe("Course tests - getter", () => {
 		expect(course.queue.get(1)).to.be.eq(student3);
 		expect(course.queue.removeAtIndex(0)).to.be.true;
 		expect(course.queue.get(0)).to.be.eq(student3);
+	});
+
+	it("Swap test", () => {
+		student2.status = false;
+		expect(course.enqueue(student1)).to.be.true;
+		expect(course.enqueue(student2)).to.be.true;
+		expect(course.enqueue(student3)).to.be.true;
+		expect(course.dequeue()).to.be.true;
+		expect(course.queue.get(0)).to.be.eq(student3);
+		//expect(course.queue.removeAtIndex(0)).to.be.true;
+		//expect(course.queue.get(0)).to.be.eq(student3);
 	});
 });
 

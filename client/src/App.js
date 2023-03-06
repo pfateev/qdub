@@ -78,6 +78,7 @@ const App = () => {
                 setNextStudent={setNextStudent}
                 setNumberOfPeople={setNumberOfPeople}
                 setEstimatedWait={setEstimatedWait}
+                currQuestion={currQuestion}
               />
             }
           />
@@ -89,6 +90,7 @@ const App = () => {
                 studentCourses={studentCourses}
                 setSelectedCourse={setSelectedCourse}
                 setCurrQuestion={setCurrQuestion}
+								currQuestion = {currQuestion}
               />
             }
           />

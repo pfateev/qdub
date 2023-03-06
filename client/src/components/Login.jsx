@@ -23,7 +23,7 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
     navigate(path);
   }
 
-  // for checking input
+  // for checking input & input validation
   const handleInputChange = (event) => {
     setInputID(event.target.value);
     // clear the error message when the input changes
@@ -49,10 +49,7 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
       })
     });
     try {
-      /* i dont think this try/catch has the intended functionality
-        for some reason response.ok is true even when bad request (invalid netID)
-      */
-      if(response.ok){
+      if (response.ok) {
         const responseData = await response.json();
         console.log(responseData);
         const { netID, taCourses, studentCourses } = responseData;
@@ -65,18 +62,15 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
         } else {
           setShow(true);
         }
+      } else {
+        setError('Invalid netID');
+        return;
       }
     } catch (error) {
       // how do we want to handle this for the user?
       // banner that asks them to try again?
-      console.log("test");
       console.log(error);
     }
-
-    // if (responseData.message === 'NetID does not exist') {
-    //   setError('Invalid netID');
-    //   return;
-    // }
   };
 
   return (
@@ -85,20 +79,21 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
       <div className="webpage">
         <h1 className="title">Login</h1>
         <p className="description">
-          Please enter you NetID below to sign up!
+          Enter you NetID to get started!
         </p>
         <FormControl
           fontFamily='Sans-Serif'
           isInvalid={!!error}
-          width='33%'
+          width='25%'
           marginBottom='10%'
         >
           <Input
+            mt = '1rem'
             focusBorderColor='#918fe1'
             background='white'
             type='text'
             value={inputID}
-            placeholder='Enter your NetID'
+            placeholder='NetID'
             onChange={handleInputChange}
           />
           <FormErrorMessage>{error}</FormErrorMessage>
@@ -112,11 +107,11 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
           onConfirmStudent={() => routeChangeStudent()}
           show={show}
         >
-          <p>Are you signing in as...?</p>
+          <p>Are you signing in as?</p>
         </Modal>
         <button className="button" type="submit"
           onClick={getData}>
-          Submit!
+          Submit
         </button>
       </div>
     </div>

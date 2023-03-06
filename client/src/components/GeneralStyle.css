@@ -75,16 +75,15 @@
   letter-spacing: 1px;
   font-size: 3.5rem;
   font-weight: 900;
+  margin-bottom: 8%;
   color: #918fe1;
   font-family: Sans-Serif;
 }
 
 .description {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: rgba(56, 56, 56, 0.8);
-  margin-top: 10%;
-  margin-bottom: 4%;
   font-family: Sans-Serif;
 }
 

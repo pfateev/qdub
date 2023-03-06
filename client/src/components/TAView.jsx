@@ -2,6 +2,22 @@ import { useState, useEffect } from 'react';
 import "./GeneralStyle.css"
 import "./QueueView.css"
 import dog from "../assets/goodDog.png";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+  Box
+} from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 /**
  *  Info need to GET from backend:
@@ -14,13 +30,19 @@ import dog from "../assets/goodDog.png";
 export const TAView = (
   { netId, isTa, nextStudent,
     numberOfPeople, selectedCourse,
-    setNextStudent, setNumberOfPeople,
+    setNextStudent, setNumberOfPeople
   }) => {
-  const [currentQuestion, setCurrentQuestion] = useState();
+  const [currQuestion, setCurrQuestion] = useState();
   const [questionList, setQuestionList] = useState([]);
 
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/login`;
+    navigate(path);
+  }
   useEffect(() => {
     // Define a function that makes the API call and updates the data state
+
     const fetchData = async () => {
       const response = await fetch(`http://localhost:3001/queue/${selectedCourse}/${isTa}/${netId}`, {
         method: 'GET',
@@ -32,8 +54,7 @@ export const TAView = (
       console.log(responseData);
       setNumberOfPeople(responseData.numberOfPeople);
       setNextStudent(responseData.studentName);
-      setCurrentQuestion(responseData.question);
-      setCurrentQuestion(responseData.question);
+      setCurrQuestion(responseData.question);
     };
 
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -69,6 +90,8 @@ export const TAView = (
     return () => clearInterval(intervalId);
   }, []);
 
+
+
   async function finished() {
     const response = await fetch('http://localhost:3001/queue', {
       method: 'PATCH',
@@ -83,13 +106,13 @@ export const TAView = (
 
     const responseData = await response.json();
     console.log(responseData);
-    
+
     // TODO: need student question from server
     if (responseData.nextStudent == null) {
       setNextStudent("");
     } else {
       setNextStudent(responseData.nextStudent.name);
-      setCurrentQuestion(responseData.question);
+      setCurrQuestion(responseData.question);
     }
     setNumberOfPeople(responseData.numberOfPeople);
   };
@@ -107,27 +130,78 @@ export const TAView = (
 
     const responseData = await response.json();
     console.log(responseData);
+    routeChange();
   };
+
+  const questions = [];
+  questionList.forEach(element => {
+    // console.log(`${key}: ${obj[key]}`);
+    questions.push(
+      <Tr key={element.name} size='sm' fontFamily='Sans-Serif' fontWeight='regular' color='rgba(56, 56, 56, 0.8)'>
+        <Td fontWeight='regular' color='rgba(56, 56, 56, 0.8)'>{element.name}</Td>
+        <Td fontWeight='regular' color='rgba(56, 56, 56, 0.8)'>{element.question}</Td>
+      </Tr>
+    );
+  });
 
   return (
     <div>
       {numberOfPeople > 0 ?
-        <div className="webpage" id="queueView">
+        <div className="webpage" id="queueView" >
           <div className="header">
-            <span className="peopleAheadDesc">
-              You’re doing great!
-              <br />
-              The next person you should help is 
-              <br /><br />
+            <p className="peopleAheadDesc" style={{ 'marginBottom': '2rem' }}>
+              {numberOfPeople} people in queue
+            </p>
+            <p className="peopleAheadDesc">
+              The next person you should help:
+            </p>
+            <p className="peopleAheadDesc" style={{ 'marginTop': '1rem', 'font-weight' : '900', 'font-size' : '3rem'}}>
               {nextStudent}
-              <br /><br />
-              Number of people in queue:
-              <br /><br />
-              {numberOfPeople} 
-            </span>
+            </p>
+
           </div>
+
+          <Box mt='5%' borderColor='RGBA(0, 0, 0, 0.16)'
+              borderRadius='15px'
+              borderWidth='2px'
+              w='40%' minH='8rem'
+              p='3rem'
+              textAlign="center"
+          >
+            <p className="description">
+              {currQuestion}
+            </p>
+          </Box>
+
+
+          <Accordion fontFamily='Sans-Serif' allowToggle mt='5%' mb='5%' borderTopWidth='1px' borderBottomWidth='1px' borderColor='RGBA(0, 0, 0, 0.16)'>
+            <AccordionItem>
+                <AccordionButton>
+                  <Box as="span" flex='1' textAlign='center' color='rgba(56, 56, 56, 0.8)' fontWeight='bold'>
+                    View All Questions
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              <AccordionPanel>
+              <TableContainer>
+                  <Table variant='simple' size='sm' >
+                    <Thead>
+                      <Tr>
+                        <Th>Name</Th>
+                        <Th>Question</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {questions}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+
           <button className="button" type="finished" onClick={finished}>
-            Next Student!
+            Next Student
           </button>
         </div>
         :
@@ -139,9 +213,9 @@ export const TAView = (
               </span>
             </div>
             <img className="dog" src={dog} alt="cute dog" />
-            {/* reroute/api */}
+            {/* //TODO: reroute view to login? when button clicked */}
             <button className="button" type="finished" onClick={deactivate}>
-              End Queue!
+              End Queue
             </button>
           </div>
         </div>

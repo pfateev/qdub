@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import "./GeneralStyle.css"
 import {
   Select,
-  Input,
+  Textarea,
   FormControl,
   useToast,
   NumberInput,
@@ -12,18 +12,29 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 
-export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCurrQuestion }) => {
-  // const [question, setQuestion] = useState('');
-  const [questionTime, setQuestionTime] = useState('1');
+export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCurrQuestion, currQuestion }) => {
+  const [question, setQuestion] = useState('');
+  const [questionTime, setQuestionTime] = useState('5');
   const [selectedValue, setSelectedValue] = useState('');
+  const [error, setError] = useState('');
   const toast = useToast();
-  const format = (val) => val + `min`
+  const format = (val) => val + ` min`
   const parse = (val) => val.replace(/min/, '')
 
-  // TODO input validation:
-  // const isError = question === '';
+  // for checking input & input validation
+  const handleInputChangeQ = (event) => {
+    setQuestion(event.target.value);
+    // clear the error message when the input changes
+    setError('');
+  };
+  const handleInputChangeC = (event) => {
+    setSelectedValue(event.target.value);
+    // clear the error message when the input changes
+    setError('');
+  };
 
   // navigation route
   let navigate = useNavigate();
@@ -70,7 +81,17 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
 
   // Enqueue student
   const enqueue = async () => {
-    // console.log({course: selectedValue, question: question});
+    // validations
+    if (selectedValue === '') {
+      setError('Please select a class.');
+      return;
+    }
+    if (question === '') {
+      setError('Please describe the problem your having.');
+      return;
+    }
+
+    // call back end
     const response = await fetch('http://localhost:3001/queue/enqueue', {
       method: 'PATCH',
       headers: {
@@ -81,7 +102,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
         studentID: netId,
         // question: question,
         // TODO: this default value needs to turned into a proper variable
-        questionTime: 5
+        questionTime: questionTime
       })
     });
     try {
@@ -98,8 +119,8 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           return;
         }
         setSelectedCourse(selectedValue);
-        // console.log({question});
-        // setCurrQuestion(question);
+        currQuestion = question;
+        setCurrQuestion(currQuestion);
         routeChangeStudent();
       }
     } catch (error) {
@@ -122,38 +143,56 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
     <div>
       <img className="logo" src={circles} alt="top left circles" />
       <div className="webpage">
-        <h1 className="title">Queue</h1>
-        <p className="description">
-          Select a course you want to queue up for!
-        </p>
+        <h1 className="title" style={{ marginBottom: '4%' }}>Queue</h1>
+        {/* <div style={{ 'maxWidth': '80%', marginBottom: '4%' }}> */}
+        {/* <p className="description" style={{ 'text-align': 'left' }}>
+          Select a course, enter question(s) you have,<br/>
+          and estimate duration:
+        </p> */}
         <FormControl
           fontFamily='Sans-Serif'
-          width='33%'
-          marginBottom='10%'
+          width='30%'
+          marginBottom='4%'
+          isInvalid={!!error}
+          // align='center'
         >
+          <p className="description" style={{ 'text-align': 'left' }}>
+            Queue up for:
+          </p>
           <Select
             value={selectedValue}
+            marginBottom='1rem'
             placeholder='Choose a course:'
             background='white'
-            onChange={e => setSelectedValue(parseInt(e.target.value))}
+            onChange={handleInputChangeC}
           >
             {options}
           </Select>
-          <Input
+          <p className="description" style={{ 'text-align': 'left' }}>
+            Questions you have:
+          </p>
+          <Textarea
+            value={question}
             type='text'
+            minH='6rem'
+            marginBottom='1rem'
             background='white'
             focusBorderColor='#918fe1'
-            placeholder='What do you need help with?'
-            onChange={e => setCurrQuestion(e.target.value)}
+            placeholder='Examples: &#13;&#10; "I&apos;m not sure what question 2 is asking" &#13;&#10; "I have a private question"'
+            onChange={handleInputChangeQ}
           />
+
+          <p className="description" style={{ 'text-align': 'left' }}>
+            Estimated time needed:
+          </p>
           <NumberInput
+            align='left'
             background='white'
-            min={1}
-            max={20}
+            step={5} defaultValue={15} min={10} max={20}
             onChange={(valueString) => setQuestionTime(parse(valueString))}
             value={format(questionTime)}
             size='md'
-            maxW={24}
+            maxW={36}
             allowMouseWheel
           >
             <NumberInputField />
@@ -163,9 +202,11 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
             </NumberInputStepper>
           </NumberInput>
         </FormControl>
+        {/* </div> */}
+        <FormErrorMessage>{error}</FormErrorMessage>
         <button className="button" type="submit"
           onClick={enqueue}>
-          Queue up!
+          Queue up
         </button>
       </div>
     </div>

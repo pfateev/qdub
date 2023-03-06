@@ -109,7 +109,6 @@ class DoublyLinkedList
 			}
 			this.size += 1;
 			this.timelen += value.getTime();
-
 	}
 
     // Removes a query from queue
@@ -179,7 +178,11 @@ class DoublyLinkedList
             this.head = this.head.next;
             if (this.head) {
                 this.head.prev = null;
+								if (!this.head.value.getStatus()) {
+									this.swap();
+								}
             }
+						//this.swap();
             this.size--;
             this.timelen = this.updateQueue();
             return student;
@@ -252,25 +255,52 @@ class DoublyLinkedList
     public swap(): void{
         let curr = this.head;
         while(curr != null) {
-            if(curr.value.status) {
-                if(curr.prev != null) { //checks if it is the head
-                    curr.prev.next = curr.next;
-                } else {
-                    return;
-                }
-                if(curr.next != null) { // checks if it is the tail
-                    curr.next.prev = curr.prev;
-                } else {
-                    this.tail = curr.prev;
-                }
-                curr.prev = null;
-                curr.next = this.head;
-                this.head = curr;
-                break;
+            if(curr.value.getStatus()) {
+							let prev = curr.prev; 
+							let temp = this.head;
+							//this.head = curr; 
+							//curr.next = temp;
+							if (curr.next != null) { // checks if it is the tail
+								let next = curr.next;
+								if (prev)
+									prev.next = next; 
+								next.prev = prev;
+							} else {
+								this.tail = prev;
+								if (prev)
+									prev.next = null;
+							}
+							curr.prev = null;
+							curr.next = temp;
+							this.head = curr;
+							break;
             }
             curr = curr.next;
         }
     }
+	// old version
+	//	public swap(): void{
+	//		let curr = this.head;
+	//		while(curr != null) {
+	//				if(curr.value.status) {
+	//						if(curr.prev != null) { //checks if it is the head
+	//								curr.prev.next = curr.next;
+	//						} else {
+	//								return;
+	//						}
+	//						if(curr.next != null) { // checks if it is the tail
+	//								curr.next.prev = curr.prev;
+	//						} else {
+	//								this.tail = curr.prev;
+	//						}
+	//						curr.prev = null;
+	//						curr.next = this.head;
+	//						this.head = curr;
+	//						break;
+	//				}
+	//				curr = curr.next;
+	//		}
+	//}
 
     //Ta Message to students
     public setMessage(message: string): void{
@@ -285,7 +315,7 @@ class DoublyLinkedList
 			let curNode = this.head;
 			let res = false;
 			while (curNode) {
-				if (curNode.value.id === NetID) {
+				if (curNode.value.getId() === NetID) {
 					res = true;
 					break; 
 				}
