@@ -375,12 +375,27 @@ app.patch("/queue/activate", (req, res) => {
 		const { courseID } = req.body;
 		const courseID_: number = +courseID;
 		let course = courseMap[courseID_]
-		if (!course.getStatus) {
-			course.activate();
+
+		course.activate();
+
+		res.status(200).json({ courseActive: course.getStatus() });
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.error('An error occurred: ', error.message);
 		} else {
-			course.deactivate();
-			course.reset();
+			console.error('An unknown error occurred');
 		}
+	}
+});
+
+// API for active and deactive the queue
+app.patch("/queue/deactivate", (req, res) => {
+	try {
+		const { courseID } = req.body;
+		const courseID_: number = +courseID;
+		let course = courseMap[courseID_]
+		course.deactivate();
+
 		res.status(200).json({ courseActive: course.getStatus() });
 	} catch (error: unknown) {
 		if (error instanceof Error) {
