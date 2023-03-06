@@ -178,7 +178,7 @@ class DoublyLinkedList
             this.head = this.head.next;
             if (this.head) {
                 this.head.prev = null;
-								if (!this.head.value.status) {
+								if (!this.head.value.getStatus()) {
 									this.swap();
 								}
             }
@@ -255,7 +255,7 @@ class DoublyLinkedList
     public swap(): void{
         let curr = this.head;
         while(curr != null) {
-            if(curr.value.status) {
+            if(curr.value.getStatus()) {
 							let prev = curr.prev; 
 							let temp = this.head;
 							//this.head = curr; 
@@ -315,7 +315,7 @@ class DoublyLinkedList
 			let curNode = this.head;
 			let res = false;
 			while (curNode) {
-				if (curNode.value.id === NetID) {
+				if (curNode.value.getId() === NetID) {
 					res = true;
 					break; 
 				}

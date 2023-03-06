@@ -4,10 +4,10 @@ import Student from "./Student.js";
 import  DoublyLinkedList  from "./DoublyLinkedList.js";
 
 class Course {
-      id : number;
-      name: string; 
-      queue: DoublyLinkedList;
-      status: boolean;
+      private id : number;
+      private name: string; 
+      private queue: DoublyLinkedList;
+      private status: boolean;
 
       constructor(id: number, name: string) {
             this.id = id; 
@@ -15,6 +15,17 @@ class Course {
             this.queue = new DoublyLinkedList();
             this.status = false;
       }
+			getId(): number {
+				return this.id;
+			}
+			
+			getName(): string {
+				return this.name;
+			}
+
+			getQueue(): DoublyLinkedList {
+				return this.queue;
+			}
       getStatus(): boolean {
             return this.status;
       }
