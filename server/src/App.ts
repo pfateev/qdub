@@ -375,7 +375,7 @@ app.patch("/queue/activate", (req, res) => {
 		const { courseID } = req.body;
 		const courseID_: number = +courseID;
 		let course = courseMap[courseID_]
-		if (!course.getStatus) {
+		if (!course.getStatus()) {
 			course.activate();
 		} else {
 			course.deactivate();
