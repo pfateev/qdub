@@ -9,14 +9,12 @@ class DoublyLinkedList
 
    private size: number;
    private timelen: number;
-   private message: string | null;
 
    constructor() {
        this.head = null;
        this.tail = null;
        this.size = 0;
        this.timelen = 0;
-       this.message = null;
    }
 
     public getSize(): number {
@@ -32,6 +30,7 @@ class DoublyLinkedList
     }
 
     // Gets the data at that index
+    // @returns the data at that index or null if there is no such index
     public get(index: number): Student | null {
         if(index > this.size || this.isEmpty() || this.tail == null || this.head == null) {
             return null;
@@ -62,56 +61,29 @@ class DoublyLinkedList
     }
 
 
-    //Enqueues the student
-    //public enqueue(value: Student){
-    //    value.setQTime(this.getWaitTime());
-    //    if(this.isEmpty()) {
-    //        let tmp = new DoublyLinkedListNode(value);
-    //        this.head = tmp;
-    //        this.tail = tmp;
-    //    } else {
-    //        let tmp = new DoublyLinkedListNode(value);
-    //        if(this.head != null && !this.head.value.status) {
-    //            tmp.next = this.head;
-    //            tmp.prev = null;
-    //            this.head = tmp;
-    //            this.updateQueue();
-    //        } else {
-    //            tmp.next = null;
-    //            tmp.prev = this.tail;
-    //            if(this.tail != null) {
-    //                this.tail.next = tmp;
-    //            }
-    //            this.tail = tmp;
-    //        }
-            
-    //    }
-    //    this.size += 1;
-    //    this.timelen += value.getTime();
-
-    //}
-
-
-		// BETA version
-		public enqueue(value: Student){
-			value.setQTime(this.getWaitTime());
-			let newNode = new DoublyLinkedListNode(value);
-			if(this.isEmpty()) {
-					this.head = newNode;
-					this.tail = newNode;
-			} else {
-				newNode.next = null;
-				newNode.prev = this.tail;
-				if (this.tail != null) {
-					this.tail.next = newNode;
-				}
-				this.tail = newNode;
-			}
-			this.size += 1;
-			this.timelen += value.getTime();
+    // Enqueues a student
+    // @param value: Type student. Stores infromation about the question and positon of this query
+    public enqueue(value: Student){
+        value.setQTime(this.getWaitTime());
+        let newNode = new DoublyLinkedListNode(value);
+        if(this.isEmpty()) {
+                this.head = newNode;
+                this.tail = newNode;
+        } else {
+            newNode.next = null;
+            newNode.prev = this.tail;
+            if (this.tail != null) {
+                this.tail.next = newNode;
+            }
+            this.tail = newNode;
+        }
+        this.size += 1;
+        this.timelen += value.getTime();
 	}
 
     // Removes a query from queue
+    // @param value of type Student. Holds information about the query that must be removed.
+    // @returns true if student was removed and false otherwise
     public remove(value: Student) :boolean {
         if(this.isEmpty()) {
             return false;
@@ -138,31 +110,9 @@ class DoublyLinkedList
         }
         return false;
     }
-    //Dequeues the query that was previously helped
-    //public dequeue(): Student | null {
-    //    if(this.isEmpty() || this.head == null) {
-    //        return null;
-    //    } else if(this.size == 1) {
-    //        this.head = null;
-    //        this.tail = null;
-    //        this.size--;
-    //        return null;
-    //    } else {
-    //        let s = this.head.value;
-    //        if(s.getStatus()) {
-    //            this.head = this.head.next;
-    //            this.size--;
-    //            this.swap();
-    //            this.timelen = this.updateQueue();
-    //            return s;
-    //        } else {
-    //            return null;
-    //        }
-    //    }
-    //}
-
-		// BETA version
-
+   
+    // Dequeues a query from the front of the queue
+    // @returns the Student being dequeue or null if there are no students to dequeue
     public dequeue(): Student | null {
         if (this.isEmpty() || this.head == null) {
             return null;
@@ -190,7 +140,9 @@ class DoublyLinkedList
         }
 	}
 
-    //finds the position of the given student
+    // finds the position of the given student
+    // @param value: Type Student. The query we are trying to find
+    // returns: the index of the student. Returns -1 if no such student found.
     public indexOf(value: Student): number{
         if(this.isEmpty()){
             return  -1;
@@ -207,7 +159,9 @@ class DoublyLinkedList
         }
         return -1;
     }
+
     //Updates the time and position of each query of the queue
+    // @returns the total queue time 
     public updateQueue(): number {
         let currTime = 0;
         let curr = this.head;
@@ -224,6 +178,8 @@ class DoublyLinkedList
     } 
 
     // Update the student.status
+    // @param pos : the position of the student we want to step out
+    // @returns true if the status was set successfully at pos and false otherwise
     public stepOut(pos: number): boolean {
 				if (pos === 0 && this.getSize() === 1) {
 					return false;
@@ -240,6 +196,8 @@ class DoublyLinkedList
     }
 
     // Update the student.status
+    // @param pos : the position of the student we want to step in
+    // @returns true if the status was set successfully at pos and false otherwise
     public stepIn(pos: number): boolean {
         if(pos < this.getSize() && pos >= 0) {
             let s = this.get(pos);
@@ -249,8 +207,8 @@ class DoublyLinkedList
         } else {
             return false;
         }
-
     }
+
     // move an item to the front if it's status is valid.
     public swap(): void{
         let curr = this.head;
@@ -258,8 +216,6 @@ class DoublyLinkedList
             if(curr.value.getStatus()) {
 							let prev = curr.prev; 
 							let temp = this.head;
-							//this.head = curr; 
-							//curr.next = temp;
 							if (curr.next != null) { // checks if it is the tail
 								let next = curr.next;
 								if (prev)
@@ -278,37 +234,34 @@ class DoublyLinkedList
             curr = curr.next;
         }
     }
-	// old version
-	//	public swap(): void{
-	//		let curr = this.head;
-	//		while(curr != null) {
-	//				if(curr.value.status) {
-	//						if(curr.prev != null) { //checks if it is the head
-	//								curr.prev.next = curr.next;
-	//						} else {
-	//								return;
-	//						}
-	//						if(curr.next != null) { // checks if it is the tail
-	//								curr.next.prev = curr.prev;
-	//						} else {
-	//								this.tail = curr.prev;
-	//						}
-	//						curr.prev = null;
-	//						curr.next = this.head;
-	//						this.head = curr;
-	//						break;
-	//				}
-	//				curr = curr.next;
-	//		}
-	//}
 
-    //Ta Message to students
-    public setMessage(message: string): void{
-        this.message = message;
+    // Checks to see if the student associated with the NETID is in the queue
+    // @param NetID: netid of the student we are looking for in the queue
+    // @returns true if found and false otherwise
+    public alreadyInQueue(NetID: string): boolean {
+        let curNode = this.head;
+        let res = false;
+        while (curNode) {
+            if (curNode.value.id === NetID) {
+                res = true;
+                break; 
+            }
+            curNode = curNode?.next;
+        }
+        return res;
     }
+    
+    // Remove a node at with given index
+    public removeAtIndex(index: number): boolean {
+        if (index < 0 || index >= this.size) {
+            return false;
+        }
+        const student = this.get(index);
+        if(student){
+            this.remove(student);
+        }
+        return true;
 
-    public getMessage(): string | null {
-        return this.message;
     }
 
 		public alreadyInQueue(NetID: string): boolean {
@@ -355,46 +308,6 @@ class DoublyLinkedList
         return null;
     }
 		
-    //    We don't need these 
-//    public getFirst(): any
-//    {
-//        if(this.head != null)
-//        {
-//            return this.head.value;
-//        }
-//        return null;
-//    }
-
-//    public getLast(): Student | null
-//    {
-//        if(this.tail != null)
-//        {
-//            return this.tail.value;
-//        }
-//        return null;
-//    }
-
-//    //Don't need 
-//    public removeLast()
-//    {
-//        if(this.isEmpty())
-//        {
-//            return;
-//        }
-//        if(this.size == 1)
-//        {
-//            this.head = null;
-//            this.tail = null;
-//            this.size--;
-           
-//        }
-//        else
-//        {
-//            this.tail = this.tail.prev;
-//            this.tail.next = null;
-//            this.size--;
-//        }
-//    }
 
 //    //Adds to the front of the queue we don't need this
 //    public addFirst(value: Student)
@@ -468,4 +381,3 @@ class DoublyLinkedList
 }
 
 export default DoublyLinkedList;
-
