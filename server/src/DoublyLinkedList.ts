@@ -234,29 +234,6 @@ class DoublyLinkedList
             curr = curr.next;
         }
     }
-	// old version
-	//	public swap(): void{
-	//		let curr = this.head;
-	//		while(curr != null) {
-	//				if(curr.value.status) {
-	//						if(curr.prev != null) { //checks if it is the head
-	//								curr.prev.next = curr.next;
-	//						} else {
-	//								return;
-	//						}
-	//						if(curr.next != null) { // checks if it is the tail
-	//								curr.next.prev = curr.prev;
-	//						} else {
-	//								this.tail = curr.prev;
-	//						}
-	//						curr.prev = null;
-	//						curr.next = this.head;
-	//						this.head = curr;
-	//						break;
-	//				}
-	//				curr = curr.next;
-	//		}
-	//}
 
     // Checks to see if the student associated with the NETID is in the queue
     // @param NetID: netid of the student we are looking for in the queue
@@ -265,7 +242,7 @@ class DoublyLinkedList
         let curNode = this.head;
         let res = false;
         while (curNode) {
-            if (curNode.value.id === NetID) {
+            if (curNode.value.getId() === NetID) {
                 res = true;
                 break; 
             }
@@ -286,32 +263,6 @@ class DoublyLinkedList
         return true;
 
     }
-
-		public alreadyInQueue(NetID: string): boolean {
-			let curNode = this.head;
-			let res = false;
-			while (curNode) {
-				if (curNode.value.getId() === NetID) {
-					res = true;
-					break; 
-				}
-				curNode = curNode?.next;
-			}
-			return res;
-		}
-		
-		// Remove a node at with given index
-		public removeAtIndex(index: number): boolean {
-			if (index < 0 || index >= this.size) {
-				return false;
-			}
-			const student = this.get(index);
-			if(student){
-				this.remove(student);
-			}
-			return true;
-
-		}
 
     //Checks if the queue contains that data
     public find(netID: String): Student | null {
