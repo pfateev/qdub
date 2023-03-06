@@ -128,7 +128,7 @@ class DoublyLinkedList
             this.head = this.head.next;
             if (this.head) {
                 this.head.prev = null;
-								if (!this.head.value.status) {
+								if (!this.head.value.getStatus()) {
 									this.swap();
 								}
             }
@@ -213,7 +213,7 @@ class DoublyLinkedList
     public swap(): void{
         let curr = this.head;
         while(curr != null) {
-            if(curr.value.status) {
+            if(curr.value.getStatus()) {
 							let prev = curr.prev; 
 							let temp = this.head;
 							if (curr.next != null) { // checks if it is the tail
@@ -263,6 +263,32 @@ class DoublyLinkedList
         return true;
 
     }
+
+		public alreadyInQueue(NetID: string): boolean {
+			let curNode = this.head;
+			let res = false;
+			while (curNode) {
+				if (curNode.value.getId() === NetID) {
+					res = true;
+					break; 
+				}
+				curNode = curNode?.next;
+			}
+			return res;
+		}
+		
+		// Remove a node at with given index
+		public removeAtIndex(index: number): boolean {
+			if (index < 0 || index >= this.size) {
+				return false;
+			}
+			const student = this.get(index);
+			if(student){
+				this.remove(student);
+			}
+			return true;
+
+		}
 
     //Checks if the queue contains that data
     public find(netID: String): Student | null {

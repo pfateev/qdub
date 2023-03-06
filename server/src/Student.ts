@@ -1,11 +1,11 @@
 export class Student {
-      id: string;
-      pos: number;
-      time: number;
-      qtime: number;
-      status: boolean;
-      question: string;
-      name: string;
+      private id: string;
+      private pos: number;
+      private time: number;
+      private qtime: number;
+      private status: boolean;
+      private question: string;
+      private name: string;
 
       constructor(id: string, pos: number,
             time: number, status: boolean,

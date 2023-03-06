@@ -33,6 +33,10 @@ export interface IHash5 {
 	[details: number]: Array<StudentQuestion>;
 }
 
+export interface IHash6 {
+	[details: number]: Array<string>;
+}
+
 /* FAKE DB
 								COURSE TABLE 
 	----------------------------------------------
@@ -93,11 +97,12 @@ let course403 = ["stu", "stu", "ta", "ta", "none", "stu", "stu", "none", "none"]
 let course455 = ["ta", "ta", "stu", "none", "stu", "none", "none", "stu", "stu"];
 
 
-let studentClassesMap: IHash = {};
-let taClassesMap: IHash = {};
-let courseMap: IHash2 = {};
-let studentInfo: IHash3 = {};
-let questionsMap: IHash5 = {};
+let studentClassesMap: IHash = {};			// Map student id to an array of classes that they are taking
+let taClassesMap: IHash = {};						// Map student id to an array of classes that they ta
+let courseMap: IHash2 = {};							// Map course id to Course object
+let studentInfo: IHash3 = {};						// Map student's id to student's name
+let questionsMap: IHash5 = {};					// Map courseID to an array of [studentID, question]
+let dequeuedMap: IHash6 ={}; 						// Map courseID to an array of NetIds of students that have been dequeued
 const questionTime = 10;
 
 // Build studentInfo map
@@ -140,8 +145,8 @@ app.post("/students", (req, res) => {
 			console.log(taClassesMap[inputID]);
 			let studentCourseNames: IHash4 = {};
 			let taCourseNames: IHash4 = {};
-			studentClassesMap[inputID].forEach(e => studentCourseNames[e] = courseMap[e].name);
-			taClassesMap[inputID].forEach(e => taCourseNames[e] = courseMap[e].name);
+			studentClassesMap[inputID].forEach(e => studentCourseNames[e] = courseMap[e].getName());
+			taClassesMap[inputID].forEach(e => taCourseNames[e] = courseMap[e].getName());
 			res.status(200).json({
 				netID: inputID,
 				studentCourses: studentCourseNames,
@@ -171,7 +176,7 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 
 		const currQ = courseMap[courseID_];
 		let queueInfo: unknown;
-		let queue: DoublyLinkedList = courseMap[courseID_].queue;
+		let queue: DoublyLinkedList = courseMap[courseID_].getQueue();
 		if (isTA === "true") {
 			queueInfo = <TAQueueInfo>queueInfo;
 			queueInfo =
@@ -208,13 +213,19 @@ app.patch("/queue", (req, res) => {
 		const { isTa, courseID } = req.body; // do not verify TA for now
 		const id: number = +courseID;
 		let course = courseMap[id]
-		const currQ = course.queue;
+		const currQ = course.getQueue();
 
 		// currQ.dequeue();
 		console.log("PATCH");
-
+		if (currQ.get(0) !== null){
+			let student: Student = currQ.get(0)!;
+			if (!dequeuedMap[id]) {
+				dequeuedMap[id] = new Array<string>;
+			}
+			dequeuedMap[id].push(student.getId());
+		}
 		course.dequeue();
-		// console.log(course.queue);
+		console.log('dequeue map = ', dequeuedMap[id]);
 		if (isTa) {
 			res.status(200).json(
 				{
@@ -242,20 +253,20 @@ app.patch("/queue/enqueue", (req, res) => {
 		const time_ = +questionTime;
 
 		let course = courseMap[courseID_]
-		const currQ = course.queue;
+		const currQ = course.getQueue();
 		const question_: string = question;
 
 		if (currQ.alreadyInQueue(studentID)) {
 			res.status(400).json({ message: "You've already queued up" });
 		}
 
-		if (course.status) {
+		if (course.getStatus()) {
 			const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question_, studentInfo[studentID]);
 			course.enqueue(student);
 			const studentQuestion : StudentQuestion = {name: student.getName(), question: question};
 			questionsMap[courseID_].push(studentQuestion);
 
-			res.status(200).json({ waitTime: student.qtime, spotNumber: student.pos, active: true });
+			res.status(200).json({ waitTime: student.getQTime(), spotNumber: student.getPos(), active: true });
 		}
 
 		res.status(200).json({ waitTime: null, spotNumber: null, active: false, message: course.getMessage() });
@@ -276,7 +287,7 @@ app.patch("/student/stepIn", (req, res) => {
 		const studentPosition_: number = +studentPosition;
 
 		let course = courseMap[courseID_]
-		course.queue.stepIn(studentPosition_);
+		course.getQueue().stepIn(studentPosition_);
 
 		res.status(200).send("Stepped in successfully!");
 	} catch (error: unknown) {
@@ -296,7 +307,7 @@ app.patch("/student/stepOut", (req, res) => {
 		const studentPosition_: number = +studentPosition;
 
 		let course = courseMap[courseID_]
-		if (course.queue.stepOut(studentPosition_)) {
+		if (course.getQueue().stepOut(studentPosition_)) {
 			res.status(200).json("Step out successfully!");
 		} else {
 			res.status(400).json("Can't step out! You're the first person on the queue");
@@ -364,7 +375,7 @@ app.patch("/queue/activate", (req, res) => {
 		const { courseID } = req.body;
 		const courseID_: number = +courseID;
 		let course = courseMap[courseID_]
-		if (!course.status) {
+		if (!course.getStatus) {
 			course.activate();
 		} else {
 			course.deactivate();
