@@ -100,7 +100,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
       body: JSON.stringify({
         courseID: selectedValue,
         studentID: netId,
-        // question: question,
+        question: question,
         // TODO: this default value needs to turned into a proper variable
         questionTime: questionTime
       })
