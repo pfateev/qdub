@@ -117,3 +117,14 @@ server - Contains the backend files and server for the project
 4. Run docker-compose up -d –build to build the containers.
 5. Perform some basic sanity checks to make sure the app is working properly.
 6. deploy the application locally.
+
+## Continuous Integration
+
+We use Github Action for our CI. 
+
+Take a look at qdub/.github/workflows/ci-config.yml for setup. 
+
+The current config is set up so that every push to the main branch will trigger the workflows. There are two workflows: backend-unit-test and frontend-test. When these workflows are triggered they will run the build and test for the backend and frontend component. 
+
+Check out the Actions tab on github repo to see details about the workflows. 
+

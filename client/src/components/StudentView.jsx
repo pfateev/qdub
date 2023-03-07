@@ -56,6 +56,7 @@ const StudentView = (
       setNumberOfPeople(responseData.numberOfPeople);
       setEstimatedWait(responseData.estimatedWait);
 
+
     };
     // check if head of queue and reroute to student-help
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -80,6 +81,7 @@ const StudentView = (
       const responseData = await response.json();
       // responseData.questions holds question array
       console.log(responseData.questions);
+
       setQuestionList(responseData.questions);
     };
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -188,8 +190,8 @@ const StudentView = (
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-
       <button className="button" onClick={stepOut}>Stepping out</button>
+
 
       <Modal
         title="You are out of queue!"
