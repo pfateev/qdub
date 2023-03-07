@@ -20,20 +20,21 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
   const [questionTime, setQuestionTime] = useState('5');
   const [selectedValue, setSelectedValue] = useState('');
   const [error, setError] = useState('');
+  const [error2, setError2] = useState('');
   const toast = useToast();
   const format = (val) => val + ` min`
   const parse = (val) => val.replace(/min/, '')
 
   // for checking input & input validation
-  const handleInputChangeQ = (event) => {
-    setQuestion(event.target.value);
-    // clear the error message when the input changes
-    setError('');
-  };
   const handleInputChangeC = (event) => {
     setSelectedValue(event.target.value);
     // clear the error message when the input changes
     setError('');
+  };
+  const handleInputChangeQ = (event) => {
+    setQuestion(event.target.value);
+    // clear the error message when the input changes
+    setError2('');
   };
 
   // navigation route
@@ -87,7 +88,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
       return;
     }
     if (question === '') {
-      setError('Please describe the problem your having.');
+      setError2('Please describe the problem your having.');
       return;
     }
 
@@ -144,17 +145,10 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
       <img className="logo" src={circles} alt="top left circles" />
       <div className="webpage">
         <h1 className="title" style={{ marginBottom: '4%' }}>Queue</h1>
-        {/* <div style={{ 'maxWidth': '80%', marginBottom: '4%' }}> */}
-        {/* <p className="description" style={{ 'text-align': 'left' }}>
-          Select a course, enter question(s) you have,<br/>
-          and estimate duration:
-        </p> */}
         <FormControl
           fontFamily='Sans-Serif'
           width='30%'
-          marginBottom='4%'
           isInvalid={!!error}
-          // align='center'
         >
           <p className="description" style={{ 'text-align': 'left' }}>
             Queue up for:
@@ -168,6 +162,13 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           >
             {options}
           </Select>
+          <FormErrorMessage>{error}</FormErrorMessage>
+        </FormControl>
+        <FormControl
+          fontFamily='Sans-Serif'
+          width='30%'
+          isInvalid={!!error2}
+        >
           <p className="description" style={{ 'text-align': 'left' }}>
             Questions you have:
           </p>
@@ -181,14 +182,15 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
             placeholder='Examples: &#13;&#10; "I&apos;m not sure what question 2 is asking" &#13;&#10; "I have a private question"'
             onChange={handleInputChangeQ}
           />
-
+        <FormErrorMessage>{error2}</FormErrorMessage>
+        </FormControl>
           <p className="description" style={{ 'text-align': 'left' }}>
             Estimated time needed:
           </p>
           <NumberInput
             align='left'
             background='white'
-            step={5} defaultValue={15} min={10} max={20}
+            step={5} defaultValue={15} min={5} max={20}
             onChange={(valueString) => setQuestionTime(parse(valueString))}
             value={format(questionTime)}
             size='md'
@@ -201,9 +203,6 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-        </FormControl>
-        {/* </div> */}
-        <FormErrorMessage>{error}</FormErrorMessage>
         <button className="button" type="submit"
           onClick={enqueue}>
           Queue up
