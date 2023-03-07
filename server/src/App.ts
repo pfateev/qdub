@@ -102,7 +102,7 @@ let taClassesMap: IHash = {};						// Map student id to an array of classes that
 let courseMap: IHash2 = {};							// Map course id to Course object
 let studentInfo: IHash3 = {};						// Map student's id to student's name
 let questionsMap: IHash5 = {};					// Map courseID to an array of [studentID, question]
-let dequeuedMap: IHash6 ={}; 						// Map courseID to an array of NetIds of students that have been dequeued
+let dequeuedMap: IHash6 = {}; 						// Map courseID to an array of NetIds of students that have been dequeued
 const questionTime = 10;
 
 // Build studentInfo map
@@ -167,7 +167,7 @@ app.post("/students", (req, res) => {
 app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 	try {
 		// Retrieve information about the queue
-		console.log(req.params);
+		// console.log(req.params);
 		const { courseID, isTA, studentID } = req.params;
 
 		// check if is a TA with studentID and courseID
@@ -197,7 +197,7 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 				};
 			}
 		}
-		console.log(queueInfo);
+		// console.log(queueInfo);
 		res.status(200).json(queueInfo);
 	} catch (error: unknown) {
 		if (error instanceof Error) {
@@ -207,6 +207,16 @@ app.get("/queue/:courseID/:isTA/:studentID", (req, res) => {
 		}
 	}
 });
+// TODO: Handle the removal of student from dequeue map
+app.get("/student/:courseID/:studentID", (req, res) => {
+	const { courseID, studentID } = req.params;
+	const courseID_: number = +courseID;
+	if(dequeuedMap[courseID_]){
+		res.status(200).json({helped: dequeuedMap[courseID_].includes(studentID)});
+	} else {
+		res.status(400).json({message: `dequeueMap is null for ${courseID_}`});
+	}
+})
 
 app.patch("/queue", (req, res) => {
 	try {
@@ -217,7 +227,7 @@ app.patch("/queue", (req, res) => {
 
 		// currQ.dequeue();
 		console.log("PATCH");
-		if (currQ.get(0) !== null){
+		if (currQ.get(0) !== null) {
 			let student: Student = currQ.get(0)!;
 			if (!dequeuedMap[id]) {
 				dequeuedMap[id] = new Array<string>;
@@ -263,7 +273,7 @@ app.patch("/queue/enqueue", (req, res) => {
 		if (course.getStatus()) {
 			const student = new Student(studentID, currQ.getSize(), time_, true, currQ.getWaitTime(), question_, studentInfo[studentID]);
 			course.enqueue(student);
-			const studentQuestion : StudentQuestion = {name: student.getName(), question: question};
+			const studentQuestion: StudentQuestion = { name: student.getName(), question: question };
 			questionsMap[courseID_].push(studentQuestion);
 
 			res.status(200).json({ waitTime: student.getQTime(), spotNumber: student.getPos(), active: true });
@@ -336,7 +346,7 @@ app.patch("/student/notify", (req, res) => {
 app.get("/queue/questions/:courseID", (req, res) => {
 	try {
 		// Retrieve information about the queue
-		console.log(req.body);
+		// console.log(req.body);
 		const { courseID } = req.params;
 
 		// check if is a TA with studentID and courseID
