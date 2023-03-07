@@ -16,7 +16,7 @@ export const Home = () => {
     <div>
       <img className="logo" src={circles} alt="top left circles" />
       <div className="webpage">
-        <h1 className='title'>CHIPOTLE</h1>
+        <h1 className='title'>Q'DUB</h1>
         <img className="dog" src={dog} alt="cute dog" />
         <div>
           <button className="button" onClick={() => routeChange()}>
