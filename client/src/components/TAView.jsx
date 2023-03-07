@@ -137,9 +137,9 @@ export const TAView = (
   questionList.forEach(element => {
     // console.log(`${key}: ${obj[key]}`);
     questions.push(
-      <Tr key={element.name} size='sm' fontFamily='Sans-Serif' fontWeight='regular' color='rgba(56, 56, 56, 0.8)'>
-        <Td fontWeight='regular' color='rgba(56, 56, 56, 0.8)'>{element.name}</Td>
-        <Td fontWeight='regular' color='rgba(56, 56, 56, 0.8)'>{element.question}</Td>
+      <Tr key={element.name}>
+        <Td style={{ 'font-weight': '500', 'font-family': 'Sans-Serif', 'color': 'rgba(56, 56, 56, 0.8)', 'font-size' : '1rem' }}>{element.name}</Td>
+        <Td style={{ 'font-weight': '500', 'font-family': 'Sans-Serif', 'color': 'rgba(56, 56, 56, 0.8)', 'font-size' : '1rem' }}>{element.question}</Td>
       </Tr>
     );
   });
@@ -184,11 +184,11 @@ export const TAView = (
                 </AccordionButton>
               <AccordionPanel>
               <TableContainer>
-                  <Table variant='simple' size='sm' >
+                  <Table variant='simple'>
                     <Thead>
                       <Tr>
-                        <Th>Name</Th>
-                        <Th>Question</Th>
+                        <Th style={{ 'font-weight': 'bold', 'font-family': 'Sans-Serif', 'font-size': '1rem', 'color': 'rgba(56, 56, 56, 0.8)' }}>Name</Th>
+                        <Th style={{ 'font-weight': 'bold', 'font-family': 'Sans-Serif', 'font-size': '1rem', 'color': 'rgba(56, 56, 56, 0.8)' }}>Question</Th>
                       </Tr>
                     </Thead>
                     <Tbody>

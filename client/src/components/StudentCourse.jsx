@@ -17,13 +17,13 @@ import {
 
 export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCurrQuestion, currQuestion }) => {
   const [question, setQuestion] = useState('');
-  const [questionTime, setQuestionTime] = useState('5');
+  const [questionTime, setQuestionTime] = useState('10');
   const [selectedValue, setSelectedValue] = useState('');
   const [error, setError] = useState('');
   const [error2, setError2] = useState('');
   const toast = useToast();
-  const format = (val) => val + ` min`
-  const parse = (val) => val.replace(/min/, '')
+  const format = (val) => val + ` minutes`
+  const parse = (val) => val.replace(/minutes/, '')
 
   // for checking input & input validation
   const handleInputChangeC = (event) => {
@@ -149,13 +149,13 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           fontFamily='Sans-Serif'
           width='30%'
           isInvalid={!!error}
+          marginBottom='1rem'
         >
           <p className="description" style={{ 'text-align': 'left' }}>
             Queue up for:
           </p>
           <Select
             value={selectedValue}
-            marginBottom='1rem'
             placeholder='Choose a course:'
             background='white'
             onChange={handleInputChangeC}
@@ -164,10 +164,12 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           </Select>
           <FormErrorMessage>{error}</FormErrorMessage>
         </FormControl>
+
         <FormControl
           fontFamily='Sans-Serif'
           width='30%'
           isInvalid={!!error2}
+          marginBottom='1rem'
         >
           <p className="description" style={{ 'text-align': 'left' }}>
             Questions you have:
@@ -176,7 +178,6 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
             value={question}
             type='text'
             minH='6rem'
-            marginBottom='1rem'
             background='white'
             focusBorderColor='#918fe1'
             placeholder='Examples: &#13;&#10; "I&apos;m not sure what question 2 is asking" &#13;&#10; "I have a private question"'
@@ -184,13 +185,18 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
           />
         <FormErrorMessage>{error2}</FormErrorMessage>
         </FormControl>
+
+        <FormControl
+          fontFamily='Sans-Serif'
+          width='30%'
+          marginBottom='4%'
+        >
           <p className="description" style={{ 'text-align': 'left' }}>
             Estimated time needed:
           </p>
           <NumberInput
-            align='left'
             background='white'
-            step={5} defaultValue={15} min={5} max={20}
+            step={5} min={5} max={20}
             onChange={(valueString) => setQuestionTime(parse(valueString))}
             value={format(questionTime)}
             size='md'
@@ -202,7 +208,8 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
               <NumberIncrementStepper />
               <NumberDecrementStepper />
             </NumberInputStepper>
-          </NumberInput>
+          </NumberInput>s
+        </FormControl>
         <button className="button" type="submit"
           onClick={enqueue}>
           Queue up

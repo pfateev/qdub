@@ -93,7 +93,7 @@ export const Login = ({ setNetId, setStudentCourses, setTaCourses, setIsTa }) =>
             background='white'
             type='text'
             value={inputID}
-            placeholder='NetID'
+            placeholder='NetID (case sensitive)'
             onChange={handleInputChange}
           />
           <FormErrorMessage>{error}</FormErrorMessage>

@@ -56,7 +56,6 @@ const StudentView = (
       setNumberOfPeople(responseData.numberOfPeople);
       setEstimatedWait(responseData.estimatedWait);
 
-
     };
     // check if head of queue and reroute to student-help
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -81,7 +80,6 @@ const StudentView = (
       const responseData = await response.json();
       // responseData.questions holds question array
       console.log(responseData.questions);
-
       setQuestionList(responseData.questions);
     };
     // Call the function immediately and then schedule it to be called every 10 seconds
@@ -142,9 +140,9 @@ const StudentView = (
   questionList.forEach(element => {
     // console.log(`${key}: ${obj[key]}`);
     questions.push(
-      <Tr key={element.name} size='sm' fontFamily='Sans-Serif' fontWeight='regular' color='rgba(56, 56, 56, 0.8)'>
-        <Td fontWeight='regular'>{element.name}</Td>
-        <Td fontWeight='regular'>{element.question}</Td>
+      <Tr key={element.name}>
+        <Td style={{ 'font-weight': '500', 'font-family': 'Sans-Serif', 'color': 'rgba(56, 56, 56, 0.8)', 'font-size' : '1rem' }}>{element.name}</Td>
+        <Td style={{ 'font-weight': '500', 'font-family': 'Sans-Serif', 'color': 'rgba(56, 56, 56, 0.8)', 'font-size' : '1rem' }}>{element.question}</Td>
       </Tr>
     );
   });
@@ -175,11 +173,11 @@ const StudentView = (
             </AccordionButton>
           <AccordionPanel pb={4}>
           <TableContainer>
-              <Table variant='simple' size='sm'>
+              <Table variant='simple' size='md'>
                 <Thead>
                   <Tr>
-                    <Th>Name</Th>
-                    <Th>Question</Th>
+                    <Th style={{ 'font-weight': 'bold', 'font-family': 'Sans-Serif', 'font-size': '1rem', 'color': 'rgba(56, 56, 56, 0.8)' }}>Name</Th>
+                    <Th style={{ 'font-weight': 'bold', 'font-family': 'Sans-Serif', 'font-size': '1rem', 'color': 'rgba(56, 56, 56, 0.8)' }}>Question</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -190,8 +188,8 @@ const StudentView = (
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <button className="button" onClick={stepOut}>Stepping out</button>
 
+      <button className="button" onClick={stepOut}>Stepping out</button>
 
       <Modal
         title="You are out of queue!"

@@ -75,7 +75,7 @@
   letter-spacing: 1px;
   font-size: 3.5rem;
   font-weight: 900;
-  margin-bottom: 8%;
+  margin-bottom: 5%;
   color: #918fe1;
   font-family: Sans-Serif;
 }
@@ -97,8 +97,7 @@
 
 /* dog */
 .dog {
-  max-height: 30%;
+  max-height: 25%;
   width: auto;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
 }
