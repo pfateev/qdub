@@ -10,20 +10,17 @@ import {
   Tab,
   TabPanel,
   useToast,
-  Textarea
+  Textarea,
+  FormErrorMessage,
+  FormControl
 } from '@chakra-ui/react'
 
 export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
   const [selectedValue, setSelectedValue] = useState('');
   const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
   const toast = useToast();
-  console.log(message);
-  //sumbmission notification
-  // function handleSubmit(event) {
-  //   event.preventDefault();
-  //   alert('this is your value: ' + value);
-  //   setValue('');
-  // }
+
   // navigation route
   let navigate = useNavigate();
   const routeChange = () => {
@@ -40,9 +37,18 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
       isClosable: true,
     });
   }
-  //Send notification
+
+  const handleInputChange = (event) => {
+    setSelectedValue(event.target.value);
+    setError('');
+  }
+
+  // Send notification
   const notify = async () => {
-    // console.log('A name was submitted: ' + this.state.value);
+    if (selectedValue === '') {
+      setError('Please select a class.');
+      return;
+    }
     console.log('this is your value: ' + message);
 
     const response = await fetch('http://localhost:3001/student/notify', {
@@ -55,15 +61,18 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
         message: message,
       })
     });
-
     const responseData = await response.json();
     if (responseData.status === true) {
       verificationToast();
     }
-
   }
+
   // Start Queue
   const startQueue = async () => {
+    if (selectedValue === '') {
+      setError('Please select a class.');
+      return;
+    }
     //TODO replace url later
     const response = await fetch('http://localhost:3001/queue/activate', {
       method: 'PATCH',
@@ -82,7 +91,6 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
         setSelectedCourse(selectedValue);
         routeChange();
       }
-
     } catch (error) {
       console.error(error);
     }
@@ -137,23 +145,27 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
 
           <TabPanels>
             <TabPanel>
-              <h1 className="title">Start Queue</h1>
-              <div style={{ 'maxWidth': '75%' }}>
-                <p className="description" style={{ 'text-align': 'left' }}>
-                  Hosting office hour for:
-                </p>
-                <Select
-                  mt = '1rem'
-                  marginBottom='20%'
-                  focusBorderColor='#918fe1'
-                  background='white'
-                  value={selectedValue}
-                  placeholder='Choose a course:'
-                  onChange={e => setSelectedValue(parseInt(e.target.value))}
-                >
-                  {options}
-                </Select>
-              </div>
+              <FormControl 
+                isInvalid={!!error} >
+                  <h1 className="title">Start Queue</h1>
+                  <div style={{ 'maxWidth': '75%' }}>
+                    <p className="description" style={{ 'text-align': 'left' }}>
+                      Hosting office hour for:
+                    </p>
+                    <Select
+                      mt = '1rem'
+                      marginBottom='20%'
+                      focusBorderColor='#918fe1'
+                      background='white'
+                      value={selectedValue}
+                      placeholder='Choose a course:'
+                      onChange={handleInputChange}
+                    >
+                      {options}
+                    </Select>
+                  </div>
+                </FormControl>
+                <FormErrorMessage>{error}</FormErrorMessage>
               <button className="button" type="submit" onClick={startQueue}>
                 Start
               </button>
@@ -165,28 +177,32 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                 <p className="description" style={{ 'text-align': 'left' }}>
                   Notify:
                 </p>
-                <Select
-                  marginBottom='1rem'
-                  focusBorderColor='#918fe1'
-                  background='white'
-                  value={selectedValue}
-                  placeholder='Choose a course:'
-                  onChange={e => setSelectedValue(parseInt(e.target.value))}
-                >
-                  {options}
-                </Select>
-                <p className="description" style={{ 'text-align': 'left' }}>
-                  Write a message:
-                </p>
-                <Textarea
-                  focusBorderColor='#918fe1'
-                  marginBottom='8%'
-                  minH='7rem'
-                  type='text'
-                  placeholder='Examples: &#13;&#10; "I&apos;m running 5 min late!" &#13;&#10; "Office hour has been moved to Tuesday."'
-                  background='white'
-                  onChange={(e) => setMessage(e.currentTarget.value)}
-                />
+                <FormControl 
+                  isInvalid={!!error} >
+                  <Select
+                    marginBottom='1rem'
+                    focusBorderColor='#918fe1'
+                    background='white'
+                    value={selectedValue}
+                    placeholder='Choose a course:'
+                    onChange={handleInputChange}
+                  >
+                    {options}
+                  </Select>
+                  <p className="description" style={{ 'text-align': 'left' }}>
+                    Write a message:
+                  </p>
+                  <Textarea
+                    focusBorderColor='#918fe1'
+                    marginBottom='8%'
+                    minH='7rem'
+                    type='text'
+                    placeholder='Examples: &#13;&#10; "I&apos;m running 5 min late!" &#13;&#10; "Office hour has been moved to Tuesday."'
+                    background='white'
+                    onChange={(e) => setMessage(e.currentTarget.value)}
+                  />
+                </FormControl>
+                <FormErrorMessage>{error}</FormErrorMessage>
               </div>
 
               <button className="button" type="submit"
