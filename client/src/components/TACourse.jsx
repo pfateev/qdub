@@ -19,6 +19,8 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
   const [selectedValue, setSelectedValue] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [error2, setError2] = useState('');
+  const [error3, setError3] = useState('');
   const toast = useToast();
 
   // navigation route
@@ -41,12 +43,22 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
   const handleInputChange = (event) => {
     setSelectedValue(event.target.value);
     setError('');
+    setError2('');
+  }
+
+  const handleInputChange2 = (event) => {
+    setMessage(event.target.value);
+    setError3('');
   }
 
   // Send notification
   const notify = async () => {
     if (selectedValue === '') {
-      setError('Please select a class.');
+      setError2('Please select a class.');
+      return;
+    }
+    if (message === '') {
+      setError3('Please enter a message.');
       return;
     }
     console.log('this is your value: ' + message);
@@ -154,7 +166,7 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                     </p>
                     <Select
                       mt = '1rem'
-                      marginBottom='20%'
+                      marginBottom='10%'
                       focusBorderColor='#918fe1'
                       background='white'
                       value={selectedValue}
@@ -164,8 +176,8 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                       {options}
                     </Select>
                   </div>
+                  <FormErrorMessage>{error}</FormErrorMessage>
                 </FormControl>
-                <FormErrorMessage>{error}</FormErrorMessage>
               <button className="button" type="submit" onClick={startQueue}>
                 Start
               </button>
@@ -178,7 +190,7 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                   Notify:
                 </p>
                 <FormControl 
-                  isInvalid={!!error} >
+                  isInvalid={!!error2} >
                   <Select
                     marginBottom='1rem'
                     focusBorderColor='#918fe1'
@@ -189,20 +201,25 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                   >
                     {options}
                   </Select>
+                  <FormErrorMessage>{error2}</FormErrorMessage>
+                </FormControl>
+
+                <FormControl 
+                  isInvalid={!!error3} >
                   <p className="description" style={{ 'text-align': 'left' }}>
                     Write a message:
                   </p>
                   <Textarea
                     focusBorderColor='#918fe1'
-                    marginBottom='8%'
+                    marginBottom='2%'
                     minH='7rem'
                     type='text'
                     placeholder='Examples: &#13;&#10; "I&apos;m running 5 min late!" &#13;&#10; "Office hour has been moved to Tuesday."'
                     background='white'
-                    onChange={(e) => setMessage(e.currentTarget.value)}
+                    onChange={handleInputChange2}
                   />
+                  <FormErrorMessage>{error3}</FormErrorMessage>
                 </FormControl>
-                <FormErrorMessage>{error}</FormErrorMessage>
               </div>
 
               <button className="button" type="submit"
