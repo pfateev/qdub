@@ -85,7 +85,7 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
       setError('Please select a class.');
       return;
     }
-    //TODO replace url later
+
     const response = await fetch('http://localhost:3001/queue/activate', {
       method: 'PATCH',
       headers: {
@@ -157,8 +157,10 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
 
           <TabPanels>
             <TabPanel>
-              <FormControl 
-                isInvalid={!!error} >
+              <FormControl
+                isInvalid={!!error}
+                marginBottom='10%'
+              >
                   <h1 className="title">Start Queue</h1>
                   <div style={{ 'maxWidth': '75%' }}>
                     <p className="description" style={{ 'text-align': 'left' }}>
@@ -166,7 +168,6 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                     </p>
                     <Select
                       mt = '1rem'
-                      marginBottom='10%'
                       focusBorderColor='#918fe1'
                       background='white'
                       value={selectedValue}
@@ -175,8 +176,8 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                     >
                       {options}
                     </Select>
+                    <FormErrorMessage>{error}</FormErrorMessage>
                   </div>
-                  <FormErrorMessage>{error}</FormErrorMessage>
                 </FormControl>
               <button className="button" type="submit" onClick={startQueue}>
                 Start
@@ -189,10 +190,11 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                 <p className="description" style={{ 'text-align': 'left' }}>
                   Notify:
                 </p>
-                <FormControl 
-                  isInvalid={!!error2} >
+                <FormControl
+                  isInvalid={!!error2}
+                  marginBottom='1rem'
+                >
                   <Select
-                    marginBottom='1rem'
                     focusBorderColor='#918fe1'
                     background='white'
                     value={selectedValue}
@@ -204,14 +206,15 @@ export const TACourse = ({ netId, taCourses, setSelectedCourse }) => {
                   <FormErrorMessage>{error2}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl 
-                  isInvalid={!!error3} >
+                <FormControl
+                  isInvalid={!!error3}
+                  marginBottom='10%'
+                >
                   <p className="description" style={{ 'text-align': 'left' }}>
                     Write a message:
                   </p>
                   <Textarea
                     focusBorderColor='#918fe1'
-                    marginBottom='2%'
                     minH='7rem'
                     type='text'
                     placeholder='Examples: &#13;&#10; "I&apos;m running 5 min late!" &#13;&#10; "Office hour has been moved to Tuesday."'
