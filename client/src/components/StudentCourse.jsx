@@ -208,7 +208,7 @@ export const StudentCourse = ({ netId, studentCourses, setSelectedCourse, setCur
               <NumberIncrementStepper />
               <NumberDecrementStepper />
             </NumberInputStepper>
-          </NumberInput>s
+          </NumberInput>
         </FormControl>
         <button className="button" type="submit"
           onClick={enqueue}>
