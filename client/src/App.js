@@ -62,6 +62,9 @@ const App = () => {
             element={
               <StudentHelp
                 currQuestion={currQuestion}
+                selectedCourse={selectedCourse}
+                isTa={isTa}
+                netId={netId}
               />
             }
           />
