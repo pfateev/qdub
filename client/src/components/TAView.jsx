@@ -118,7 +118,7 @@ export const TAView = (
   };
 
   async function deactivate() {
-    const response = await fetch('http://localhost:3001/queue/activate', {
+    const response = await fetch('http://localhost:3001/queue/deactivate', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
